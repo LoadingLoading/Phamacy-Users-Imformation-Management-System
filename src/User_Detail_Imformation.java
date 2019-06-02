@@ -126,6 +126,7 @@ public class User_Detail_Imformation extends JFrame {
         row_number++;
         b.add(ID);
 
+        {
             JLabel label_number = new JLabel("手机号:");
             Icon icon_add = new ImageIcon("Pic/pic_add.png");
             JButton button_add_owner = new JButton(null,icon_add);
@@ -159,32 +160,13 @@ public class User_Detail_Imformation extends JFrame {
                 JTextField field_number2 = new JTextField("",10);
                 one_owner_number2.add(combobox_owner2);
                 one_owner_number2.add(field_number2);
-
-
-//                panel_onwer_number.add(one_owner_number,BorderLayout.NORTH);
-//                    JLabel label_delete_owner_number = new JLabel("删除");
-//                    label_delete_owner_number.setForeground(Color.red);
-//                panel_onwer_number.add(label_delete_owner_number,BorderLayout.CENTER);
-//                    //Icon icon_add = new ImageIcon("Pic/pic_add.png");
-//                    JButton button_add_number_owner = new JButton(null,icon_add);
-//                    button_add_number_owner.setBorderPainted(FALSE);
-//                    button_add_number_owner.setHorizontalAlignment(SwingConstants.RIGHT);
-//                panel_onwer_number.add(button_add_number_owner,BorderLayout.SOUTH);
-
-
-
-
-
         JPanel number = new JPanel();
         number.setLayout(null);
-
 
         number.add(label_number);
         label_number.setBounds(0,0,60,35);
         number.add(button_add_owner);
         button_add_owner.setBounds(50,0,18,35);
-//        number.add(combobox_owner);
-//        combobox_owner.setBounds(70,0,400,200);
         int begin_pix=-16;
         number.add(one_owner_number);
         one_owner_number.setBounds(begin_pix,0,400,200);
@@ -193,9 +175,10 @@ public class User_Detail_Imformation extends JFrame {
         number.add(one_owner_number2);
         one_owner_number2.setBounds(begin_pix,60,400,200);
 
-        number.setBounds(20,20+ row_number*40,3000,800);
+        number.setBounds(20,15+ row_number*40,3000,800);
         row_number++;
         b.add(number);
+        }
 
 
 
