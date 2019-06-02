@@ -126,6 +126,7 @@ public class User_Detail_Imformation extends JFrame {
         row_number++;
         b.add(ID);
 
+        //这里是电话号码，因为比较长，所以用大括号扩起来了
         {
             JLabel label_number = new JLabel("手机号:");
             Icon icon_add = new ImageIcon("Pic/pic_add.png");
@@ -169,16 +170,41 @@ public class User_Detail_Imformation extends JFrame {
         button_add_owner.setBounds(50,0,18,35);
         int begin_pix=-16;
         number.add(one_owner_number);
-        one_owner_number.setBounds(begin_pix,0,400,200);
+        one_owner_number.setBounds(begin_pix,0,400,35);
         number.add(one_owner_number1);
-        one_owner_number1.setBounds(begin_pix,30,400,200);
+        one_owner_number1.setBounds(begin_pix,30,400,35);
         number.add(one_owner_number2);
-        one_owner_number2.setBounds(begin_pix,60,400,200);
+        one_owner_number2.setBounds(begin_pix,60,400,35);
 
-        number.setBounds(20,15+ row_number*40,3000,800);
+        number.setBounds(20,15+ row_number*40,3000,90);
         row_number++;
         b.add(number);
         }
+
+            JLabel label_medical = new JLabel("药品:           ");
+            JComboBox combobox_medical = new JComboBox();
+            combobox_medical.addItem("昕维");
+            combobox_medical.addItem("福可维8mg");
+            combobox_medical.addItem("福可维10mg");
+            combobox_medical.addItem("福可维12mg");
+            combobox_medical.addItem("凯美纳");
+            combobox_medical.addItem("碳酸镧");
+            combobox_medical.addItem("阿瑞匹坦");
+            combobox_medical.addItem("硼替佐米");
+            combobox_medical.addItem("艾坦");
+            combobox_medical.addItem("生白合剂");
+            combobox_medical.addItem("紫杉醇");
+            combobox_medical.addItem("多柔比星");
+            combobox_medical.addItem("唑来膦酸");
+            combobox_medical.addItem("达沙替尼");
+            combobox_medical.setSelectedIndex(-1);
+        JPanel medical = new JPanel();
+        medical.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        medical.add(label_medical);
+        medical.add(combobox_medical);
+        medical.setBounds(20,80+ row_number*40,3000,40);
+        row_number++;
+        b.add(medical);
 
 
 
