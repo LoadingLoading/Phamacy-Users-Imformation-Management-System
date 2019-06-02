@@ -61,8 +61,8 @@ public class User_Detail_Imformation extends JFrame {
 
 
 
-        jp2= Leftttt();
-        jp3= Left();
+        jp2= Left();
+        jp3= Right();
 
         jptry.setLayout(new GridLayout(1,2));
 //        JScrollPane scrollpane_left = new JScrollPane();
@@ -79,7 +79,7 @@ public class User_Detail_Imformation extends JFrame {
         // 展示组件
         ImageIcon icon = new ImageIcon("images\\qq.png");
         this.setIconImage(icon.getImage());// 给窗体设置图标方法
-        this.setSize(1200, 700);
+        this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("查看/添加/编辑用户详细信息");
         this.setLocationRelativeTo(null);
@@ -87,11 +87,21 @@ public class User_Detail_Imformation extends JFrame {
 
     }
 
-    public JPanel Leftttt(){
+    public JPanel Left(){
         JPanel b=new JPanel();
         b.setLayout(null);
         int row_number=0;
 
+            JLabel label_title_left = new JLabel("基本信息");
+            Font f = new Font("黑体",Font.PLAIN,35);
+            label_title_left.setFont(f);
+            label_title_left.setForeground(Color.blue);
+        JPanel title = new JPanel();
+        title.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        title.add(label_title_left);
+        title.setBounds(20,20+row_number*40,3000,80);
+        row_number=row_number+2;
+        b.add(title);
 
             JLabel label_name = new JLabel("姓名:           ");
             JTextField textfield_name=new JTextField("",10);
@@ -125,6 +135,26 @@ public class User_Detail_Imformation extends JFrame {
         ID.setBounds(20,20+ row_number*40,3000,40);
         row_number++;
         b.add(ID);
+
+            JLabel label_age = new JLabel("年龄:             ");
+            JLabel textfield_age=new JLabel("37岁");
+        JPanel age = new JPanel();
+        age.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        age.add(label_age);
+        age.add(textfield_age);
+        age.setBounds(20,23+ row_number*40,3000,40);
+        row_number++;
+        b.add(age);
+
+            JLabel label_birthdate = new JLabel("出生日期:      ");
+            JLabel textfield_birthdate=new JLabel("1945年5月7日");
+        JPanel birthdate = new JPanel();
+        birthdate.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        birthdate.add(label_birthdate);
+        birthdate.add(textfield_birthdate);
+        birthdate.setBounds(20,20+ row_number*40,3000,40);
+        row_number++;
+        b.add(birthdate);
 
         //这里是电话号码，因为比较长，所以用大括号扩起来了
         {
@@ -181,7 +211,10 @@ public class User_Detail_Imformation extends JFrame {
         b.add(number);
         }
 
-            JLabel label_medical = new JLabel("药品:           ");
+            JLabel label_medical = new JLabel("药品:   ");
+            Icon icon_add_medical = new ImageIcon("Pic/pic_add.png");
+            JButton button_add_owner_medical = new JButton(null,icon_add_medical);
+            button_add_owner_medical.setBorderPainted(FALSE);
             JComboBox combobox_medical = new JComboBox();
             combobox_medical.addItem("昕维");
             combobox_medical.addItem("福可维8mg");
@@ -201,6 +234,7 @@ public class User_Detail_Imformation extends JFrame {
         JPanel medical = new JPanel();
         medical.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         medical.add(label_medical);
+        medical.add(button_add_owner_medical);
         medical.add(combobox_medical);
         medical.setBounds(20,80+ row_number*40,3000,40);
         row_number++;
@@ -213,179 +247,167 @@ public class User_Detail_Imformation extends JFrame {
         return b;
     }
 
-    public JPanel Lefttt(){
+    public JPanel Right(){
+        JPanel b=new JPanel();
+        b.setLayout(null);
+        int row_number=0;
 
-        JPanel a =new JPanel();
-        //a.setLayout(new GridLayout(4,1));
-        a.setLayout(new BoxLayout(a,BoxLayout.Y_AXIS));
+        JLabel label_title_left = new JLabel("情况记录");
+        Font f = new Font("黑体",Font.PLAIN,35);
+        label_title_left.setFont(f);
+        label_title_left.setForeground(Color.blue);
+        JPanel title = new JPanel();
+        title.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        title.add(label_title_left);
+        title.setBounds(20,20+row_number*40,3000,80);
+        row_number=row_number+2;
+        b.add(title);
 
-
-        // 沿X轴放置
-
-        JPanel pane1 = new JPanel();
-
-        pane1.setLayout(new BoxLayout(pane1, BoxLayout.X_AXIS));
-        pane1.add(new JButton("btn11"));
-
-        pane1.add(new JButton("btn12"));
-
-        pane1.add(new JButton("btn13"));
-
-        pane1.add(new JButton("btn14"));
-
-        a.add(pane1);
-
-        // 沿y轴放置
-
-        JPanel pane2 = new JPanel();
-
-        pane2.setLayout(new BoxLayout(pane2, BoxLayout.Y_AXIS));
-
-        pane2.add(new JButton("btn21"));
-
-        pane2.add(new JButton("btn22"));
-
-        pane2.add(new JButton("btn23"));
-
-        pane2.add(new JButton("btn24"));
-
-        a.add(pane2);
-
-        //与容器的ComponentOrientation相同的放置
-
-        JPanel pane3 = new JPanel();
-
-        pane3.setLayout(new BoxLayout(pane3, BoxLayout.LINE_AXIS));
-
-        pane3.add(new JButton("btn31"));
-
-        pane3.add(new JButton("btn32"));
-
-        pane3.add(new JButton("btn33"));
-
-        pane3.add(new JButton("btn34"));
-
-        a.add(pane3);
-
-        //与容器的ComponentOrientation相反的放置
-
-        JPanel pane4 = new JPanel();
-
-        pane4.setLayout(new BoxLayout(pane4, BoxLayout.PAGE_AXIS));
-
-        pane4.add(new JButton("btn41"));
-
-        pane4.add(new JButton("btn42"));
-
-        pane4.add(new JButton("btn43"));
-
-        pane4.add(new JButton("btn44"));
-
-        a.add(pane4);
-
-        return a;
-    }
-
-
-    public JPanel Leftt(){
-//        JFrame jf = new JFrame("测试窗口");
-//        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-
-        JButton btn04 = new JButton("Button04");
-        JButton btn05 = new JButton("Button05");
-
-        // 创建第一个水平箱容器
-        JPanel name = new JPanel();
-        name.setLayout(new FlowLayout(FlowLayout.LEADING,10,0));
-
-        JLabel label_null = new JLabel("");
-        JLabel label_name = new JLabel("姓名：");
+        JLabel label_name = new JLabel("姓名:           ");
         JTextField textfield_name=new JTextField("",10);
-
-
-        name.add(label_null);
+        JPanel name = new JPanel();
+        name.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         name.add(label_name);
         name.add(textfield_name);
-        name.setAlignmentY(Component.LEFT_ALIGNMENT );
+        name.setBounds(20,20+row_number*40,3000,40);
+        row_number++;
+        b.add(name);
 
-        // 创建第二水平箱容器
-        Box hBox02 = Box.createHorizontalBox();
-        btn04.setAlignmentY(Component.LEFT_ALIGNMENT );
-        btn05.setAlignmentY(Component.LEFT_ALIGNMENT );
-        hBox02.add(btn04);
-        //btn04.setAlignmentY(Component.LEFT_ALIGNMENT );
-        //hBox02.add(Box.createHorizontalGlue()); // 添加一个水平方向胶状的不可见组件，撑满剩余水平空间
-        hBox02.add(btn05);
+        JLabel label_gender = new JLabel("性别:           ");
+        JComboBox combobox_gender = new JComboBox();
+        combobox_gender.addItem("男");
+        combobox_gender.addItem("女");
+        combobox_gender.setSelectedIndex(-1);
+        JPanel gender = new JPanel();
+        gender.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        gender.add(label_gender);
+        gender.add(combobox_gender);
+        gender.setBounds(20,20+ row_number*40,3000,40);
+        row_number++;
+        b.add(gender);
+
+        JLabel label_ID = new JLabel("身份证号:     ");
+        JTextField textfield_ID=new JTextField("431226199710074837",15);
+        JPanel ID = new JPanel();
+        ID.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        ID.add(label_ID);
+        ID.add(textfield_ID);
+        ID.setBounds(20,20+ row_number*40,3000,40);
+        row_number++;
+        b.add(ID);
+
+        JLabel label_age = new JLabel("年龄:             ");
+        JLabel textfield_age=new JLabel("37岁");
+        JPanel age = new JPanel();
+        age.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        age.add(label_age);
+        age.add(textfield_age);
+        age.setBounds(20,23+ row_number*40,3000,40);
+        row_number++;
+        b.add(age);
+
+        JLabel label_birthdate = new JLabel("出生日期:      ");
+        JLabel textfield_birthdate=new JLabel("1945年5月7日");
+        JPanel birthdate = new JPanel();
+        birthdate.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        birthdate.add(label_birthdate);
+        birthdate.add(textfield_birthdate);
+        birthdate.setBounds(20,20+ row_number*40,3000,40);
+        row_number++;
+        b.add(birthdate);
+
+        //这里是电话号码，因为比较长，所以用大括号扩起来了
+        {
+            JLabel label_number = new JLabel("手机号:");
+            Icon icon_add = new ImageIcon("Pic/pic_add.png");
+            JButton button_add_owner = new JButton(null,icon_add);
+            button_add_owner.setBorderPainted(FALSE);
+            JPanel one_owner_number = new JPanel();
+            JComboBox combobox_owner = new JComboBox();
+            combobox_owner.addItem("本人");
+            combobox_owner.addItem("儿子");
+            combobox_owner.addItem("女儿");
+            combobox_owner.setSelectedIndex(-1);
+            JTextField field_number = new JTextField("",10);
+            one_owner_number.add(combobox_owner);
+            one_owner_number.add(field_number);
+
+            JPanel one_owner_number1 = new JPanel();
+            JComboBox combobox_owner1 = new JComboBox();
+            combobox_owner1.addItem("本人");
+            combobox_owner1.addItem("儿子");
+            combobox_owner1.addItem("女儿");
+            combobox_owner1.setSelectedIndex(-1);
+            JTextField field_number1 = new JTextField("",10);
+            one_owner_number1.add(combobox_owner1);
+            one_owner_number1.add(field_number1);
+
+            JPanel one_owner_number2 = new JPanel();
+            JComboBox combobox_owner2 = new JComboBox();
+            combobox_owner2.addItem("本人");
+            combobox_owner2.addItem("儿子");
+            combobox_owner2.addItem("女儿");
+            combobox_owner2.setSelectedIndex(-1);
+            JTextField field_number2 = new JTextField("",10);
+            one_owner_number2.add(combobox_owner2);
+            one_owner_number2.add(field_number2);
+            JPanel number = new JPanel();
+            number.setLayout(null);
+
+            number.add(label_number);
+            label_number.setBounds(0,0,60,35);
+            number.add(button_add_owner);
+            button_add_owner.setBounds(50,0,18,35);
+            int begin_pix=-16;
+            number.add(one_owner_number);
+            one_owner_number.setBounds(begin_pix,0,400,35);
+            number.add(one_owner_number1);
+            one_owner_number1.setBounds(begin_pix,30,400,35);
+            number.add(one_owner_number2);
+            one_owner_number2.setBounds(begin_pix,60,400,35);
+
+            number.setBounds(20,15+ row_number*40,3000,90);
+            row_number++;
+            b.add(number);
+        }
+
+        JLabel label_medical = new JLabel("药品:   ");
+        Icon icon_add_medical = new ImageIcon("Pic/pic_add.png");
+        JButton button_add_owner_medical = new JButton(null,icon_add_medical);
+        button_add_owner_medical.setBorderPainted(FALSE);
+        JComboBox combobox_medical = new JComboBox();
+        combobox_medical.addItem("昕维");
+        combobox_medical.addItem("福可维8mg");
+        combobox_medical.addItem("福可维10mg");
+        combobox_medical.addItem("福可维12mg");
+        combobox_medical.addItem("凯美纳");
+        combobox_medical.addItem("碳酸镧");
+        combobox_medical.addItem("阿瑞匹坦");
+        combobox_medical.addItem("硼替佐米");
+        combobox_medical.addItem("艾坦");
+        combobox_medical.addItem("生白合剂");
+        combobox_medical.addItem("紫杉醇");
+        combobox_medical.addItem("多柔比星");
+        combobox_medical.addItem("唑来膦酸");
+        combobox_medical.addItem("达沙替尼");
+        combobox_medical.setSelectedIndex(-1);
+        JPanel medical = new JPanel();
+        medical.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        medical.add(label_medical);
+        medical.add(button_add_owner_medical);
+        medical.add(combobox_medical);
+        medical.setBounds(20,80+ row_number*40,3000,40);
+        row_number++;
+        b.add(medical);
 
 
-        hBox02.setAlignmentY(Component.LEFT_ALIGNMENT );
 
-        // 创建一个垂直箱容器，放置上面两个水平箱（Box组合嵌套）
-        Box vBox = Box.createVerticalBox();
 
-        //vBox.setLayout(new BoxLayout(vBox, BoxLayout.X_AXIS));
-        vBox.setAlignmentY(Component.LEFT_ALIGNMENT );
-        //vBox.add(name);
-        vBox.add(hBox02);
 
-        // 把垂直箱容器作为内容面板设置到窗口
-//        jf.setContentPane(vBox);
-//
-//        jf.pack();
-//        jf.setLocationRelativeTo(null);
-//        jf.setVisible(true);
-
-        JPanel returned=new JPanel();
-        returned.add(vBox);
-        return returned;
-
+        return b;
     }
 
-    public JPanel Left(){
-        JPanel left = new JPanel();
-        left.setLayout(new FlowLayout(FlowLayout.LEADING,10,0));
-
-
-            JLabel label_null = new JLabel("");
-            label_null.setBounds(100,100,0,0);
-            JLabel label_name = new JLabel("姓名：");
-            JTextField textfield_name=new JTextField("",10);
-            JLabel label_null_long = new JLabel("                                                                                                ");
-            JPanel panel_null = new JPanel();
-            panel_null.setLayout(new GridLayout(1,1));
-            panel_null.add(label_null);
-
-        JButton c=new JButton("                                                     "
-                +"                    ");
-        c.setContentAreaFilled(false);
-        c.setBorderPainted(false);
-        c.setEnabled(false);
-
-
-        Component hGlue = Box.createHorizontalGlue();
-
-        left.add(label_null);
-        left.add(label_name);
-        left.add(textfield_name);
-        left.add(hGlue);
-        //left.add(label_null_long);
-        //left.add(panel_null);
-        //left.add(c);
-
-            JLabel label_gender = new JLabel("性别：");
-            //label_gender.setHorizontalTextPosition(label_name.BOTTOM);
-            label_gender.setVerticalAlignment(1);
-            //label_gender.setal
-        left.add(label_gender);
 
 
 
-
-
-
-
-
-        return left;
-    }
 }
