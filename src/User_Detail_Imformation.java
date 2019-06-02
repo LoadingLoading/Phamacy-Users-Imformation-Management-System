@@ -128,16 +128,72 @@ public class User_Detail_Imformation extends JFrame {
 
             JLabel label_number = new JLabel("手机号:");
             Icon icon_add = new ImageIcon("Pic/pic_add.png");
-            JButton button_add_number_owner = new JButton(null,icon_add);
-            button_add_number_owner.setBorderPainted(FALSE);
+            JButton button_add_owner = new JButton(null,icon_add);
+            button_add_owner.setBorderPainted(FALSE);
+                JPanel one_owner_number = new JPanel();
+                JComboBox combobox_owner = new JComboBox();
+                combobox_owner.addItem("本人");
+                combobox_owner.addItem("儿子");
+                combobox_owner.addItem("女儿");
+                combobox_owner.setSelectedIndex(-1);
+                JTextField field_number = new JTextField("",10);
+                one_owner_number.add(combobox_owner);
+                one_owner_number.add(field_number);
 
-                JPanel panel_onwer_number = new JPanel();
-                //panel_onwer_number.setLayout(new FlowLayout(FlowLayout.,0,0));
+                JPanel one_owner_number1 = new JPanel();
+                JComboBox combobox_owner1 = new JComboBox();
+                combobox_owner1.addItem("本人");
+                combobox_owner1.addItem("儿子");
+                combobox_owner1.addItem("女儿");
+                combobox_owner1.setSelectedIndex(-1);
+                JTextField field_number1 = new JTextField("",10);
+                one_owner_number1.add(combobox_owner1);
+                one_owner_number1.add(field_number1);
+
+                JPanel one_owner_number2 = new JPanel();
+                JComboBox combobox_owner2 = new JComboBox();
+                combobox_owner2.addItem("本人");
+                combobox_owner2.addItem("儿子");
+                combobox_owner2.addItem("女儿");
+                combobox_owner2.setSelectedIndex(-1);
+                JTextField field_number2 = new JTextField("",10);
+                one_owner_number2.add(combobox_owner2);
+                one_owner_number2.add(field_number2);
+
+
+//                panel_onwer_number.add(one_owner_number,BorderLayout.NORTH);
+//                    JLabel label_delete_owner_number = new JLabel("删除");
+//                    label_delete_owner_number.setForeground(Color.red);
+//                panel_onwer_number.add(label_delete_owner_number,BorderLayout.CENTER);
+//                    //Icon icon_add = new ImageIcon("Pic/pic_add.png");
+//                    JButton button_add_number_owner = new JButton(null,icon_add);
+//                    button_add_number_owner.setBorderPainted(FALSE);
+//                    button_add_number_owner.setHorizontalAlignment(SwingConstants.RIGHT);
+//                panel_onwer_number.add(button_add_number_owner,BorderLayout.SOUTH);
+
+
+
+
+
         JPanel number = new JPanel();
-        number.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+        number.setLayout(null);
+
+
         number.add(label_number);
-        number.add(button_add_number_owner);
-        number.setBounds(20,20+ row_number*40,3000,40);
+        label_number.setBounds(0,0,60,35);
+        number.add(button_add_owner);
+        button_add_owner.setBounds(50,0,18,35);
+//        number.add(combobox_owner);
+//        combobox_owner.setBounds(70,0,400,200);
+        int begin_pix=-16;
+        number.add(one_owner_number);
+        one_owner_number.setBounds(begin_pix,0,400,200);
+        number.add(one_owner_number1);
+        one_owner_number1.setBounds(begin_pix,30,400,200);
+        number.add(one_owner_number2);
+        one_owner_number2.setBounds(begin_pix,60,400,200);
+
+        number.setBounds(20,20+ row_number*40,3000,800);
         row_number++;
         b.add(number);
 
