@@ -13,4 +13,5 @@ public class user_imfo {
     private JLabel name;
     private JTextField textField1;
     private JComboBox comboBox1;
+    private JCheckBox checkBox1;
 }

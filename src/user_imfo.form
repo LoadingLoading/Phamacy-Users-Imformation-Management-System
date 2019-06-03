@@ -63,6 +63,12 @@
           </grid>
         </children>
       </scrollpane>
+      <component id="ddbe7" class="javax.swing.JCheckBox" binding="checkBox1" default-binding="true">
+        <constraints/>
+        <properties>
+          <text value="CheckBox"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
