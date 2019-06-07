@@ -10,28 +10,29 @@ import static javax.swing.SwingConstants.LEFT;
 public class User_Detail_Imformation extends JFrame {
 
     // 北部区域
-    JLabel jl1;
+    static JLabel jl1;
 
     // 南部区域
-    JButton jb1, jb2, jb3;
-    JPanel jp1;
+    static JButton  jb1, jb2, jb3;
+    static JPanel jp1;
 
     // 中部区域
-    JTabbedPane jtp;// 选项卡窗格
-    JPanel jp2, jp3, jp4;
+    static JTabbedPane jtp;// 选项卡窗格
+    static JPanel jp2, jp3, jp4;
 
 
 
 
 
 
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        new User_Detail_Imformation();
+//    public static void main(String[] args) {
+//        // TODO Auto-generated method stub
+//        new User_Detail_Imformation();
+//
+//    }
 
-    }
-
-    public User_Detail_Imformation() {
+    public static void User_Detail_Imformation(int col) {
+        JFrame user_detail_imformation = new JFrame();
 
         // 南部区域
         jp1 = new JPanel();
@@ -72,22 +73,23 @@ public class User_Detail_Imformation extends JFrame {
 
 
 
-        this.add(jp1, BorderLayout.SOUTH);
+        user_detail_imformation.add(jp1, BorderLayout.SOUTH);
 
-        this.add(jtp, BorderLayout.CENTER);
-//      this.add(jptry, BorderLayout.CENTER);
+        user_detail_imformation.add(jtp, BorderLayout.CENTER);
+//      user_detail_imformation.add(jptry, BorderLayout.CENTER);
         // 展示组件
         ImageIcon icon = new ImageIcon("images\\qq.png");
-        this.setIconImage(icon.getImage());// 给窗体设置图标方法
-        this.setSize(800, 600);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("查看/添加/编辑用户详细信息");
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        user_detail_imformation.setIconImage(icon.getImage());// 给窗体设置图标方法
+        user_detail_imformation.setSize(800, 600);
+        user_detail_imformation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        user_detail_imformation.setTitle("查看/添加/编辑用户详细信息");
+        user_detail_imformation.setLocationRelativeTo(null);
+        user_detail_imformation.setVisible(true);
+        user_detail_imformation.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
 
-    public JPanel Left(){
+    public static JPanel Left(){
         JPanel b=new JPanel();
         b.setLayout(null);
         int row_number=0;
@@ -247,7 +249,7 @@ public class User_Detail_Imformation extends JFrame {
         return b;
     }
 
-    public JPanel Right(){
+    public static JPanel Right(){
         JPanel b=new JPanel();
         b.setLayout(null);
         int hight=20;

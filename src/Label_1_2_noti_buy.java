@@ -16,6 +16,8 @@ public class Label_1_2_noti_buy {
 
         JPanel whole_frame = new JPanel();
         whole_frame.setLayout(null);
+        //whole_frame.setBounds(0,0,1200,900);
+
 
         JPanel tick_boxs = new JPanel();
         tick_boxs.setLayout(null);
@@ -23,9 +25,11 @@ public class Label_1_2_noti_buy {
         for (int i = 0; i < 100; i++) {
             Checkbox cb = createCheckbox("选项"+(i+1));
             cb.setBounds(0,18*i,25,18);
-            tick_boxs.add(cb);
+            if(i>=1) {
+                tick_boxs.add(cb);
+            }
         }
-        tick_boxs.setBackground(Col);
+        tick_boxs.setBackground(Color.white);
         tick_boxs.setBounds(0,0,25,1000);
         whole_frame.add(tick_boxs);
 
@@ -33,36 +37,67 @@ public class Label_1_2_noti_buy {
         String[] columnNames = {"姓名","性别","号主+号码","药名","预计用药时间","预计用药次数","上次备注情况"};
         String [][]tableVales={{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},{"XXX1","男","XXX 188 8888 8888","凯美纳","2019年6月20号","第3次","无"},}; //数据
         tableModel = new DefaultTableModel(tableVales,columnNames);
-        table = new JTable(tableModel);
+        table = new JTable(tableModel){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         table.setRowHeight(18);
+
            //支持滚动
         //getContentPane().add(scrollPane,BorderLayout.CENTER);
         //jdk1.6
         //排序:
         //table.setRowSorter(new TableRowSorter(tableModel));
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  //单选
+        //table.setCellSelectionEnabled(false);
         table.addMouseListener(new MouseAdapter(){    //鼠标事件
             public void mouseClicked(MouseEvent e){
+
+                //new User_Detail_Imformation();
+                int clickTimes = e.getClickCount();
+                if (clickTimes == 2) {
+                    User_Detail_Imformation.User_Detail_Imformation(1);
+                }
                 int selectedRow = table.getSelectedRow(); //获得选中行索引
                 Object oa = tableModel.getValueAt(selectedRow, 0);
                 Object ob = tableModel.getValueAt(selectedRow, 1);
-                aTextField.setText(oa.toString());  //给文本框赋值
-                bTextField.setText(ob.toString());
+
+
+//                aTextField.setText(oa.toString());  //给文本框赋值
+//                bTextField.setText(ob.toString());
             }
         });
 
 
-        table.setBounds(25,0,3000,2000);
-        whole_frame.add(table);
 
 
 
-        JScrollPane scrollPane = new JScrollPane(whole_frame);
-        //scrollPane.setViewportView(table);
+
+//
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(25,0,1200,700);
+
+        whole_frame.add(scrollPane);
+
+
+
+
+        JScrollPane scrollPane1 = new JScrollPane(whole_frame);
+//        scrollPane.setViewportView(whole_frame);
+//        JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setViewportView(whole_frame);
         //final JPanel jp2 = new JPanel();
         //getContentPane().add(jp2,BorderLayout.SOUTH);
+        //JScrollPane jsp=new JScrollPane(whole_frame);
         jp2.setLayout(new GridLayout(1,1));
-        jp2.add(scrollPane);
+
+        //jsp.setBounds(0,0,1200,700);
+        jp2.add(scrollPane1);
+        //jp2.add(scrollPane);
+        //JScrollPane scrollPane1 = new JScrollPane(jp2);
+        //scrollPane1.setViewportView(jp2);
         return jp2;
     }
 
