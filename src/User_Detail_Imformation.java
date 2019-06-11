@@ -1,6 +1,8 @@
 
 //QQ登录界面制作
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import static java.lang.Boolean.FALSE;
@@ -8,6 +10,11 @@ import static javax.swing.BoxLayout.X_AXIS;
 import static javax.swing.SwingConstants.LEFT;
 
 public class User_Detail_Imformation extends JFrame {
+    static JTextField  textfield_name;
+    static JComboBox combobox_gender;
+    static JTextField textfield_ID;
+    static JComboBox combobox_medical;
+
 
     // 北部区域
     static JLabel jl1;
@@ -87,6 +94,29 @@ public class User_Detail_Imformation extends JFrame {
         user_detail_imformation.setVisible(true);
         user_detail_imformation.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+
+
+        jb1.addMouseListener(new MouseAdapter(){    //鼠标事件
+            public void mouseClicked(MouseEvent e){
+                System.out.println("ok");
+
+                String name = textfield_name.getText();
+                String gender = combobox_gender.getSelectedItem().toString();
+                String ID = textfield_ID.getText();
+                String medical = combobox_medical.getSelectedItem().toString();
+
+
+                System.out.println(name+gender+ID+medical);
+                database.insert(name,gender,ID,medical);
+
+
+            }
+        });
+
+
+
+
+
     }
 
     public static JPanel Left(){
@@ -106,7 +136,8 @@ public class User_Detail_Imformation extends JFrame {
         b.add(title);
 
             JLabel label_name = new JLabel("姓名:           ");
-            JTextField textfield_name=new JTextField("",10);
+            textfield_name=new JTextField("",10);
+
         JPanel name = new JPanel();
         name.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         name.add(label_name);
@@ -116,10 +147,11 @@ public class User_Detail_Imformation extends JFrame {
         b.add(name);
 
             JLabel label_gender = new JLabel("性别:           ");
-            JComboBox combobox_gender = new JComboBox();
+            combobox_gender = new JComboBox();
             combobox_gender.addItem("男");
             combobox_gender.addItem("女");
             combobox_gender.setSelectedIndex(-1);
+
         JPanel gender = new JPanel();
         gender.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         gender.add(label_gender);
@@ -129,7 +161,8 @@ public class User_Detail_Imformation extends JFrame {
         b.add(gender);
 
             JLabel label_ID = new JLabel("身份证号:     ");
-            JTextField textfield_ID=new JTextField("431226199710074837",15);
+            textfield_ID=new JTextField("431226199710074837",15);
+
         JPanel ID = new JPanel();
         ID.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         ID.add(label_ID);
@@ -217,7 +250,7 @@ public class User_Detail_Imformation extends JFrame {
             Icon icon_add_medical = new ImageIcon("Pic/pic_add.png");
             JButton button_add_owner_medical = new JButton(null,icon_add_medical);
             button_add_owner_medical.setBorderPainted(FALSE);
-            JComboBox combobox_medical = new JComboBox();
+            combobox_medical = new JComboBox();
             combobox_medical.addItem("昕维");
             combobox_medical.addItem("福可维8mg");
             combobox_medical.addItem("福可维10mg");

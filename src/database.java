@@ -9,7 +9,7 @@ import java.sql.Statement;
  * 数据库连接
  */
 public class database {
-    public static void main(String[] args) {
+    public static void insert(String name, String gender, String id, String medical) {
         Connection con;
         String driver="com.mysql.jdbc.Driver";
         //这里我的数据库是qcl
@@ -29,18 +29,23 @@ public class database {
             String enterDB = "use users_info;";//我的表格叫home
             statement.execute(enterDB);
 
-            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES ('1', 2, '3', 4)";
+//            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES ('1', 2, '3', 4)";
+            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES (" +name+
+                    ", " +gender+
+                    "," +id+
+                    ", " +medical+
+                    ")";
             statement.execute(insertTable);
 
-            String sql = "select * from table_name;";//我的表格叫home
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            String name;
-            while (resultSet.next()) {
-                name = resultSet.getString("name");
-                System.out.println("姓名：" + name);
-            }
-            resultSet.close();
+//            String sql = "select * from table_name;";//我的表格叫home
+//            ResultSet resultSet = statement.executeQuery(sql);
+//
+//            String name;
+//            while (resultSet.next()) {
+//                name = resultSet.getString("name");
+//                System.out.println("姓名：" + name);
+//            }
+//            resultSet.close();
             con.close();
 
         } catch (ClassNotFoundException e) {
