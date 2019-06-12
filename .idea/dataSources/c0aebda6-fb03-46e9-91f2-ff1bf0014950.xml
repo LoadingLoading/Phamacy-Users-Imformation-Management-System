@@ -1100,7 +1100,9 @@
     <view id="290" parent="2" name="VIEWS">
       <System>1</System>
     </view>
-    <table id="291" parent="7" name="table_name"/>
+    <table id="291" parent="7" name="table_name">
+      <Collation>utf8_general_ci</Collation>
+    </table>
     <column id="292" parent="230" name="CHARACTER_SET_NAME">
       <Position>1</Position>
       <DataType>varchar(32)|0s</DataType>
@@ -3951,22 +3953,26 @@
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
+      <Collation>latin1_swedish_ci</Collation>
     </column>
     <column id="900" parent="291" name="gender">
       <Position>3</Position>
       <DataType>varchar(5)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
+      <Collation>latin1_swedish_ci</Collation>
     </column>
     <column id="901" parent="291" name="id">
       <Position>4</Position>
       <DataType>varchar(18)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
+      <Collation>latin1_swedish_ci</Collation>
     </column>
     <column id="902" parent="291" name="medicine">
       <Position>5</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
+      <Collation>latin1_swedish_ci</Collation>
     </column>
     <index id="903" parent="291" name="table_name_number_uindex">
       <ColNames>number</ColNames>

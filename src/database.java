@@ -30,11 +30,14 @@ public class database {
             statement.execute(enterDB);
 
 //            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES ('1', 2, '3', 4)";
-            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES (" +name+
-                    ", " +gender+
-                    "," +id+
-                    ", " +medical+
-                    ")";
+            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES ('" +name+
+                    "', '" +gender+
+                    "','" +id+
+                    "', '" +medical+
+                    "')";
+
+            System.out.println(name+gender+id+medical);
+            System.out.println(insertTable);
             statement.execute(insertTable);
 
 //            String sql = "select * from table_name;";//我的表格叫home
