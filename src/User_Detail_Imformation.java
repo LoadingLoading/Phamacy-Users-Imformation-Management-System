@@ -100,11 +100,17 @@ public class User_Detail_Imformation extends JFrame {
             public void mouseClicked(MouseEvent e){
                 System.out.println("ok");
 
-                String name = textfield_name.getText();
-                String gender = combobox_gender.getSelectedItem().toString();
-                String ID = textfield_ID.getText();
-                String medical = combobox_medical.getSelectedItem().toString();
 
+                String name = textfield_name.getText();
+                String gender=null;
+                if(combobox_gender.getSelectedIndex()!=-1){//-1就是没选
+                    gender = combobox_gender.getSelectedItem().toString();
+                }
+                String ID = textfield_ID.getText();
+                String medical = null;
+                if(combobox_medical.getSelectedIndex()!=-1){//-1就是没选
+                    medical = combobox_medical.getSelectedItem().toString();
+                }
 
                 System.out.println(name+gender+ID+medical);
                 database.insert(name,gender,ID,medical);

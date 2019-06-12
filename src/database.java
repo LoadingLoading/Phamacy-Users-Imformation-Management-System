@@ -13,7 +13,7 @@ public class database {
         Connection con;
         String driver="com.mysql.jdbc.Driver";
         //这里我的数据库是qcl
-        String url="jdbc:mysql://localhost:3306";
+        String url="jdbc:mysql://localhost:3306/?useUnicode=true&characterEncoding=utf8";
         String user="root";
         String password="123";
         try {
@@ -34,7 +34,7 @@ public class database {
                     "', '" +gender+
                     "','" +id+
                     "', '" +medical+
-                    "')";
+                    "');";
 
             System.out.println(name+gender+id+medical);
             System.out.println(insertTable);
