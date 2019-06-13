@@ -9,7 +9,7 @@ import java.sql.Statement;
  * 数据库连接
  */
 public class database {
-    public static void insert(String name, String gender, String id, String medical) {
+    public static void execute(String executeIt) {
         Connection con;
         String driver="com.mysql.jdbc.Driver";
         //这里我的数据库是qcl
@@ -30,15 +30,11 @@ public class database {
             statement.execute(enterDB);
 
 //            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES ('1', 2, '3', 4)";
-            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES ('" +name+
-                    "', '" +gender+
-                    "','" +id+
-                    "', '" +medical+
-                    "');";
 
-            System.out.println(name+gender+id+medical);
-            System.out.println(insertTable);
-            statement.execute(insertTable);
+
+            //System.out.println(name+gender+id+medical);
+            System.out.println(executeIt);
+            statement.execute(executeIt);
 
 //            String sql = "select * from table_name;";//我的表格叫home
 //            ResultSet resultSet = statement.executeQuery(sql);
@@ -57,5 +53,27 @@ public class database {
         } catch (SQLException e) {
             System.out.println("数据库连接失败");
         }
+    }
+
+    public static void insert(String name, String gender, String id, String owner1, String phone1, String owner2, String phone2, String owner3, String phone3, String medicine, String disease_type, String insurance_type, String address,String year, String month, String day) {
+
+        String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`, `owner1`, `phone1`, `owner2`, `phone2`, `owner3`, `phone3`, `address`, `disease_type`, `insurance_type`,`year`,`month`,`day`) VALUES ('" +name+
+                "', '" +gender+
+                "','" +id+
+                "', '" +owner1+
+                "', '" +phone1+
+                "','" +owner2+
+                "', '" +phone2+
+                "', '" +owner3+
+                "','" +phone3+
+                "', '" +medicine+
+                "','" +disease_type+
+                "', '" +insurance_type+
+                "', '" +address+
+                "','" +year+
+                "', '" +month+
+                "', '" +day+
+                "');";
+        execute(insertTable);
     }
 }
