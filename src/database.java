@@ -79,9 +79,9 @@ public class database {
                     //IDs[i]=resultSet.getString("id");
 
                     //String[] IDs=new String[100];
-                    for(int columnIndex=1;columnIndex<18;columnIndex++){
+                    for(int columnIndex=1;columnIndex<19;columnIndex++){
                         //System.out.println("a1.6");
-                        InfosNoneExtended[i][columnIndex]=
+                        InfosNoneExtended[i][columnIndex-1]=
                                 resultSet.getString(columnIndex);
                     }
                     //System.out.println("a1.7");
@@ -126,7 +126,7 @@ public class database {
 
     public static void insert(String name, String gender, String id, String owner1, String phone1, String owner2, String phone2, String owner3, String phone3, String medicine, String disease_type, String insurance_type, String address,String year, String month, String day) {
 
-        String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`, `owner1`, `phone1`, `owner2`, `phone2`, `owner3`, `phone3`, `address`, `disease_type`, `insurance_type`,`year`,`month`,`day`) VALUES ('" +name+
+        String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`,  `owner1`, `phone1`, `owner2`, `phone2`, `owner3`, `phone3`, `medicine`, `disease_type`, `insurance_type`,`address`,`year`,`month`,`day`) VALUES ('" +name+
                 "', '" +gender+
                 "','" +id+
                 "', '" +owner1+
@@ -161,13 +161,13 @@ public class database {
 
     public static String[][] searchByID(String id){
         //IDs=null;
-        String string_searchByID="SELECT * from table_name WHERE id="+id+
-                ";";
+        String string_searchByID="SELECT * from table_name WHERE id='"+id+
+                "';";
         //SELECT * from table_name WHERE year=1234 and month=12 and day=12;
         //execute(string_searchByDate);
         System.out.println(string_searchByID);
         execute(string_searchByID,"searchByID");
-        //System.out.println("fanhuijieguo"+Infos.length);
+        System.out.println(id+"fanhuijieguo"+Infos[0][3]);
         return Infos;
     }
 }

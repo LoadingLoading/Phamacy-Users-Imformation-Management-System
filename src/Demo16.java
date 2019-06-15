@@ -110,8 +110,8 @@ public class Demo16 extends JFrame {
 
 
 
-        jp2= Label_1_2_noti_buy.noti(jp2);
-        jp3= Label_1_2_noti_buy.noti(jp3);
+        jp2= Label_1_2_noti_buy.noti(jp2,"noti");
+        //jp3= Label_1_2_noti_buy.noti(jp3);
 
 
 

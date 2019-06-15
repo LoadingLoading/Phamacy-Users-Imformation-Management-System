@@ -6,8 +6,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.getBoolean;
 import static javax.swing.BoxLayout.X_AXIS;
 import static javax.swing.SwingConstants.LEFT;
+import static javax.swing.SwingConstants.SOUTH;
 
 public class User_Detail_Imformation extends JFrame {
     static JTextField  textfield_name;
@@ -20,15 +22,33 @@ public class User_Detail_Imformation extends JFrame {
     static JComboBox combobox_owner2;
     static JTextField field_number2;
 
+    static String string_name;
+    static String string_gender;
+    static String string_ID;
+    static String string_owner;
+    static String string_number;
+    static String string_owner1;
+    static String string_number1;
+    static String string_owner2;
+    static String string_number2;
+
     static JComboBox combobox_medical;
     static JComboBox combobox_disease_type;
     static JComboBox combobox_insurance_type;
     static JTextField  textfield_address;
 
+    static String string_medical;
+    static String string_disease_type;
+    static String string_insurance_type;
+    static String string_address;
+
     static JTextField textfield_noti_time_year;
     static JTextField textfield_noti_time_month;
     static JTextField textfield_noti_time_day;
 
+    static String string_noti_time_year;
+    static String string_noti_time_month;
+    static String string_noti_time_day;
 
 
 
@@ -54,7 +74,33 @@ public class User_Detail_Imformation extends JFrame {
 //
 //    }
 
-    public static void User_Detail_Imformation(int col) {
+    public static void User_Detail_Imformation(int col,String user_id) {
+        String[] user_detail_info=new String[18];
+
+        user_detail_info=database.searchByID(user_id)[0];
+        for(int i=0;i<18;i++){
+            System.out.println(i+" "+user_detail_info[i]);
+        }
+        string_name=user_detail_info[1];
+        string_gender=user_detail_info[2];
+        string_ID=user_detail_info[3];
+        string_owner=user_detail_info[4];
+        string_number=user_detail_info[5];
+        string_owner1=user_detail_info[6];
+        string_number1=user_detail_info[7];
+        string_owner2=user_detail_info[8];
+        string_number2=user_detail_info[9];
+
+        string_medical=user_detail_info[10];
+        string_disease_type=user_detail_info[11];
+        string_insurance_type=user_detail_info[12];
+        string_address=user_detail_info[13];
+
+        string_noti_time_year=user_detail_info[14];
+        string_noti_time_month=user_detail_info[15];
+        string_noti_time_day=user_detail_info[16];
+
+
         JFrame user_detail_imformation = new JFrame();
 
         // 南部区域
@@ -249,7 +295,7 @@ public class User_Detail_Imformation extends JFrame {
         b.add(title);
 
             JLabel label_name = new JLabel("姓名:               ");
-            textfield_name=new JTextField("",10);
+            textfield_name=new JTextField(string_name,10);
 
         JPanel name = new JPanel();
         name.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
@@ -263,7 +309,8 @@ public class User_Detail_Imformation extends JFrame {
             combobox_gender = new JComboBox();
             combobox_gender.addItem("男");
             combobox_gender.addItem("女");
-            combobox_gender.setSelectedIndex(-1);
+            combobox_gender.setSelectedItem(string_gender);
+            //combobox_gender.setSelectedIndex(-1);
 
         JPanel gender = new JPanel();
         gender.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
@@ -274,7 +321,7 @@ public class User_Detail_Imformation extends JFrame {
         b.add(gender);
 
             JLabel label_ID = new JLabel("身份证号:         ");
-            textfield_ID=new JTextField("431226199710074837",15);
+            textfield_ID=new JTextField(string_ID,15);
 
         JPanel ID = new JPanel();
         ID.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
@@ -285,7 +332,7 @@ public class User_Detail_Imformation extends JFrame {
         b.add(ID);
 
             JLabel label_age = new JLabel("年龄:                 ");
-            JLabel textfield_age=new JLabel("37岁");
+            JLabel textfield_age=new JLabel("36");
         JPanel age = new JPanel();
         age.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         age.add(label_age);
@@ -315,8 +362,8 @@ public class User_Detail_Imformation extends JFrame {
                 combobox_owner.addItem("本人");
                 combobox_owner.addItem("儿子");
                 combobox_owner.addItem("女儿");
-                combobox_owner.setSelectedIndex(-1);
-                field_number = new JTextField("",10);
+                combobox_owner.setSelectedItem(string_owner);
+                field_number = new JTextField(string_number,10);
                 one_owner_number.add(combobox_owner);
                 one_owner_number.add(field_number);
 
@@ -325,8 +372,8 @@ public class User_Detail_Imformation extends JFrame {
                 combobox_owner1.addItem("本人");
                 combobox_owner1.addItem("儿子");
                 combobox_owner1.addItem("女儿");
-                combobox_owner1.setSelectedIndex(-1);
-                field_number1 = new JTextField("",10);
+                combobox_owner1.setSelectedItem(string_owner1);
+                field_number1 = new JTextField(string_number,10);
                 one_owner_number1.add(combobox_owner1);
                 one_owner_number1.add(field_number1);
 
@@ -335,8 +382,8 @@ public class User_Detail_Imformation extends JFrame {
                 combobox_owner2.addItem("本人");
                 combobox_owner2.addItem("儿子");
                 combobox_owner2.addItem("女儿");
-                combobox_owner2.setSelectedIndex(-1);
-                field_number2 = new JTextField("",10);
+                combobox_owner2.setSelectedItem(string_owner2);
+                field_number2 = new JTextField(string_number2,10);
                 one_owner_number2.add(combobox_owner2);
                 one_owner_number2.add(field_number2);
         JPanel number = new JPanel();
@@ -378,7 +425,7 @@ public class User_Detail_Imformation extends JFrame {
             combobox_medical.addItem("多柔比星");
             combobox_medical.addItem("唑来膦酸");
             combobox_medical.addItem("达沙替尼");
-            combobox_medical.setSelectedIndex(-1);
+            combobox_medical.setSelectedItem(string_medical);
         JPanel medical = new JPanel();
         medical.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         medical.add(label_medical);
@@ -398,7 +445,7 @@ public class User_Detail_Imformation extends JFrame {
             combobox_disease_type.addItem("肝癌");
             combobox_disease_type.addItem("鼻咽癌");
             combobox_disease_type.addItem("肠癌");
-            combobox_disease_type.setSelectedIndex(-1);
+            combobox_disease_type.setSelectedItem(string_medical);
         JPanel disease_type = new JPanel();
         disease_type.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         disease_type.add(label_disease_type);
@@ -417,7 +464,7 @@ public class User_Detail_Imformation extends JFrame {
             combobox_insurance_type.addItem("职工医保");
             combobox_insurance_type.addItem("居民/农合");
             combobox_insurance_type.addItem("铁路医保");
-            combobox_insurance_type.setSelectedIndex(-1);
+            combobox_insurance_type.setSelectedItem(string_insurance_type);
         JPanel insurance_type = new JPanel();
         insurance_type.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         insurance_type.add(label_insurance_type);
@@ -428,7 +475,7 @@ public class User_Detail_Imformation extends JFrame {
         b.add(insurance_type);
 
             JLabel label_address = new JLabel("家庭住址:         ");
-            textfield_address=new JTextField("",25);
+            textfield_address=new JTextField(string_address,25);
         JPanel address  = new JPanel();
         address.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         address.add(label_address);

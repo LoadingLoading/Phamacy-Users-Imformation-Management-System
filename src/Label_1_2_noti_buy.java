@@ -13,7 +13,7 @@ public class Label_1_2_noti_buy {
     private static JTextField aTextField;
     private static JTextField bTextField;
 
-    public static JPanel noti(JPanel jp2){
+    public static JPanel noti(JPanel jp2,String noti_buy){
 
         JPanel whole_frame = new JPanel();
         whole_frame.setLayout(null);
@@ -36,7 +36,22 @@ public class Label_1_2_noti_buy {
 
 
         String[] columnNames = {"姓名","性别","购药次数","药名","号主+号码","上次买药时间","身份证号"};
-        String [][]tableVales={{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXX4837"},}; //数据
+        String[][] getTableVales=getTodayInfo();
+        String[][] tableVales=new String[getTableVales.length][7];
+        for(int i=0;i<getTableVales.length;i++){
+            tableVales[i][0]=getTableVales[i][1];
+            tableVales[i][1]=getTableVales[i][2];
+            tableVales[i][2]=getTableVales[i][0]+"不知道";
+            tableVales[i][3]=getTableVales[i][10];
+            tableVales[i][4]=getTableVales[i][4]+" "+getTableVales[i][5];
+            tableVales[i][5]=getTableVales[i][0]+"不知道";
+            tableVales[i][6]=getTableVales[i][3];
+
+
+
+
+        }
+        //String [][]tableVales={{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXX4837"},}; //数据
         tableModel = new DefaultTableModel(tableVales,columnNames);
         table = new JTable(tableModel){
             @Override
@@ -44,7 +59,8 @@ public class Label_1_2_noti_buy {
                 return false;
             }
         };
-        table.getColumnModel().getColumn(1).setWidth(10080);
+        //table.getSelectedRow();
+        //table.getColumnModel().getColumn(1).setWidth(10080);
         //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 
@@ -63,11 +79,15 @@ public class Label_1_2_noti_buy {
                 //new User_Detail_Imformation();
                 int clickTimes = e.getClickCount();
                 if (clickTimes == 2) {
-                    User_Detail_Imformation.User_Detail_Imformation(1);
+                    int selectedRow = table.getSelectedRow(); //获得选中行索引
+                    System.out.println("表格所选身份证号为"+tableModel.getValueAt(selectedRow, 6));
+                    User_Detail_Imformation.User_Detail_Imformation(1,tableModel.getValueAt(selectedRow, 6).toString());
+
                 }
-                int selectedRow = table.getSelectedRow(); //获得选中行索引
-                Object oa = tableModel.getValueAt(selectedRow, 0);
-                Object ob = tableModel.getValueAt(selectedRow, 1);
+                //int selectedRow = table.getSelectedRow(); //获得选中行索引
+//                Object oa = tableModel.getValueAt(selectedRow, 6);
+//                Object ob = tableModel.getValueAt(selectedRow, 1);
+                //System.out.println("表格所选身份证号为"+tableModel.getValueAt(selectedRow, 6));
 
 
 //                aTextField.setText(oa.toString());  //给文本框赋值
@@ -103,7 +123,9 @@ public class Label_1_2_noti_buy {
         //jp2.add(scrollPane);
         //JScrollPane scrollPane1 = new JScrollPane(jp2);
         //scrollPane1.setViewportView(jp2);
-        getTodayInfo();
+        //getTodayInfo();
+//        String aaaa[][]=database.searchByID("23323");
+//        System.out.println("aaaa"+aaaa[0][0]);//结果为null
         return jp2;
     }
 
@@ -129,16 +151,18 @@ public class Label_1_2_noti_buy {
         System.out.println(IDs.length);
 //        System.out.println(database.searchByID(IDs[0]).length);
         Infos=new String[IDs.length][18];
-        for(int i = 1;i<IDs.length;i++){
+        for(int i = 0;i<IDs.length;i++){
+            //System.out.println("循环了几次");
             //System.out.println("search"+database.searchByID(IDs[i])[0][1]);
             Infos[i]=database.searchByID(IDs[i])[0];
             //String p[]=database.searchByID(IDs[i])[0];
 
         }
         for (int i = 0; i < Infos.length; i++) {
+            System.out.println("身份证为 "+IDs[i]+" 的信息为：");
             for (int j = 0; j < 18; j++) {
                 //String id = IDs[j];
-                System.out.print(Infos[i][j]);
+                System.out.print(Infos[i][j]+" ");
 
             }
             System.out.println();
