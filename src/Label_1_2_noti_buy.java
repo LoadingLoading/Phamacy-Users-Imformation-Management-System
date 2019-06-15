@@ -5,6 +5,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
 
 public class Label_1_2_noti_buy {
     private static DefaultTableModel tableModel;   //表格模型对象
@@ -102,6 +103,7 @@ public class Label_1_2_noti_buy {
         //jp2.add(scrollPane);
         //JScrollPane scrollPane1 = new JScrollPane(jp2);
         //scrollPane1.setViewportView(jp2);
+        getTodayInfo();
         return jp2;
     }
 
@@ -117,4 +119,54 @@ public class Label_1_2_noti_buy {
         });
         return cb;
     }
+
+    public static String[][] getTodayInfo(){
+        String[][] Infos=null;
+        String[] IDs=null;
+        IDs=getTodayID();
+        //System.out.println(IDs[0]);
+//        System.out.println(Infos.length);
+        System.out.println(IDs.length);
+//        System.out.println(database.searchByID(IDs[0]).length);
+        Infos=new String[IDs.length][18];
+        for(int i = 1;i<IDs.length;i++){
+            //System.out.println("search"+database.searchByID(IDs[i])[0][1]);
+            Infos[i]=database.searchByID(IDs[i])[0];
+            //String p[]=database.searchByID(IDs[i])[0];
+
+        }
+        for (int i = 0; i < Infos.length; i++) {
+            for (int j = 0; j < 18; j++) {
+                //String id = IDs[j];
+                System.out.print(Infos[i][j]);
+
+            }
+            System.out.println();
+
+
+        }
+        System.out.println("面板"+"运行到这里");
+
+        //Infos[]=database.searchByID(IDs);
+
+        return Infos;
+    }
+
+    public static String[] getTodayID(){
+        String[] IDs=null;
+        int y,m,d;
+        Calendar cal=Calendar.getInstance();
+        y=cal.get(Calendar.YEAR);
+        m=cal.get(Calendar.MONTH)+1;
+        d=cal.get(Calendar.DATE);
+        System.out.println("面板"+y+" "+m+" "+d);
+
+        IDs=database.searchByDate(y+"",m+"",d+"");
+        for(int i=0;i<IDs.length;i++){
+            System.out.println("面板"+"returned "+IDs[i]);
+
+        }
+        return IDs;
+    }
+
 }

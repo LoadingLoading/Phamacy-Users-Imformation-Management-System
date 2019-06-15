@@ -1,9 +1,11 @@
 
 //QQ登录界面制作
 import java.awt.*;
+import java.util.Calendar;
 import javax.swing.*;
 
 public class Demo16 extends JFrame {
+    //public static String[] IDs=new String[100];
 
     // 北部区域
     JLabel jl1;
@@ -230,6 +232,9 @@ public class Demo16 extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        //getToday();
 
     }
+
+
 }
