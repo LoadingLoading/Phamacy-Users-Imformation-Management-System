@@ -73,8 +73,8 @@ public class User_Detail_Imformation extends JFrame {
 //        new User_Detail_Imformation();
 //
 //    }
-
-    //第二个表格数据库的创建，动态界面，滚屏？下一步两个打勾，第二个界面的显示，以及取消提醒，搜索功能，管理员功能，添加一个文档储存基本信息 （打包成exe用来debug）如数据库账号密码，添加的小加号，账号管理功能，说明界面，其他未知的用户需求
+    //刚刚完成：id的约束，修改以及添加的区别化
+    //id的自动生成，第二个表格数据库的创建，动态界面，滚屏？下一步两个打勾，第二个界面的显示，以及取消提醒，搜索功能，管理员功能，添加一个文档储存基本信息 （打包成exe用来debug）如数据库账号密码，添加的小加号，账号管理功能，说明界面，其他未知的用户需求
 
     public static void User_Detail_Imformation(int col,String user_id) {
         String[] user_detail_info=new String[18];
