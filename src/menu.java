@@ -1,4 +1,7 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class menu {
     public static JMenuBar menu(){
@@ -9,7 +12,23 @@ public class menu {
         JMenu menu1 = new JMenu("编辑");
         JMenu menu2 = new JMenu("管理员功能");
         JMenu menu3 = new JMenu("帮助");
-        JMenuItem item1 = new JMenuItem("新增");
+
+        //JMenuItem item1 = new JMenuItem("新增");
+        //System.out.println("准备新增了");
+        Action exitAction = new AbstractAction("新增"){
+            public void actionPerformed(ActionEvent e){
+                //System.exit(0);
+                User_Detail_Imformation.User_Detail_Imformation(1,null);
+            }
+        };
+
+        menu1.add(exitAction);
+//        item1.addMouseListener(new MouseAdapter(){    //鼠标事件
+//            public void mouseClicked(MouseEvent e) {
+//                System.out.println("可以新增了");
+//                User_Detail_Imformation.User_Detail_Imformation(1,null);
+//            }
+//        });
         JMenuItem item2 = new JMenuItem("备份");
 
         JMenuItem item3 = new JMenuItem("删除所有数据");
@@ -18,7 +37,7 @@ public class menu {
 
         JMenuItem item7 = new JMenuItem("关于");
         //添加菜单项至菜单上
-        menu1.add(item1);
+        //menu1.add(item1);
         menu1.add(item2);
 
         menu2.add(item3);

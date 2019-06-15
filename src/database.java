@@ -39,6 +39,10 @@ public class database {
                 System.out.println(executeIt);
                 statement.execute(executeIt);
             }
+            if(executeType.equals("update")){
+                System.out.println(executeIt);
+                statement.execute(executeIt);
+            }
             if(executeType.equals("searchByDate")){
                 System.out.println(executeIt);
                 ResultSet resultSet = statement.executeQuery(executeIt);
@@ -144,6 +148,29 @@ public class database {
                 "', '" +day+
                 "');";
         execute(insertTable,"insert");
+    }
+
+    public static void update(String name, String gender, String id, String owner1, String phone1, String owner2, String phone2, String owner3, String phone3, String medicine, String disease_type, String insurance_type, String address,String year, String month, String day) {
+
+        String updateTable="UPDATE `users_info`.`table_name` SET `name`='" +name+
+                "', `gender`='" +gender+
+                "', `id`='" +id+
+                "',  `owner1`='" +owner1+
+                "', `phone1`='" +phone1+
+                "', `owner2`='" +owner2+
+                "', `phone2`='" +phone2+
+                "', `owner3`='" +owner3+
+                "', `phone3`='" +phone3+
+                "', `medicine`='" +medicine+
+                "', `disease_type`='" +disease_type+
+                "', `insurance_type`='" +insurance_type+
+                "',`address`='" +address+
+                "',`year`='" +year+
+                "',`month`='" +month+
+                "',`day`='" +day+
+                "' WHERE id ='" +id+
+                "';";
+        execute(updateTable,"update");
     }
 
     public static String[] searchByDate(String year, String month, String day){

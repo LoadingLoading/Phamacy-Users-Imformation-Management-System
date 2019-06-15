@@ -74,9 +74,12 @@ public class User_Detail_Imformation extends JFrame {
 //
 //    }
 
+    //第二个表格数据库的创建，动态界面，滚屏？下一步两个打勾，第二个界面的显示，以及取消提醒，搜索功能，管理员功能，添加一个文档储存基本信息 （打包成exe用来debug）如数据库账号密码，添加的小加号，账号管理功能，说明界面，其他未知的用户需求
+
     public static void User_Detail_Imformation(int col,String user_id) {
         String[] user_detail_info=new String[18];
 
+        //通过表格点击传递的id得到该用户的详细信息，储存在static的变量里，供给面板信息用
         user_detail_info=database.searchByID(user_id)[0];
         for(int i=0;i<18;i++){
             System.out.println(i+" "+user_detail_info[i]);
@@ -101,6 +104,7 @@ public class User_Detail_Imformation extends JFrame {
         string_noti_time_day=user_detail_info[16];
 
 
+        //以下为布局
         JFrame user_detail_imformation = new JFrame();
 
         // 南部区域
@@ -158,6 +162,7 @@ public class User_Detail_Imformation extends JFrame {
 
 
 
+        //以下为点击确认以后，检测符合条件，再insert
         jb1.addMouseListener(new MouseAdapter(){    //鼠标事件
             public void mouseClicked(MouseEvent e){
 
@@ -259,9 +264,45 @@ public class User_Detail_Imformation extends JFrame {
 
                 if(!nullItems.equals("")){
                     JOptionPane.showMessageDialog(null, "请正确填写 "+nullItems, "未补全信息", JOptionPane.ERROR_MESSAGE);
-                }else{
-                    System.out.println(name+gender+ID+medical);
-                    database.insert(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
+                }else if(user_id==null){//新增
+                    String[] checkIdExist=database.searchByID(ID)[0];//搜索id，如无返回null
+                    System.out.println("检测id是否存在"+checkIdExist[3]);
+                    if(checkIdExist[3]==null){//id不存在，可以新增
+
+                        int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存新增用户并退出", "确认保存", JOptionPane.YES_NO_OPTION);
+                        if(res==JOptionPane.YES_OPTION){//确认
+                            System.out.println("已检测无该id存在");
+                            //System.out.println(name+gender+ID+medical);
+                            database.insert(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
+                            user_detail_imformation.dispose();
+
+
+
+                            //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
+                        }else{//取消
+                            //System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
+                            return;
+                        }
+
+
+                    }else{
+                        JOptionPane.showMessageDialog(null, "该身份证已经存在"+nullItems, "无法储存", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }else if(user_id!=null){//修改
+                    int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存修改并退出", "确认保存", JOptionPane.YES_NO_OPTION);
+                    if(res==JOptionPane.YES_OPTION){//确认
+                        database.update(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
+                        user_detail_imformation.dispose();
+
+
+
+                        System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
+                    }else{//取消
+                        System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
+                        return;
+                    }
+
                 }
 
 
@@ -272,7 +313,32 @@ public class User_Detail_Imformation extends JFrame {
             }
         });
 
+        jb2.addMouseListener(new MouseAdapter(){    //取消并推出
+            public void mouseClicked(MouseEvent e){
+                String show_alert;
+                if(user_id==null){
+                    show_alert="点击确认后将放弃所有已输入新增信息，确定吗";
+                }else{
+                    show_alert="点击确认后将放弃更改所有已输入信息，确定吗";
+                }
 
+
+                int res=JOptionPane.showConfirmDialog(null, show_alert, "取消并推出", JOptionPane.YES_NO_OPTION);
+                if(res==JOptionPane.YES_OPTION){//确认
+                    //System.out.println("已检测无该id存在");
+                    user_detail_imformation.dispose();
+
+
+
+
+                    //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
+                }else{//取消
+                    //System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
+                    return;
+                }
+
+            }
+        });
 
 
 
@@ -322,6 +388,9 @@ public class User_Detail_Imformation extends JFrame {
 
             JLabel label_ID = new JLabel("身份证号:         ");
             textfield_ID=new JTextField(string_ID,15);
+            if(string_ID!=null){
+                textfield_ID.setEditable(false);
+            }
 
         JPanel ID = new JPanel();
         ID.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
