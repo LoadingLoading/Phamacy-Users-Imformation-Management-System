@@ -232,6 +232,10 @@ public class Demo16 extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        //this.Update(this.getGraphics());
+//        for(int i=0;i<=1000;i++) {
+//            this.repaint();
+//        }
         //getToday();
 
     }

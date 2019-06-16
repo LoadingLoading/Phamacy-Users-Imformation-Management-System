@@ -15,6 +15,7 @@ public class Label_1_2_noti_buy {
     private static JTextField aTextField;
     private static JTextField bTextField;
     public static JPanel whole_frame;
+    public static JPanel tick_boxs;
 
     public static JPanel noti(JPanel jp2,String noti_buy){
 
@@ -40,7 +41,7 @@ public class Label_1_2_noti_buy {
             tableVales[i][6]=getTableVales[i][3];
         }
 //在table初始化后添加动态tickbox
-        JPanel tick_boxs = new JPanel();
+        tick_boxs = new JPanel();
         tick_boxs.setLayout(null);
 
         for (int i = 0; i < getTableVales.length; i++) {
@@ -60,6 +61,9 @@ public class Label_1_2_noti_buy {
             //cb.setState();
         }
 
+
+
+        //tick_boxs
         tick_boxs.setBackground(Color.white);
         tick_boxs.setBounds(0,0,25,1000);
         whole_frame.add(tick_boxs);
@@ -140,21 +144,29 @@ public class Label_1_2_noti_buy {
         //getTodayInfo();
 //        String aaaa[][]=database.searchByID("23323");
 //        System.out.println("aaaa"+aaaa[0][0]);//结果为null
-        whole_frame.repaint();
+        //whole_frame.repaint();
         return jp2;
     }
 
     private static Checkbox createCheckbox(String label) {
         Checkbox cb = new Checkbox(label);
+        //cb.addItemListener(User_Detail_Imformation.jb2);
         //给Checkbox对象注册事件监听，也可以去监听其它事件，比如鼠标事件什么的
         cb.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
+                String changeState=null;
+
                 Checkbox cb = (Checkbox)e.getSource();
                 int checkBoxSelected=parseInt(cb.getLabel());
+                if(cb.getState()==false){//如果本来没有打勾，打勾是为了变成
+                    changeState="waitToBuy";
+                }else if(cb.getState()==true){//本来打了勾，取消打勾
+                    changeState="waitToNoti";
+                }
                 String waitToBuy_userId=tableModel.getValueAt(checkBoxSelected, 6).toString();
                 //int canceled=
-                User_Detail_Imformation.User_Detail_Imformation("waitToBuy",waitToBuy_userId);
+                User_Detail_Imformation.User_Detail_Imformation(changeState,waitToBuy_userId);
 //                if(canceled==1){
 //                    cb.setState(false);
 //                }
@@ -163,11 +175,40 @@ public class Label_1_2_noti_buy {
             }
         });
 
+
+
         return cb;
     }
 
     public static void repaintIt(){
-        whole_frame.repaint();
+
+//        whole_frame.invalidate();
+//        whole_frame.validate();
+//        whole_frame.setVisible(false);
+//        whole_frame.setVisible(true);
+//        whole_frame.updateUI();
+
+        //取消打勾
+        int count = tick_boxs.getComponentCount();
+        for (int i = 0; i < count; i++) {
+            Component comp = tick_boxs.getComponent(i);
+            if(comp instanceof Checkbox){
+
+                String[][] getTableVales=getTodayInfo();
+//                String waitToBuy_userId=tableModel.getValueAt(i, 6).toString();
+                if(getTableVales[i][17].equals("waitToNoti")){
+                    Checkbox btn = (Checkbox)comp;
+                    btn.setState(false);
+                }else if(getTableVales[i][17].equals("waitToBuy")){
+                    Checkbox btn = (Checkbox)comp;
+                    btn.setState(true);
+                }
+
+
+            }
+
+        }
+
         System.out.println("_________________刷新_____________1");
 
     }
