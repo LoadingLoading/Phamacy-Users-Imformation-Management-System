@@ -150,7 +150,7 @@ public class database {
         execute(insertTable,"insert");
     }
 
-    public static void update(String name, String gender, String id, String owner1, String phone1, String owner2, String phone2, String owner3, String phone3, String medicine, String disease_type, String insurance_type, String address,String year, String month, String day) {
+    public static void update(String name, String gender, String id, String owner1, String phone1, String owner2, String phone2, String owner3, String phone3, String medicine, String disease_type, String insurance_type, String address,String year, String month, String day,String state) {
 
         String updateTable="UPDATE `users_info`.`table_name` SET `name`='" +name+
                 "', `gender`='" +gender+
@@ -168,6 +168,7 @@ public class database {
                 "',`year`='" +year+
                 "',`month`='" +month+
                 "',`day`='" +day+
+                "',`state`='" +state+
                 "' WHERE id ='" +id+
                 "';";
         execute(updateTable,"update");

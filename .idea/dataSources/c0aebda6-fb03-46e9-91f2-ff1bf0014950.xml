@@ -4028,10 +4028,10 @@
       <DataType>varchar(2)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="915" parent="291" name="already_bought">
+    <column id="915" parent="291" name="state">
       <Position>18</Position>
-      <DataType>varchar(10)|0s</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <DataType>varchar(20)|0s</DataType>
+      <DefaultExpression>&apos;waitToNoti&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="916" parent="291" name="table_name_number_uindex">

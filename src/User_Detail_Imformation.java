@@ -75,13 +75,15 @@ public class User_Detail_Imformation extends JFrame {
 //    }
     //刚刚完成：id的约束，修改以及添加的区别化
     //id的自动生成，第二个表格数据库的创建，动态界面，滚屏？下一步两个打勾，第二个界面的显示，以及取消提醒，搜索功能，管理员功能，添加一个文档储存基本信息 （打包成exe用来debug）如数据库账号密码，添加的小加号，账号管理功能，说明界面，其他未知的用户需求
+    //already_bought有三种状态 watiToNoti：等待被提醒 waitToBuy:等待买药 notBuyAnymore:不再提醒
 
-    public static void User_Detail_Imformation(int col,String user_id) {
+    public static void User_Detail_Imformation(String state,String user_id) {
+        int isCanceled=0;
         String[] user_detail_info=new String[18];
 
         //通过表格点击传递的id得到该用户的详细信息，储存在static的变量里，供给面板信息用
         user_detail_info=database.searchByID(user_id)[0];
-        for(int i=0;i<18;i++){
+            for(int i=0;i<18;i++){
             System.out.println(i+" "+user_detail_info[i]);
         }
         string_name=user_detail_info[1];
@@ -292,7 +294,7 @@ public class User_Detail_Imformation extends JFrame {
                 }else if(user_id!=null){//修改
                     int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存修改并退出", "确认保存", JOptionPane.YES_NO_OPTION);
                     if(res==JOptionPane.YES_OPTION){//确认
-                        database.update(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
+                        database.update(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day,state);
                         user_detail_imformation.dispose();
 
 
@@ -300,7 +302,7 @@ public class User_Detail_Imformation extends JFrame {
                         System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
                     }else{//取消
                         System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
-                        return;
+                        //return;
                     }
 
                 }
@@ -324,23 +326,26 @@ public class User_Detail_Imformation extends JFrame {
 
 
                 int res=JOptionPane.showConfirmDialog(null, show_alert, "取消并推出", JOptionPane.YES_NO_OPTION);
-                if(res==JOptionPane.YES_OPTION){//确认
+                if(res==JOptionPane.YES_OPTION){//确认推出
                     //System.out.println("已检测无该id存在");
+                    //return 1;
+                    //Demo16.main();
+                    Label_1_2_noti_buy.repaintIt();
+                    //lablerepaintIt
                     user_detail_imformation.dispose();
 
 
 
 
                     //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
-                }else{//取消
+                }else{//取消推出
                     //System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
                     return;
                 }
 
             }
         });
-
-
+        //return 1;
 
     }
 

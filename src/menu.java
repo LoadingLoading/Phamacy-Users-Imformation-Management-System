@@ -18,7 +18,7 @@ public class menu {
         Action exitAction = new AbstractAction("新增"){
             public void actionPerformed(ActionEvent e){
                 //System.exit(0);
-                User_Detail_Imformation.User_Detail_Imformation(1,null);
+                User_Detail_Imformation.User_Detail_Imformation("waitToNoti",null);
             }
         };
 

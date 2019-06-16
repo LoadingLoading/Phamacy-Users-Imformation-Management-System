@@ -235,6 +235,9 @@ public class Demo16 extends JFrame {
         //getToday();
 
     }
+    public static void repaintFrame(){
+        //Frame.repaint();
+    }
 
 
 }

@@ -7,32 +7,24 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
 
+import static java.lang.Integer.parseInt;
+
 public class Label_1_2_noti_buy {
     private static DefaultTableModel tableModel;   //表格模型对象
     private static JTable table;
     private static JTextField aTextField;
     private static JTextField bTextField;
+    public static JPanel whole_frame;
 
     public static JPanel noti(JPanel jp2,String noti_buy){
 
-        JPanel whole_frame = new JPanel();
+        whole_frame = new JPanel();
+
         whole_frame.setLayout(null);
         //whole_frame.setBounds(0,0,1200,900);
 
 
-        JPanel tick_boxs = new JPanel();
-        tick_boxs.setLayout(null);
 
-        for (int i = 0; i < 100; i++) {
-            Checkbox cb = createCheckbox("选项"+(i+1));
-            cb.setBounds(0,18*i,25,18);
-            if(i>=1) {
-                tick_boxs.add(cb);
-            }
-        }
-        tick_boxs.setBackground(Color.white);
-        tick_boxs.setBounds(0,0,25,1000);
-        whole_frame.add(tick_boxs);
 
 
         String[] columnNames = {"姓名","性别","购药次数","药名","号主+号码","上次买药时间","身份证号"};
@@ -46,11 +38,33 @@ public class Label_1_2_noti_buy {
             tableVales[i][4]=getTableVales[i][4]+" "+getTableVales[i][5];
             tableVales[i][5]=getTableVales[i][0]+"不知道";
             tableVales[i][6]=getTableVales[i][3];
-
-
-
-
         }
+//在table初始化后添加动态tickbox
+        JPanel tick_boxs = new JPanel();
+        tick_boxs.setLayout(null);
+
+        for (int i = 0; i < getTableVales.length; i++) {
+            Checkbox cb = createCheckbox(i+"");
+            cb.setBounds(0,18*i+18,25,18);
+            tick_boxs.add(cb);
+            System.out.println("_________________刷新_____________");
+            if(getTableVales[i][getTableVales[i].length-1].equals("waitToBuy")){
+                cb.setState(true);
+            }
+            if(getTableVales[i][getTableVales[i].length-1].equals("waitToNoti")){
+                cb.setState(false);
+            }
+//            if(i>=1) {
+//                tick_boxs.add(cb);
+//            }
+            //cb.setState();
+        }
+
+        tick_boxs.setBackground(Color.white);
+        tick_boxs.setBounds(0,0,25,1000);
+        whole_frame.add(tick_boxs);
+        //添加tickbox完毕，继续table
+
         //String [][]tableVales={{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXXX"},{"XXX1","男","第1次","凯美纳","XXX 188 8888 8888","2019年6月20号","431226XXXXXXXX4837"},}; //数据
         tableModel = new DefaultTableModel(tableVales,columnNames);
         table = new JTable(tableModel){
@@ -81,7 +95,7 @@ public class Label_1_2_noti_buy {
                 if (clickTimes == 2) {
                     int selectedRow = table.getSelectedRow(); //获得选中行索引
                     System.out.println("表格所选身份证号为"+tableModel.getValueAt(selectedRow, 6));
-                    User_Detail_Imformation.User_Detail_Imformation(1,tableModel.getValueAt(selectedRow, 6).toString());
+                    User_Detail_Imformation.User_Detail_Imformation("waitToNoti",tableModel.getValueAt(selectedRow, 6).toString());
 
                 }
                 //int selectedRow = table.getSelectedRow(); //获得选中行索引
@@ -126,6 +140,7 @@ public class Label_1_2_noti_buy {
         //getTodayInfo();
 //        String aaaa[][]=database.searchByID("23323");
 //        System.out.println("aaaa"+aaaa[0][0]);//结果为null
+        whole_frame.repaint();
         return jp2;
     }
 
@@ -136,12 +151,26 @@ public class Label_1_2_noti_buy {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 Checkbox cb = (Checkbox)e.getSource();
+                int checkBoxSelected=parseInt(cb.getLabel());
+                String waitToBuy_userId=tableModel.getValueAt(checkBoxSelected, 6).toString();
+                //int canceled=
+                User_Detail_Imformation.User_Detail_Imformation("waitToBuy",waitToBuy_userId);
+//                if(canceled==1){
+//                    cb.setState(false);
+//                }
+                System.out.println(waitToBuy_userId);
                 System.out.println("Checkbox "+cb.getLabel()+"的选择状态："+cb.getState());
             }
         });
+
         return cb;
     }
 
+    public static void repaintIt(){
+        whole_frame.repaint();
+        System.out.println("_________________刷新_____________1");
+
+    }
     public static String[][] getTodayInfo(){
         String[][] Infos=null;
         String[] IDs=null;
