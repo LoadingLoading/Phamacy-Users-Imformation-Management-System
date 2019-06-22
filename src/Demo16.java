@@ -3,6 +3,8 @@
 import java.awt.*;
 import java.util.Calendar;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Demo16 extends JFrame {
     //public static String[] IDs=new String[100];
@@ -108,10 +110,30 @@ public class Demo16 extends JFrame {
 //        jp2.add(jcb2);
 //        jp2.add(jl5);
 
+        jp2= Label_forForm_noti_buy.noti_buy(jp2,"noti");
+
+        jtp.addChangeListener(new ChangeListener() {//添加时间监听器
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                // TODO Auto-generated method stub
+
+                int selectedIndex = jtp.getSelectedIndex();//获得被选中选项卡的索引
+                String title = jtp.getTitleAt(selectedIndex);//获得指定索引的选项卡标签
+                System.out.println(title);
+
+                if(title.equals("今日提醒")){
+                    jp2= Label_forForm_noti_buy.noti_buy(jp2,"noti");
+                }
+                if(title.equals("今日买药")){
+                    jp3= Label_forForm_noti_buy.noti_buy(jp3,"buy");
+                }
+            }
+        });
 
 
-        jp2= Label_1_2_noti_buy.noti(jp2,"noti");
-        //jp3= Label_1_2_noti_buy.noti(jp3);
+
+
 
 
 
@@ -232,6 +254,7 @@ public class Demo16 extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
         //this.Update(this.getGraphics());
 //        for(int i=0;i<=1000;i++) {
 //            this.repaint();

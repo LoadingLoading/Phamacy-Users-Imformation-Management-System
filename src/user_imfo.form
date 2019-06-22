@@ -69,6 +69,18 @@
           <text value="CheckBox"/>
         </properties>
       </component>
+      <grid id="66ba" layout-manager="GridBagLayout">
+        <constraints/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <scrollpane id="4644">
+        <constraints/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </scrollpane>
     </children>
   </grid>
 </form>

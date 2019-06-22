@@ -95,6 +95,8 @@ public class database {
                     //i++;
                 }
 
+
+
                 //System.out.println("a2");
                 Infos=new String[1][18];
                 Infos[0]=InfosNoneExtended[0];
@@ -107,6 +109,33 @@ public class database {
                 resultSet.close();
                 //statement.execute(executeIt);
             }
+
+            if(executeType.equals("searchByState")){
+                System.out.println(executeIt);
+                ResultSet resultSet = statement.executeQuery(executeIt);
+
+                int i=0;
+                String[][] InfosNoneExtended=new String[100][18];
+                while (resultSet.next()) {
+                    for(int columnIndex=1;columnIndex<19;columnIndex++){
+                        //System.out.println("a1.6");
+                        InfosNoneExtended[i][columnIndex-1]=
+                                resultSet.getString(columnIndex);
+                    }
+                    i++;
+                }
+
+
+                Infos=new String[i][18];
+                for(int j=0;j<i;j++){
+                    Infos[j]=InfosNoneExtended[j];
+                }
+
+
+                resultSet.close();
+
+            }
+
 
 
 //            String sql = "select * from table_name;";//我的表格叫home
@@ -196,6 +225,13 @@ public class database {
         System.out.println(string_searchByID);
         execute(string_searchByID,"searchByID");
         System.out.println(id+"fanhuijieguo"+Infos[0][3]);
+        return Infos;
+    }
+
+    public static String[][] searchByState(String state){
+        String string_searchByState="SELECT * from table_name WHERE state='"+state+
+                "';";
+        execute(string_searchByState,"searchByState");
         return Infos;
     }
 }

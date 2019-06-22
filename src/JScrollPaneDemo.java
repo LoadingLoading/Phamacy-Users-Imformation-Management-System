@@ -28,22 +28,26 @@ public class JScrollPaneDemo extends JFrame{
         scrollPane=new JScrollPane();
         contentPane.add(scrollPane,BorderLayout.CENTER);
         textArea=new JTextArea();
+
         //scrollPane.add(textArea);
 
         JPanel a=new JPanel();
         BoxLayout layout=new BoxLayout(a, BoxLayout.Y_AXIS);
         a.setLayout(layout);
+        //a.setLayout(null);
+
+//
+//        for (int i = 0; i < 100; i++) {
+//            Checkbox cb = createCheckbox("选项"+(i+1));
+//            cb.setBounds(0,18*i,250,18);
+//            if(i>=1) {
+//                a.add(cb);
+//            }
+//        }
+        a=User_Detail_Imformation.createJPanelOfRecord(a,1);
 
 
-        for (int i = 0; i < 100; i++) {
-            Checkbox cb = createCheckbox("选项"+(i+1));
-            cb.setBounds(0,18*i,25,18);
-            if(i>=1) {
-                a.add(cb);
-            }
-        }
-
-        a.setBackground(Color.YELLOW);
+        //a.setBackground(Color.YELLOW);
 
         scrollPane.setViewportView(a);
         a.setAutoscrolls(true);

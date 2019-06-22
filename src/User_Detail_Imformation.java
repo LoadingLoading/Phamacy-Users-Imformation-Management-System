@@ -1,12 +1,16 @@
 
 //QQ登录界面制作
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
 import javax.swing.*;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.getBoolean;
+import static java.lang.Integer.parseInt;
 import static javax.swing.BoxLayout.X_AXIS;
 import static javax.swing.SwingConstants.LEFT;
 import static javax.swing.SwingConstants.SOUTH;
@@ -50,6 +54,13 @@ public class User_Detail_Imformation extends JFrame {
     static String string_noti_time_month;
     static String string_noti_time_day;
 
+    static JLabel textfield_birthdate;
+    static JLabel textfield_age;
+
+    static JScrollPane scrollPane;
+
+    static int int_remain_height;
+
 
 
     // 北部区域
@@ -78,6 +89,10 @@ public class User_Detail_Imformation extends JFrame {
     //already_bought有三种状态 watiToNoti：等待被提醒 waitToBuy:等待买药 notBuyAnymore:不再提醒
     //取消打勾
 
+    //第二个勾的细节
+    //右边面板的动态添加，以及数据库
+
+
     public static void User_Detail_Imformation(String state,String user_id) {
         int isCanceled=0;
         String[] user_detail_info=new String[18];
@@ -87,6 +102,7 @@ public class User_Detail_Imformation extends JFrame {
             for(int i=0;i<18;i++){
             System.out.println(i+" "+user_detail_info[i]);
         }
+
         string_name=user_detail_info[1];
         string_gender=user_detail_info[2];
         string_ID=user_detail_info[3];
@@ -329,7 +345,7 @@ public class User_Detail_Imformation extends JFrame {
                     //System.out.println("已检测无该id存在");
                     //return 1;
                     //Demo16.main();
-                    Label_1_2_noti_buy.repaintIt();
+                    Label_forForm_noti_buy.repaintIt();
                     //lablerepaintIt
                     user_detail_imformation.dispose();
 
@@ -350,7 +366,9 @@ public class User_Detail_Imformation extends JFrame {
 
     public static JPanel Left(){
         JPanel b=new JPanel();
+
         b.setLayout(null);
+
         int row_number=0;
 
             JLabel label_title_left = new JLabel("基本信息");
@@ -396,6 +414,27 @@ public class User_Detail_Imformation extends JFrame {
                 textfield_ID.setEditable(false);
             }
 
+        textfield_ID.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char keyChar = e.getKeyChar();
+                if(textfield_ID.getText().length()<17){//小于17位可以输数字
+                    if(!(((keyChar >= '0' && keyChar <= '9')))){
+                        e.consume(); //缺点，不能控制赋值黏贴的内容
+                    }
+                }
+
+                if(textfield_ID.getText().length()==17){//最后一位数字或x，X
+                    if(!(((keyChar >= '0' && keyChar <= '9')||keyChar == 'x'||keyChar == 'X'))){
+                        e.consume(); //缺点，不能控制赋值黏贴的内容
+                    }
+                }
+                if(textfield_ID.getText().length()==18){//超过18位不允许输入
+                    e.consume();
+                }
+            }
+        });
+
+
         JPanel ID = new JPanel();
         ID.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         ID.add(label_ID);
@@ -405,7 +444,7 @@ public class User_Detail_Imformation extends JFrame {
         b.add(ID);
 
             JLabel label_age = new JLabel("年龄:                 ");
-            JLabel textfield_age=new JLabel("36");
+            textfield_age=new JLabel("  岁");
         JPanel age = new JPanel();
         age.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         age.add(label_age);
@@ -415,7 +454,7 @@ public class User_Detail_Imformation extends JFrame {
         b.add(age);
 
             JLabel label_birthdate = new JLabel("出生日期:          ");
-            JLabel textfield_birthdate=new JLabel("1945年5月7日");
+            textfield_birthdate=new JLabel("    年 月 日");
         JPanel birthdate = new JPanel();
         birthdate.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         birthdate.add(label_birthdate);
@@ -423,6 +462,30 @@ public class User_Detail_Imformation extends JFrame {
         birthdate.setBounds(20,20+ row_number*40,3000,40);
         row_number++;
         b.add(birthdate);
+
+        //自动设置年龄
+        textfield_ID.addKeyListener(new KeyAdapter() {
+            //键入某个键时调用此方法。
+            public void keyTyped(KeyEvent event)
+            {
+
+                char ch=event.getKeyChar();
+                if(textfield_ID.getText().length()==17){//7位开始
+                    set_age_birthdate(textfield_ID.getText());
+
+
+
+
+
+                }
+
+            }
+
+        });
+
+        if(string_ID!=null){
+            set_age_birthdate(textfield_ID.getText());
+        }
 
         //这里是电话号码，因为比较长，所以用大括号扩起来了
         {
@@ -557,10 +620,6 @@ public class User_Detail_Imformation extends JFrame {
         row_number++;
         b.add(address);
 
-
-
-
-
         return b;
     }
 
@@ -576,8 +635,8 @@ public class User_Detail_Imformation extends JFrame {
         JPanel title = new JPanel();
         title.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         title.add(label_title_left);
-        title.setBounds(20,hight,3000,80);
-        hight+=100;
+        title.setBounds(20,hight,3000,70);
+        hight+=75;
         b.add(title);
 
         JLabel label_noti = new JLabel("下次提醒:     ");
@@ -625,19 +684,126 @@ public class User_Detail_Imformation extends JFrame {
         b.add(name);
 
         JTextArea textare_record1 = new JTextArea(1,1);
-        textare_record1.setBounds(95,hight,250,100);
+        textare_record1.setBounds(95,hight,250+60,100);
         hight+=120;
         b.add(textare_record1);
 
 
 
+        JPanel panel_record_repeat=new JPanel();
+        //panel_record_repeat.setLayout(null);
 
+        BoxLayout layout=new BoxLayout(panel_record_repeat, BoxLayout.Y_AXIS);
+        panel_record_repeat.setLayout(layout);
 
+        //JPanel panel_record_substitute=new JPanel();
+        int loop_times=0;
+        for(int i=0;i<=0;i++){
+            int hight_of_record=0;
+            //JPanel panel_record_substitute=new JPanel();
+            //panel_record_substitute
+            panel_record_repeat=createJPanelOfRecord(panel_record_repeat,i);
+            //panel_record_substitute.setBounds(0,0,250,120);
+            //hight+=120;
+            //panel_record_repeat.add(panel_record_substitute);
+            //hight_of_record+=40;
+            loop_times=i;
+        }
+        /*
+        panel_record_repeat.add(Box.createVerticalStrut(int_remain_height));
+        */
+        //panel_record_repeat.add(Box.createVerticalGlue());
+        panel_record_repeat.setBounds(20,hight,390,120*loop_times);
+
+        //panel_record_repeat.setBorder(BorderStyle.None);
+        //scrollPane.add(panel_record_repeat);
+//        Checkbox cb=new Checkbox();
+//        cb.setBounds(0,18,250,18);
+//        JPanel a=new JPanel();
+//        BoxLayout layout1=new BoxLayout(a, BoxLayout.Y_AXIS);
+//        a.setLayout(layout1);
+//        a.add(cb);
+
+        scrollPane=new JScrollPane();
+        scrollPane.setViewportView(panel_record_repeat);
+        panel_record_repeat.setAutoscrolls(true);
+        scrollPane.setBounds(20,hight,390,230);
+        scrollPane.setBorder(null);
+        //scrollPane
+        //panel_record_substitute.add(panel_record_substitute)
+
+        b.add(scrollPane);
 
         return b;
     }
 
+    public static JPanel createJPanelOfRecord(JPanel panel_record_forLoop,int i){
+
+        int hight_create_record=0;
+        JPanel panel_create_record_X = new JPanel();
+        // 设置 bottomPanel 为垂直布局
+        panel_create_record_X .setLayout(new BoxLayout(panel_create_record_X,BoxLayout.X_AXIS ));
+
+        JPanel panel_create_record_textarea = new JPanel();
+        // 设置 bottomPanel 为垂直布局
+        panel_create_record_textarea .setLayout(new BoxLayout(panel_create_record_textarea,BoxLayout.X_AXIS ));
+        //JPanel panel_record = new JPanel();
+        JLabel label_record = new JLabel("第1次买药:  2019年6月11日");
+        //label_record.setHorizontalAlignment(SwingConstants.RIGHT);
 
 
+        JTextArea textarea_record = new JTextArea(3,20);
+        textarea_record.setLineWrap(true);
 
+        //panel_record.setLayout(null);
+        //label_record.setBounds(0,hight_create_record+i*120,20, 40);
+
+        //textarea_record.setBounds(100,hight_create_record+i*120+40,250,40);
+
+
+        panel_create_record_X.add(label_record);
+        panel_create_record_X.add(Box.createHorizontalGlue());
+
+        panel_create_record_textarea.add(Box.createHorizontalStrut(75));
+        panel_create_record_textarea.add(textarea_record);
+
+        panel_record_forLoop.add(panel_create_record_X);
+        panel_record_forLoop.add(Box.createVerticalStrut(5));
+        panel_record_forLoop.add(panel_create_record_textarea);
+        panel_record_forLoop.add(Box.createVerticalStrut(20));
+
+        //panel_record_forLoop.add(Box.createVerticalStrut(230-5-20-40-textarea_record.getHeight()-25));
+        //panel_record_forLoop.add(Box.createVerticalStrut(230-(textarea_record.getX()+textarea_record.getHeight())-90));
+        int_remain_height=230-(textarea_record.getX()+textarea_record.getHeight())-90;
+//        panel_record_temporary.setBounds(100,hight_create_record+i*120+40,250,4000);
+//        panel_record_forLoop.add(panel_record_temporary);
+        //panel_record_forLoop.add(Box.createVerticalGlue());
+
+        return panel_record_forLoop;
+    }
+    public static void set_age_birthdate(String idForAgeBirthdate){
+            String string_textfield_id=textfield_ID.getText();
+            String birth_year = string_textfield_id.substring(6,10);
+            String birth_month = string_textfield_id.substring(10,12);
+            String birth_day = string_textfield_id.substring(12,14);
+            String birth_date = birth_year +"年" +birth_month+"月"+birth_day+"日";
+            textfield_birthdate.setText(birth_date);
+
+            int y,m,d;
+            Calendar cal=Calendar.getInstance();
+            y=cal.get(Calendar.YEAR);
+            m=cal.get(Calendar.MONTH)+1;
+            d=cal.get(Calendar.DATE);
+
+            int age=y-parseInt(birth_year);
+
+            if(parseInt(birth_month)==m){
+                if(parseInt(birth_day)<d){
+                    age-=1;
+                }
+            }else if(parseInt(birth_month)<m){
+                age-=1;
+            }
+            textfield_age.setText(age+"");
+    }
 }

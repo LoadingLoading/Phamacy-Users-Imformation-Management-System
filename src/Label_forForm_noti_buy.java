@@ -9,15 +9,16 @@ import java.util.Calendar;
 
 import static java.lang.Integer.parseInt;
 
-public class Label_1_2_noti_buy {
+public class Label_forForm_noti_buy {
     private static DefaultTableModel tableModel;   //表格模型对象
     private static JTable table;
     private static JTextField aTextField;
     private static JTextField bTextField;
     public static JPanel whole_frame;
     public static JPanel tick_boxs;
+    public static String[][] getTableVales;
 
-    public static JPanel noti(JPanel jp2,String noti_buy){
+    public static JPanel noti_buy(JPanel jp2,String noti_buy){
 
         whole_frame = new JPanel();
 
@@ -26,26 +27,52 @@ public class Label_1_2_noti_buy {
 
 
 
+        String[] columnNames=null;
+        if(noti_buy.equals("noti")){
+            String[] columnNamesForNoti = {"姓名","性别","购药次数","药名","号主+号码","上次买药时间","身份证号"};
+            columnNames=columnNamesForNoti;
+        }else if(noti_buy.equals("buy")){
+            String[] columnNamesForBuy = {"离已致电天数","姓名","性别","购药次数","药名","号主+号码","上次买药时间","身份证号"};
+            columnNames=columnNamesForBuy;
+        }
 
+        getTableVales=null;
+        String[][] tableVales=null;
 
-        String[] columnNames = {"姓名","性别","购药次数","药名","号主+号码","上次买药时间","身份证号"};
-        String[][] getTableVales=getTodayInfo();
-        String[][] tableVales=new String[getTableVales.length][7];
-        for(int i=0;i<getTableVales.length;i++){
-            tableVales[i][0]=getTableVales[i][1];
-            tableVales[i][1]=getTableVales[i][2];
-            tableVales[i][2]=getTableVales[i][0]+"不知道";
-            tableVales[i][3]=getTableVales[i][10];
-            tableVales[i][4]=getTableVales[i][4]+" "+getTableVales[i][5];
-            tableVales[i][5]=getTableVales[i][0]+"不知道";
-            tableVales[i][6]=getTableVales[i][3];
+        if(noti_buy.equals("noti")) {
+            getTableVales = getTodayInfo();
+            tableVales = new String[getTableVales.length][7];
+            for (int i = 0; i < getTableVales.length; i++) {
+                tableVales[i][0] = getTableVales[i][1];
+                tableVales[i][1] = getTableVales[i][2];
+                tableVales[i][2] = getTableVales[i][0] + "不知道";
+                tableVales[i][3] = getTableVales[i][10];
+                tableVales[i][4] = getTableVales[i][4] + " " + getTableVales[i][5];
+                tableVales[i][5] = getTableVales[i][0] + "不知道";
+                tableVales[i][6] = getTableVales[i][3];
+            }
+        }else if(noti_buy.equals("buy")){
+            getTableVales = database.searchByState("waitToBuy");
+            tableVales = new String[getTableVales.length][8];
+            for (int i = 0; i < getTableVales.length; i++) {
+
+                tableVales[i][0] = "未实现";
+                tableVales[i][1] = getTableVales[i][1];
+                tableVales[i][2] = getTableVales[i][2];
+                tableVales[i][3] = getTableVales[i][0] + "不知道";
+
+                tableVales[i][4] = getTableVales[i][10];
+                tableVales[i][5] = getTableVales[i][4] + " " + getTableVales[i][5];
+                tableVales[i][6] = getTableVales[i][0] + "不知道";
+                tableVales[i][7] = getTableVales[i][3];
+            }
         }
 //在table初始化后添加动态tickbox
         tick_boxs = new JPanel();
         tick_boxs.setLayout(null);
 
         for (int i = 0; i < getTableVales.length; i++) {
-            Checkbox cb = createCheckbox(i+"");
+            Checkbox cb = createCheckbox(i+"",noti_buy);
             cb.setBounds(0,18*i+18,25,18);
             tick_boxs.add(cb);
             System.out.println("_________________刷新_____________");
@@ -54,6 +81,9 @@ public class Label_1_2_noti_buy {
             }
             if(getTableVales[i][getTableVales[i].length-1].equals("waitToNoti")){
                 cb.setState(false);
+            }
+            if(noti_buy.equals("buy")){//如果在今日买药界面，则相反
+                cb.setState(!cb.getState());
             }
 //            if(i>=1) {
 //                tick_boxs.add(cb);
@@ -64,6 +94,7 @@ public class Label_1_2_noti_buy {
 
 
         //tick_boxs
+
         tick_boxs.setBackground(Color.white);
         tick_boxs.setBounds(0,0,25,1000);
         whole_frame.add(tick_boxs);
@@ -84,6 +115,7 @@ public class Label_1_2_noti_buy {
 
         table.setRowHeight(18);
 
+
            //支持滚动
         //getContentPane().add(scrollPane,BorderLayout.CENTER);
         //jdk1.6
@@ -98,9 +130,9 @@ public class Label_1_2_noti_buy {
                 int clickTimes = e.getClickCount();
                 if (clickTimes == 2) {
                     int selectedRow = table.getSelectedRow(); //获得选中行索引
-                    System.out.println("表格所选身份证号为"+tableModel.getValueAt(selectedRow, 6));
-                    User_Detail_Imformation.User_Detail_Imformation("waitToNoti",tableModel.getValueAt(selectedRow, 6).toString());
+                    System.out.println("表格所选身份证号为"+getTableVales[selectedRow][3]);
 
+                    User_Detail_Imformation.User_Detail_Imformation("waitToNoti",getTableVales[selectedRow][3]);
                 }
                 //int selectedRow = table.getSelectedRow(); //获得选中行索引
 //                Object oa = tableModel.getValueAt(selectedRow, 6);
@@ -135,9 +167,10 @@ public class Label_1_2_noti_buy {
         //getContentPane().add(jp2,BorderLayout.SOUTH);
         //JScrollPane jsp=new JScrollPane(whole_frame);
         jp2.setLayout(new GridLayout(1,1));
-
+        jp2.removeAll();
         //jsp.setBounds(0,0,1200,700);
         jp2.add(scrollPane1);
+
         //jp2.add(scrollPane);
         //JScrollPane scrollPane1 = new JScrollPane(jp2);
         //scrollPane1.setViewportView(jp2);
@@ -148,7 +181,7 @@ public class Label_1_2_noti_buy {
         return jp2;
     }
 
-    private static Checkbox createCheckbox(String label) {
+    private static Checkbox createCheckbox(String label,String noti_buy) {
         Checkbox cb = new Checkbox(label);
         //cb.addItemListener(User_Detail_Imformation.jb2);
         //给Checkbox对象注册事件监听，也可以去监听其它事件，比如鼠标事件什么的
@@ -159,10 +192,16 @@ public class Label_1_2_noti_buy {
 
                 Checkbox cb = (Checkbox)e.getSource();
                 int checkBoxSelected=parseInt(cb.getLabel());
-                if(cb.getState()==false){//如果本来没有打勾，打勾是为了变成
-                    changeState="waitToBuy";
-                }else if(cb.getState()==true){//本来打了勾，取消打勾
+                boolean stateAfterClick=cb.getState();
+                if(noti_buy.equals("buy")){//如果是第二个界面就是相反的
+                    stateAfterClick=!stateAfterClick;
+                }
+                if(!stateAfterClick){//如果本来没有打勾，打勾是为了变成
+                    //点了以后会先变成false，原来是true，原来是打勾，原来是buy
                     changeState="waitToNoti";
+                }else if(stateAfterClick){//本来打了勾，取消打勾
+                    //相反点
+                    changeState="waitToBuy";
                 }
                 String waitToBuy_userId=tableModel.getValueAt(checkBoxSelected, 6).toString();
                 //int canceled=
@@ -203,8 +242,6 @@ public class Label_1_2_noti_buy {
                     Checkbox btn = (Checkbox)comp;
                     btn.setState(true);
                 }
-
-
             }
 
         }
@@ -245,6 +282,8 @@ public class Label_1_2_noti_buy {
 
         return Infos;
     }
+
+
 
     public static String[] getTodayID(){
         String[] IDs=null;
