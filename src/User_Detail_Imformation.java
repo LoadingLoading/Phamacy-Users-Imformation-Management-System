@@ -61,6 +61,11 @@ public class User_Detail_Imformation extends JFrame {
 
     static int int_remain_height;
 
+    static JTextField textfield_times;
+    static JTextArea textare_record1;
+
+    static String[] string_new_record;//7
+    static String[][] string_history_record;//n 8
 
 
     // 北部区域
@@ -278,23 +283,45 @@ public class User_Detail_Imformation extends JFrame {
                 }
 
 
+                String times = textfield_times.getText();
+                if(name.equals("")){
+                    nullItems+="购药次数 ";
+                }
 
-                if(!nullItems.equals("")){
+                int y,m,d;
+                Calendar cal=Calendar.getInstance();
+                y=cal.get(Calendar.YEAR);
+                m=cal.get(Calendar.MONTH)+1;
+                d=cal.get(Calendar.DATE);
+
+                string_new_record=new String[7];
+                string_new_record[0]=ID;//id
+                string_new_record[1]=y+"";//year
+                string_new_record[2]=m+"";//month
+                string_new_record[3]=d+"";//day
+                string_new_record[4]=times;//times
+                string_new_record[5]="new";//noti_buy
+                string_new_record[6]=textare_record1.getText();//record
+
+
+                if(!nullItems.equals("")){//未正确填写信息
                     JOptionPane.showMessageDialog(null, "请正确填写 "+nullItems, "未补全信息", JOptionPane.ERROR_MESSAGE);
                 }else if(user_id==null){//新增
                     String[] checkIdExist=database.searchByID(ID)[0];//搜索id，如无返回null
                     System.out.println("检测id是否存在"+checkIdExist[3]);
-                    if(checkIdExist[3]==null){//id不存在，可以新增
 
+                    if(checkIdExist[3]==null){//id不存在，可以新增
                         int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存新增用户并退出", "确认保存", JOptionPane.YES_NO_OPTION);
                         if(res==JOptionPane.YES_OPTION){//确认
                             System.out.println("已检测无该id存在");
-                            //System.out.println(name+gender+ID+medical);
+
+                            //excute to table_name
                             database.insert(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
+
+                            //excute to table_record
+                            database.insertRecord(string_new_record);
+
                             user_detail_imformation.dispose();
-
-
-
                             //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
                         }else{//取消
                             //System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
@@ -302,7 +329,7 @@ public class User_Detail_Imformation extends JFrame {
                         }
 
 
-                    }else{
+                    }else{//id已经存在，无法新增
                         JOptionPane.showMessageDialog(null, "该身份证已经存在"+nullItems, "无法储存", JOptionPane.ERROR_MESSAGE);
                     }
 
@@ -664,7 +691,7 @@ public class User_Detail_Imformation extends JFrame {
         b.add(noti);
 
         JLabel label_times = new JLabel("购药次数:     ");
-        JTextField textfield_times= new JTextField("",5);
+        textfield_times = new JTextField("",5);
         JPanel times = new JPanel();
         times.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         times.add(label_times);
@@ -683,7 +710,7 @@ public class User_Detail_Imformation extends JFrame {
         hight+=30;
         b.add(name);
 
-        JTextArea textare_record1 = new JTextArea(1,1);
+        textare_record1 = new JTextArea(1,1);
         textare_record1.setBounds(95,hight,250+60,100);
         hight+=120;
         b.add(textare_record1);
