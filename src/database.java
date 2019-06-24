@@ -12,6 +12,8 @@ public class database {
     static String[] IDs;//=new String[100];
     static String[][] Infos;
     public static void execute(String executeIt,String executeType) {
+        System.out.println("操作语句为："+executeIt+" 操作类型为："+executeType);
+
         Connection con;
         String driver="com.mysql.jdbc.Driver";
         //这里我的数据库是qcl
@@ -36,15 +38,12 @@ public class database {
 
             //System.out.println(name+gender+id+medical);
             if(executeType.equals("insert")){
-                System.out.println(executeIt);
                 statement.execute(executeIt);
             }
             if(executeType.equals("update")){
-                System.out.println(executeIt);
                 statement.execute(executeIt);
             }
             if(executeType.equals("searchByDate")){
-                System.out.println(executeIt);
                 ResultSet resultSet = statement.executeQuery(executeIt);
                 String ids;
                 int i=0;
@@ -69,7 +68,6 @@ public class database {
             }
 
             if(executeType.equals("searchByID")){
-                System.out.println(executeIt);
                 ResultSet resultSet = statement.executeQuery(executeIt);
                 //System.out.println("a0");
                 //String ids;
@@ -111,7 +109,6 @@ public class database {
             }
 
             if(executeType.equals("searchByState")){
-                System.out.println(executeIt);
                 ResultSet resultSet = statement.executeQuery(executeIt);
 
                 int i=0;
@@ -124,29 +121,36 @@ public class database {
                     }
                     i++;
                 }
-
-
                 Infos=new String[i][18];
                 for(int j=0;j<i;j++){
                     Infos[j]=InfosNoneExtended[j];
                 }
-
-
                 resultSet.close();
-
             }
 
+            if(executeType.equals("searchByID_record")){
+                ResultSet resultSet = statement.executeQuery(executeIt);
+                int i=0;
+                String[][] InfosNoneExtended=new String[1000][18];
+                while (resultSet.next()) {
 
+                    for(int columnIndex=0;columnIndex<8;columnIndex++){
+                        InfosNoneExtended[i][columnIndex]=
+                                resultSet.getString(columnIndex);
+                        i++;
+                    }
 
-//            String sql = "select * from table_name;";//我的表格叫home
-//            ResultSet resultSet = statement.executeQuery(sql);
-//
-//            String name;
-//            while (resultSet.next()) {
-//                name = resultSet.getString("name");
-//                System.out.println("姓名：" + name);
-//            }
-//            resultSet.close();
+                }
+                //change Infos to return
+                Infos=new String[i][8];
+                for (int j = 0; j < i; j++) {
+                    Infos[j]=InfosNoneExtended[j];
+
+                }
+                resultSet.close();
+            }
+
+            //end
             con.close();
 
         } catch (ClassNotFoundException e) {
@@ -224,7 +228,7 @@ public class database {
         //execute(string_searchByDate);
         System.out.println(string_searchByID);
         execute(string_searchByID,"searchByID");
-        System.out.println(id+"fanhuijieguo"+Infos[0][3]);
+        System.out.println(id+"所查询的结果之一："+Infos[0][3]);
         return Infos;
     }
 
@@ -234,4 +238,47 @@ public class database {
         execute(string_searchByState,"searchByState");
         return Infos;
     }
+
+    public static void insertRecord(String[] insertInfo){
+        String string_insertRecord="INSERT INTO `users_info`.`table_record` (`id`, `year`, `month`, `day`, `times`, `noti_buy`, `record`) VALUES (";
+        for(int i=0;i<insertInfo.length;i++){
+            string_insertRecord=string_insertRecord+"'"+insertInfo[i]+"',";
+        }
+        string_insertRecord = string_insertRecord.substring(0,string_insertRecord.length() - 1);
+        string_insertRecord = string_insertRecord+");";
+        System.out.println("现在插入历史记录，语句为： "+string_insertRecord);
+        execute(string_insertRecord,"insert");
+    }
+
+    public static void updateRecord(String[] updateInfo,int numbers){
+        String string_updateRecord="UPDATE `users_info`.`table_record` t SET t.`id` = '" +
+                updateInfo[0] +
+                "', t.`year` = '" +
+                updateInfo[1] +
+                "', t.`month` = '" +
+                updateInfo[2] +
+                "', t.`day` = '" +
+                updateInfo[3] +
+                "', t.`times` = '" +
+                updateInfo[4]+
+                "', t.`noti_buy` = '" +
+                updateInfo[5] +
+                "', t.`record` = '" +
+                updateInfo[6] +
+                "' WHERE t.`numbers` = " +
+                numbers+
+                ";";
+            System.out.println("现在更新历史记录，语句为： "+string_updateRecord);
+            execute(string_updateRecord,"update");
+    }
+
+    public static String[][] searchRecord(String id){
+        String string_searchByID="SELECT * from table_record WHERE id='"+id+
+                "';";
+        System.out.println(string_searchByID);
+        execute(string_searchByID,"searchByID_record");
+        System.out.println(id+"作为id的数据库的查询结果为： "+Infos[0][3]);
+        return Infos;
+    }
+
 }

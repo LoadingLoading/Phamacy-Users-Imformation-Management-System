@@ -156,9 +156,6 @@ public class Label_forForm_noti_buy {
 
         whole_frame.add(scrollPane);
 
-
-
-
         JScrollPane scrollPane1 = new JScrollPane(whole_frame);
 //        scrollPane.setViewportView(whole_frame);
 //        JScrollPane scrollPane1 = new JScrollPane();
