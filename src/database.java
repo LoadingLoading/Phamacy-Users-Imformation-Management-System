@@ -129,24 +129,38 @@ public class database {
             }
 
             if(executeType.equals("searchByID_record")){
+                //System.out.println("a1");
                 ResultSet resultSet = statement.executeQuery(executeIt);
+                //System.out.println("a2");
                 int i=0;
+
                 String[][] InfosNoneExtended=new String[1000][18];
                 while (resultSet.next()) {
+                    //InfosNoneExtended[i][0]="0";
+                            //resultSet.getString(0);
 
                     for(int columnIndex=0;columnIndex<8;columnIndex++){
+
+                        System.out.println("InfosNoneExtended["+i+"]"+"["+columnIndex+"]的数据为"+resultSet.getString(columnIndex+1));
                         InfosNoneExtended[i][columnIndex]=
-                                resultSet.getString(columnIndex);
-                        i++;
+                                resultSet.getString(columnIndex+1);
+
+                        //System.out.println("a5");
                     }
+                    i++;
+                    //System.out.println("a6");
 
                 }
                 //change Infos to return
+                //System.out.println("a7");
                 Infos=new String[i][8];
                 for (int j = 0; j < i; j++) {
+                    //System.out.println("a8");
                     Infos[j]=InfosNoneExtended[j];
 
                 }
+                //System.out.println("i为"+i);
+
                 resultSet.close();
             }
 
@@ -241,7 +255,7 @@ public class database {
 
     public static void insertRecord(String[] insertInfo){
         String string_insertRecord="INSERT INTO `users_info`.`table_record` (`id`, `year`, `month`, `day`, `times`, `noti_buy`, `record`) VALUES (";
-        for(int i=0;i<insertInfo.length;i++){
+        for(int i=1;i<insertInfo.length;i++){
             string_insertRecord=string_insertRecord+"'"+insertInfo[i]+"',";
         }
         string_insertRecord = string_insertRecord.substring(0,string_insertRecord.length() - 1);
@@ -252,19 +266,19 @@ public class database {
 
     public static void updateRecord(String[] updateInfo,int numbers){
         String string_updateRecord="UPDATE `users_info`.`table_record` t SET t.`id` = '" +
-                updateInfo[0] +
-                "', t.`year` = '" +
                 updateInfo[1] +
-                "', t.`month` = '" +
+                "', t.`year` = '" +
                 updateInfo[2] +
-                "', t.`day` = '" +
+                "', t.`month` = '" +
                 updateInfo[3] +
+                "', t.`day` = '" +
+                updateInfo[4] +
                 "', t.`times` = '" +
-                updateInfo[4]+
+                updateInfo[5]+
                 "', t.`noti_buy` = '" +
-                updateInfo[5] +
-                "', t.`record` = '" +
                 updateInfo[6] +
+                "', t.`record` = '" +
+                updateInfo[7] +
                 "' WHERE t.`numbers` = " +
                 numbers+
                 ";";
@@ -272,12 +286,13 @@ public class database {
             execute(string_updateRecord,"update");
     }
 
-    public static String[][] searchRecord(String id){
+    public static String[][] searchRecord(String id){//this method will return a String[i][8]
+        //0 is the new one, 1 is the first record of noti, 2 is the first record of buy
         String string_searchByID="SELECT * from table_record WHERE id='"+id+
                 "';";
         System.out.println(string_searchByID);
         execute(string_searchByID,"searchByID_record");
-        System.out.println(id+"作为id的数据库的查询结果为： "+Infos[0][3]);
+        //System.out.println("searchRecord:"+id+"作为id的数据库的查询结果为: 长度为 Infos["+Infos.length+"]["+Infos[0].length+"]");
         return Infos;
     }
 

@@ -131,8 +131,13 @@ public class Label_forForm_noti_buy {
                 if (clickTimes == 2) {
                     int selectedRow = table.getSelectedRow(); //获得选中行索引
                     System.out.println("表格所选身份证号为"+getTableVales[selectedRow][3]);
+                    if(noti_buy.equals("buy")){//如果是第二个界面就是相反的
+                        User_Detail_Imformation.User_Detail_Imformation("waitToBuy",getTableVales[selectedRow][3]);
+                    }
+                    if(noti_buy.equals("noti")){//如果是第二个界面就是相反的
+                        User_Detail_Imformation.User_Detail_Imformation("waitToNoti",getTableVales[selectedRow][3]);
+                    }
 
-                    User_Detail_Imformation.User_Detail_Imformation("waitToNoti",getTableVales[selectedRow][3]);
                 }
                 //int selectedRow = table.getSelectedRow(); //获得选中行索引
 //                Object oa = tableModel.getValueAt(selectedRow, 6);
@@ -190,8 +195,10 @@ public class Label_forForm_noti_buy {
                 Checkbox cb = (Checkbox)e.getSource();
                 int checkBoxSelected=parseInt(cb.getLabel());
                 boolean stateAfterClick=cb.getState();
+                int column_table_ticked=6;
                 if(noti_buy.equals("buy")){//如果是第二个界面就是相反的
                     stateAfterClick=!stateAfterClick;
+                    column_table_ticked=7;
                 }
                 if(!stateAfterClick){//如果本来没有打勾，打勾是为了变成
                     //点了以后会先变成false，原来是true，原来是打勾，原来是buy
@@ -200,7 +207,7 @@ public class Label_forForm_noti_buy {
                     //相反点
                     changeState="waitToBuy";
                 }
-                String waitToBuy_userId=tableModel.getValueAt(checkBoxSelected, 6).toString();
+                String waitToBuy_userId=tableModel.getValueAt(checkBoxSelected, column_table_ticked).toString();
                 //int canceled=
                 User_Detail_Imformation.User_Detail_Imformation(changeState,waitToBuy_userId);
 //                if(canceled==1){

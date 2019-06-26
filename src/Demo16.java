@@ -110,9 +110,9 @@ public class Demo16 extends JFrame {
 //        jp2.add(jcb2);
 //        jp2.add(jl5);
 
-        jp2= Label_forForm_noti_buy.noti_buy(jp2,"noti");
+        jp2= Label_forForm_noti_buy.noti_buy(jp2,"noti");//第一个页面
 
-        jtp.addChangeListener(new ChangeListener() {//添加时间监听器
+        jtp.addChangeListener(new ChangeListener() {//可以每点一下就刷新，
 
             @Override
             public void stateChanged(ChangeEvent e) {

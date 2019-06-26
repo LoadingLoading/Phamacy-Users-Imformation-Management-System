@@ -4096,7 +4096,7 @@
     </column>
     <column id="927" parent="292" name="record">
       <Position>8</Position>
-      <DataType>varchar(20)|0s</DataType>
+      <DataType>varchar(20000)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="928" parent="292" name="table_record_numbers_uindex">

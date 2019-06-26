@@ -64,8 +64,13 @@ public class User_Detail_Imformation extends JFrame {
     static JTextField textfield_times;
     static JTextArea textare_record1;
 
-    static String[] string_new_record;//7
+    static String[] string_first_record;//8
+    static String[] string_new_record;//8
     static String[][] string_history_record;//n 8
+
+    static JTextArea textarea_final_record;
+
+    static String string_state;
 
 
     // 北部区域
@@ -96,15 +101,26 @@ public class User_Detail_Imformation extends JFrame {
 
     //第二个勾的细节
     //右边面板的动态添加，以及数据库
+    static String user_id_static;
+    static String state_static;
 
 
     public static void User_Detail_Imformation(String state,String user_id) {
+        user_id_static=user_id;
+        state_static=state;
+        //string_state是现在搜索到的state，state是传递的state，将要改变的state
+        //this method be used three times,"waitToNoti" or "waitToBuy" will be used as state
+        //waitToNoti will be used by the first page, changestate(this may be waitToNoti or waitToBuy) will be used when change the page, waitToNoti will be used for the new page
+        //state will be used in this method while the checkbox is ticked, and the state will be transfer to update database
+        //differeniate this method called by "create new one" or "browse the exsited one" by the user_id is null or not
+        //新增 和 查看界面点出来的区别靠 user_id来区别
+
         int isCanceled=0;
         String[] user_detail_info=new String[18];
 
         //通过表格点击传递的id得到该用户的详细信息，储存在static的变量里，供给面板信息用
         user_detail_info=database.searchByID(user_id)[0];
-            for(int i=0;i<18;i++){
+        for(int i=0;i<18;i++){
             System.out.println(i+" "+user_detail_info[i]);
         }
 
@@ -126,6 +142,8 @@ public class User_Detail_Imformation extends JFrame {
         string_noti_time_year=user_detail_info[14];
         string_noti_time_month=user_detail_info[15];
         string_noti_time_day=user_detail_info[16];
+
+        string_state=user_detail_info[17];
 
 
         //以下为布局
@@ -294,14 +312,15 @@ public class User_Detail_Imformation extends JFrame {
                 m=cal.get(Calendar.MONTH)+1;
                 d=cal.get(Calendar.DATE);
 
-                string_new_record=new String[7];
-                string_new_record[0]=ID;//id
-                string_new_record[1]=y+"";//year
-                string_new_record[2]=m+"";//month
-                string_new_record[3]=d+"";//day
-                string_new_record[4]=times;//times
-                string_new_record[5]="new";//noti_buy
-                string_new_record[6]=textare_record1.getText();//record
+                string_first_record=new String[8];
+                string_first_record[0]=null;
+                string_first_record[1]=ID;//id
+                string_first_record[2]=y+"";//year
+                string_first_record[3]=m+"";//month
+                string_first_record[4]=d+"";//day
+                string_first_record[5]=times;//times
+                string_first_record[6]="new";//noti_buy
+                string_first_record[7]=textare_record1.getText();//record
 
 
                 if(!nullItems.equals("")){//未正确填写信息
@@ -319,7 +338,7 @@ public class User_Detail_Imformation extends JFrame {
                             database.insert(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
 
                             //excute to table_record
-                            database.insertRecord(string_new_record);
+                            database.insertRecord(string_first_record);
 
                             user_detail_imformation.dispose();
                             //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
@@ -336,7 +355,24 @@ public class User_Detail_Imformation extends JFrame {
                 }else if(user_id!=null){//修改
                     int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存修改并退出", "确认保存", JOptionPane.YES_NO_OPTION);
                     if(res==JOptionPane.YES_OPTION){//确认
+                        //edit on table_name
                         database.update(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day,state);
+
+                        //edit the table_record(actully its insert a new record or update if it has been inserted once)
+                        string_new_record[7]=textarea_final_record.getText();
+                        //第一次插入，判定第几次买药或提醒 来看唯一性
+                        //相同应该是不是第一次插入？
+                        //ture 为已经添加
+                        //不是第一次插入，只要更新就行，根据最后一个就可以了
+                        if((string_state.equals("waitToNoti")&&string_history_record[string_history_record.length - 1][6].equals("noti"))||(string_state.equals("waitToBuy")&&string_history_record[string_history_record.length - 1][6].equals("buy"))){
+                            database.updateRecord(string_new_record, Integer.parseInt(string_history_record[string_history_record.length - 1][0]));
+
+                        }else {
+                            database.insertRecord(string_new_record);
+
+                        }
+
+
                         user_detail_imformation.dispose();
 
 
@@ -499,11 +535,6 @@ public class User_Detail_Imformation extends JFrame {
                 char ch=event.getKeyChar();
                 if(textfield_ID.getText().length()==17){//7位开始
                     set_age_birthdate(textfield_ID.getText());
-
-
-
-
-
                 }
 
             }
@@ -651,6 +682,11 @@ public class User_Detail_Imformation extends JFrame {
     }
 
     public static JPanel Right(){
+        string_history_record=null;
+        if(!(string_ID==null)) {
+            string_history_record = database.searchRecord(string_ID);
+        }
+
         JPanel b=new JPanel();
         b.setLayout(null);
         int hight=20;
@@ -670,6 +706,18 @@ public class User_Detail_Imformation extends JFrame {
         textfield_noti_time_year=new JTextField("",5);
         textfield_noti_time_month=new JTextField("",3);
         textfield_noti_time_day=new JTextField("",3);
+        System.out.println("aaa"+string_noti_time_year+" "+string_state+" "+state_static);
+        //设置下次提醒的年月日的text 以及不能编辑
+        if(user_id_static!=null) {//不为空
+            if (string_state.equals("waitToNoti")||(string_state.equals("waitToBuy")&&state_static.equals("waitToBuy"))) {//两种情况，打电话，买并且不是在打勾
+                textfield_noti_time_year.setText(string_noti_time_year);
+                textfield_noti_time_month.setText(string_noti_time_month);
+                textfield_noti_time_day.setText(string_noti_time_day);
+                textfield_noti_time_year.setEditable(false);
+                textfield_noti_time_month.setEditable(false);
+                textfield_noti_time_day.setEditable(false);
+            }
+        }
 
         JLabel label_noti_time_year=new JLabel("年");
         JLabel label_noti_time_month=new JLabel("月");
@@ -685,13 +733,23 @@ public class User_Detail_Imformation extends JFrame {
         noti.add(textfield_noti_time_day);
         noti.add(label_noti_time_day);
         //oti.add();
-
         noti.setBounds(20,hight,3000,40);
         hight+=40;
         b.add(noti);
 
+
         JLabel label_times = new JLabel("购药次数:     ");
         textfield_times = new JTextField("",5);
+        if(user_id_static!=null) {
+            //if (!string_history_record[string_history_record.length - 1][6].equals("new")) {
+                textfield_times.setText(string_history_record[string_history_record.length - 1][5]);
+                textfield_times.setEditable(false);
+            //}
+        }
+//        if(!string_ID.equals("")){
+//            textfield_times.setText(string_history_record);
+//
+//        }
         JPanel times = new JPanel();
         times.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         times.add(label_times);
@@ -701,7 +759,17 @@ public class User_Detail_Imformation extends JFrame {
         b.add(times);
 
         JLabel label_record1 = new JLabel("概况:           ");
-        JLabel label_record1_time=new JLabel("2019年5月30号");
+        String overview_year="";
+        String overview_month="";
+        String overview_day="";
+        if(!user_id_static.equals("")){
+            overview_year=string_history_record[0][2];
+            overview_month=string_history_record[0][3];
+            overview_day=string_history_record[0][4];
+        }
+        String overview_time = overview_year + "年" + overview_month + "月" + overview_day + "号";
+        JLabel label_record1_time = new JLabel("");
+        label_record1_time.setText(overview_time);
         JPanel name = new JPanel();
         name.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         name.add(label_record1);
@@ -712,6 +780,12 @@ public class User_Detail_Imformation extends JFrame {
 
         textare_record1 = new JTextArea(1,1);
         textare_record1.setBounds(95,hight,250+60,100);
+        if(user_id_static!=null) {
+            //if (!string_history_record[string_history_record.length - 1][6].equals("new")) {
+            textare_record1.setText(string_history_record[0][7]);
+            textare_record1.setEditable(false);
+            //}
+        }
         hight+=120;
         b.add(textare_record1);
 
@@ -724,17 +798,68 @@ public class User_Detail_Imformation extends JFrame {
         panel_record_repeat.setLayout(layout);
 
         //JPanel panel_record_substitute=new JPanel();
+        //string_history_record=new String[database.searchRecord(string_ID).length][8];
+
         int loop_times=0;
-        for(int i=0;i<=0;i++){
-            int hight_of_record=0;
-            //JPanel panel_record_substitute=new JPanel();
-            //panel_record_substitute
-            panel_record_repeat=createJPanelOfRecord(panel_record_repeat,i);
-            //panel_record_substitute.setBounds(0,0,250,120);
-            //hight+=120;
-            //panel_record_repeat.add(panel_record_substitute);
-            //hight_of_record+=40;
-            loop_times=i;
+        if(user_id_static!=null) {
+            int y, m, d;
+            Calendar cal = Calendar.getInstance();
+            y = cal.get(Calendar.YEAR);
+            m = cal.get(Calendar.MONTH) + 1;
+            d = cal.get(Calendar.DATE);
+
+            string_new_record = new String[8];
+            string_new_record[0] = null;//null
+            string_new_record[1] = user_id_static;//id
+            string_new_record[2] = y + "";//year
+            string_new_record[3] = m + "";//month
+            string_new_record[4] = d + "";//day
+            /*
+             * asdfasdf
+             * */
+            string_new_record[5] = string_history_record[string_history_record.length - 1][5];//times
+            string_new_record[6] = "buy";//noti_buy
+
+            string_new_record[7] = "";//record
+
+            if (string_history_record[string_history_record.length - 1][6].equals("buy")) {
+                string_new_record[5] = (Integer.parseInt(string_new_record[5]) + 1) + "";//times +1
+                string_new_record[6] = "noti";
+            }
+            if(string_history_record[string_history_record.length - 1][6].equals("new")){
+                string_new_record[6] = "noti";
+            }
+
+            int length_string_history_record=string_history_record.length;
+            System.out.println("asdf"+string_new_record[5]);
+
+            //判定是否添加新的一次进入数据库record, true 就是已经添加
+            if((string_state.equals("waitToNoti")&&string_history_record[string_history_record.length - 1][6].equals("noti"))||(string_state.equals("waitToBuy")&&string_history_record[string_history_record.length - 1][6].equals("buy"))){
+                length_string_history_record-=1;
+                string_new_record[5] = string_history_record[string_history_record.length - 1][5];//times
+                string_new_record[6] = string_history_record[string_history_record.length - 1][6];//noti_buy
+                string_new_record[7]=string_history_record[string_history_record.length - 1][7];//record
+            }
+
+            for (int i = 1; i < length_string_history_record; i++) {
+                int hight_of_record = 0;
+                //JPanel panel_record_substitute=new JPanel();
+                //panel_record_substitute
+                panel_record_repeat = createJPanelOfRecord(panel_record_repeat, string_history_record[i], "");
+
+                //panel_record_substitute.setBounds(0,0,250,120);
+                //hight+=120;
+                //panel_record_repeat.add(panel_record_substitute);
+                //hight_of_record+=40;
+                loop_times = i;
+            }
+
+
+
+
+            //String[] new_record={"",};
+            panel_record_repeat = createJPanelOfRecord(panel_record_repeat, string_new_record, "new_record");
+
         }
         /*
         panel_record_repeat.add(Box.createVerticalStrut(int_remain_height));
@@ -764,23 +889,48 @@ public class User_Detail_Imformation extends JFrame {
         return b;
     }
 
-    public static JPanel createJPanelOfRecord(JPanel panel_record_forLoop,int i){
+    public static JPanel createJPanelOfRecord(JPanel panel_record_forLoop,String[] record_history, String new_record){
 
         int hight_create_record=0;
         JPanel panel_create_record_X = new JPanel();
         // 设置 bottomPanel 为垂直布局
-        panel_create_record_X .setLayout(new BoxLayout(panel_create_record_X,BoxLayout.X_AXIS ));
+        panel_create_record_X.setLayout(new BoxLayout(panel_create_record_X,BoxLayout.X_AXIS ));
 
         JPanel panel_create_record_textarea = new JPanel();
         // 设置 bottomPanel 为垂直布局
-        panel_create_record_textarea .setLayout(new BoxLayout(panel_create_record_textarea,BoxLayout.X_AXIS ));
+        panel_create_record_textarea.setLayout(new BoxLayout(panel_create_record_textarea,BoxLayout.X_AXIS ));
         //JPanel panel_record = new JPanel();
-        JLabel label_record = new JLabel("第1次买药:  2019年6月11日");
+        String string_for_noti_buy=null;
+        if(record_history[6].equals("buy")){
+            string_for_noti_buy="买药";
+        }else if(record_history[6].equals("noti")){
+            string_for_noti_buy="致电";
+        }
+        String string_for_label_record="第"+
+                record_history[5]+
+                "次" +
+                string_for_noti_buy +
+                ":  "+
+                record_history[2]+
+                "年"+
+                record_history[3]+
+                "月"+
+                record_history[4]+
+                "日";
+
+        JLabel label_record = new JLabel(string_for_label_record);
         //label_record.setHorizontalAlignment(SwingConstants.RIGHT);
+        JTextArea textarea_record = new JTextArea(3, 20);
+        if(new_record.equals("")) {
 
-
-        JTextArea textarea_record = new JTextArea(3,20);
-        textarea_record.setLineWrap(true);
+            textarea_record.setText(record_history[7]);
+            textarea_record.setLineWrap(true);
+        }
+        if(new_record.equals("new_record")){
+            textarea_final_record= new JTextArea(3, 20);
+            textarea_final_record.setText(record_history[7]);
+            textarea_final_record.setLineWrap(true);
+        }
 
         //panel_record.setLayout(null);
         //label_record.setBounds(0,hight_create_record+i*120,20, 40);
@@ -792,7 +942,15 @@ public class User_Detail_Imformation extends JFrame {
         panel_create_record_X.add(Box.createHorizontalGlue());
 
         panel_create_record_textarea.add(Box.createHorizontalStrut(75));
-        panel_create_record_textarea.add(textarea_record);
+        //以下几行是判断是否最后一个textarea
+        if(new_record.equals("")) {
+            panel_create_record_textarea.add(textarea_record);
+            int_remain_height = 230 - (textarea_record.getX() + textarea_record.getHeight()) - 90;
+        }
+        if(new_record.equals("new_record")) {
+            panel_create_record_textarea.add(textarea_final_record);
+            int_remain_height = 230 - (textarea_final_record.getX() + textarea_final_record.getHeight()) - 90;
+        }
 
         panel_record_forLoop.add(panel_create_record_X);
         panel_record_forLoop.add(Box.createVerticalStrut(5));
@@ -801,7 +959,7 @@ public class User_Detail_Imformation extends JFrame {
 
         //panel_record_forLoop.add(Box.createVerticalStrut(230-5-20-40-textarea_record.getHeight()-25));
         //panel_record_forLoop.add(Box.createVerticalStrut(230-(textarea_record.getX()+textarea_record.getHeight())-90));
-        int_remain_height=230-(textarea_record.getX()+textarea_record.getHeight())-90;
+
 //        panel_record_temporary.setBounds(100,hight_create_record+i*120+40,250,4000);
 //        panel_record_forLoop.add(panel_record_temporary);
         //panel_record_forLoop.add(Box.createVerticalGlue());

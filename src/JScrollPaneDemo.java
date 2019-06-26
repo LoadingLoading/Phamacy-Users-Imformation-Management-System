@@ -44,7 +44,7 @@ public class JScrollPaneDemo extends JFrame{
 //                a.add(cb);
 //            }
 //        }
-        a=User_Detail_Imformation.createJPanelOfRecord(a,1);
+        //a=User_Detail_Imformation.createJPanelOfRecord(a,1);
 
 
         //a.setBackground(Color.YELLOW);
