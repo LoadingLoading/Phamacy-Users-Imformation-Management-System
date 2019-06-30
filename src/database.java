@@ -43,6 +43,9 @@ public class database {
             if(executeType.equals("update")){
                 statement.execute(executeIt);
             }
+            if(executeType.equals("no_write")){
+                statement.execute(executeIt);
+            }
             if(executeType.equals("searchByDate")){
                 ResultSet resultSet = statement.executeQuery(executeIt);
                 String ids;
@@ -294,6 +297,9 @@ public class database {
         execute(string_searchByID,"searchByID_record");
         //System.out.println("searchRecord:"+id+"作为id的数据库的查询结果为: 长度为 Infos["+Infos.length+"]["+Infos[0].length+"]");
         return Infos;
+    }
+    public static void lock_unlock(String excute_sentence){
+        execute(excute_sentence,"no_write");
     }
 
 }

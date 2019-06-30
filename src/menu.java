@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.*;
 
 public class menu {
     public static JMenuBar menu(){
@@ -15,21 +16,35 @@ public class menu {
 
         //JMenuItem item1 = new JMenuItem("新增");
         //System.out.println("准备新增了");
-        Action exitAction = new AbstractAction("新增"){
+        Action menu1choice1Action = new AbstractAction("新增"){
             public void actionPerformed(ActionEvent e){
                 //System.exit(0);
                 User_Detail_Imformation.User_Detail_Imformation("waitToNoti",null);
             }
         };
 
-        menu1.add(exitAction);
+        menu1.add(menu1choice1Action);
 //        item1.addMouseListener(new MouseAdapter(){    //鼠标事件
 //            public void mouseClicked(MouseEvent e) {
 //                System.out.println("可以新增了");
 //                User_Detail_Imformation.User_Detail_Imformation(1,null);
 //            }
 //        });
-        JMenuItem item2 = new JMenuItem("备份");
+        //JMenuItem item2 = new JMenuItem("备份");
+        Action menu1choice2exitAction = new AbstractAction("备份"){
+            public void actionPerformed(ActionEvent e){
+                database.lock_unlock("FLUSH TABLES WITH READ LOCK;");
+
+
+                database.lock_unlock("unlock tables;");
+                //System.exit(0);
+                //User_Detail_Imformation.User_Detail_Imformation("waitToNoti",null);
+
+            }
+        };
+        menu1.add(menu1choice2exitAction);
+
+        JMenuItem item21 = new JMenuItem("恢复");
 
         JMenuItem item3 = new JMenuItem("删除所有数据");
         JMenuItem item4 = new JMenuItem("添加员工");
@@ -38,7 +53,8 @@ public class menu {
         JMenuItem item7 = new JMenuItem("关于");
         //添加菜单项至菜单上
         //menu1.add(item1);
-        menu1.add(item2);
+        //menu1.add(item2);
+        menu1.add(item21);
 
         menu2.add(item3);
         menu2.add(item4);
@@ -49,5 +65,23 @@ public class menu {
         jmb.add(menu2);
         jmb.add(menu3);
         return jmb;
+    }
+
+    private static void copyFileUsingFileStreams(File source, File dest)
+            throws IOException {
+        InputStream input = null;
+        OutputStream output = null;
+        try {
+            input = new FileInputStream(source);
+            output = new FileOutputStream(dest);
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buf)) != -1) {
+                output.write(buf, 0, bytesRead);
+            }
+        } finally {
+            input.close();
+            output.close();
+        }
     }
 }

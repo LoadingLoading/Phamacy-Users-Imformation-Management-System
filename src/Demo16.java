@@ -1,6 +1,8 @@
 
 //QQ登录界面制作
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -35,10 +37,18 @@ public class Demo16 extends JFrame {
 
 
     public static void main(String[] args) {
+        if(demo2.check_new()){
+            new Add();
+        }
+
         // TODO Auto-generated method stub
-        new Demo16();
+        else {
+            new Demo16();
+        }
 
     }
+
+
 
     public Demo16() {
 

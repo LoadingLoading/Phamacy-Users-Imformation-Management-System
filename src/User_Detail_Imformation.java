@@ -762,7 +762,7 @@ public class User_Detail_Imformation extends JFrame {
         String overview_year="";
         String overview_month="";
         String overview_day="";
-        if(!user_id_static.equals("")){
+        if(user_id_static!=null){
             overview_year=string_history_record[0][2];
             overview_month=string_history_record[0][3];
             overview_day=string_history_record[0][4];
