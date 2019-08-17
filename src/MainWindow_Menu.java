@@ -4,7 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 
-public class menu {
+public class MainWindow_Menu {
     public static JMenuBar menu(){
         JMenuBar jmb = new JMenuBar();
         //不能设定位置，会自动放在最上部

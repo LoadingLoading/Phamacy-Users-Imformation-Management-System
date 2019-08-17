@@ -9,7 +9,7 @@ import java.util.Calendar;
 
 import static java.lang.Integer.parseInt;
 
-public class Label_forForm_noti_buy {
+public class MainWindow_Labels {
     private static DefaultTableModel tableModel;   //表格模型对象
     private static JTable table;
     private static JTextField aTextField;

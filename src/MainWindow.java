@@ -117,7 +117,7 @@ public class MainWindow extends JFrame {
 //        jp2.add(jcb2);
 //        jp2.add(jl5);
 
-        jp2= Label_forForm_noti_buy.noti_buy(jp2,"noti");//第一个页面
+        jp2= MainWindow_Labels.noti_buy(jp2,"noti");//第一个页面
 
         jtp.addChangeListener(new ChangeListener() {//可以每点一下就刷新，
 
@@ -130,10 +130,10 @@ public class MainWindow extends JFrame {
                 System.out.println(title);
 
                 if(title.equals("今日提醒")){
-                    jp2= Label_forForm_noti_buy.noti_buy(jp2,"noti");
+                    jp2= MainWindow_Labels.noti_buy(jp2,"noti");
                 }
                 if(title.equals("今日买药")){
-                    jp3= Label_forForm_noti_buy.noti_buy(jp3,"buy");
+                    jp3= MainWindow_Labels.noti_buy(jp3,"buy");
                 }
             }
         });
@@ -185,7 +185,7 @@ public class MainWindow extends JFrame {
 
 
         //菜单
-        JMenuBar jmb=menu.menu();
+        JMenuBar jmb= MainWindow_Menu.menu();
         this.setJMenuBar(jmb);
 
 

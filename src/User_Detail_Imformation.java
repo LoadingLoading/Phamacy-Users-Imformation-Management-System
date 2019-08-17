@@ -9,11 +9,7 @@ import java.util.Calendar;
 import javax.swing.*;
 
 import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.getBoolean;
 import static java.lang.Integer.parseInt;
-import static javax.swing.BoxLayout.X_AXIS;
-import static javax.swing.SwingConstants.LEFT;
-import static javax.swing.SwingConstants.SOUTH;
 
 public class User_Detail_Imformation extends JFrame {
     static JTextField  textfield_name;
@@ -408,7 +404,7 @@ public class User_Detail_Imformation extends JFrame {
                     //System.out.println("已检测无该id存在");
                     //return 1;
                     //MainWindow.main();
-                    Label_forForm_noti_buy.repaintIt();
+                    MainWindow_Labels.repaintIt();
                     //lablerepaintIt
                     user_detail_imformation.dispose();
 
