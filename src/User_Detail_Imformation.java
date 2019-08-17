@@ -407,7 +407,7 @@ public class User_Detail_Imformation extends JFrame {
                 if(res==JOptionPane.YES_OPTION){//确认推出
                     //System.out.println("已检测无该id存在");
                     //return 1;
-                    //Demo16.main();
+                    //MainWindow.main();
                     Label_forForm_noti_buy.repaintIt();
                     //lablerepaintIt
                     user_detail_imformation.dispose();

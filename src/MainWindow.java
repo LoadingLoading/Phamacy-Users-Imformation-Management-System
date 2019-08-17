@@ -1,14 +1,11 @@
 
 //QQ登录界面制作
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class Demo16 extends JFrame {
+public class MainWindow extends JFrame {
     //public static String[] IDs=new String[100];
 
     // 北部区域
@@ -43,14 +40,14 @@ public class Demo16 extends JFrame {
 
         // TODO Auto-generated method stub
         else {
-            new Demo16();
+            new MainWindow();
         }
 
     }
 
 
 
-    public Demo16() {
+    public MainWindow() {
 
         // 创建组件
         jl2 = new JLabel("QQ号码", JLabel.CENTER);
