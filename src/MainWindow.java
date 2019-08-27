@@ -34,14 +34,15 @@ public class MainWindow extends JFrame {
 
 
     public static void main(String[] args) {
-        if(demo2.check_new()){
-            new Add();
-        }
-
-        // TODO Auto-generated method stub
-        else {
+//        new WelcomeWindow();
+//        if(demo2.check_new()){
+//            new WelcomeWindow();
+//        }
+//
+//        // TODO Auto-generated method stub
+//        else {
             new MainWindow();
-        }
+//        }
 
     }
 

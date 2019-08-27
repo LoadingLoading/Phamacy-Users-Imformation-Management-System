@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.*;
 
 public class MainWindow_Menu {
@@ -19,7 +17,7 @@ public class MainWindow_Menu {
         Action menu1choice1Action = new AbstractAction("新增"){
             public void actionPerformed(ActionEvent e){
                 //System.exit(0);
-                User_Detail_Imformation.User_Detail_Imformation("waitToNoti",null);
+                SecondWindow.User_Detail_Imformation("waitToNoti",null);
             }
         };
 
@@ -27,18 +25,18 @@ public class MainWindow_Menu {
 //        item1.addMouseListener(new MouseAdapter(){    //鼠标事件
 //            public void mouseClicked(MouseEvent e) {
 //                System.out.println("可以新增了");
-//                User_Detail_Imformation.User_Detail_Imformation(1,null);
+//                SecondWindow.SecondWindow(1,null);
 //            }
 //        });
         //JMenuItem item2 = new JMenuItem("备份");
         Action menu1choice2exitAction = new AbstractAction("备份"){
             public void actionPerformed(ActionEvent e){
-                database.lock_unlock("FLUSH TABLES WITH READ LOCK;");
+                Database.lock_unlock("FLUSH TABLES WITH READ LOCK;");
 
 
-                database.lock_unlock("unlock tables;");
+                Database.lock_unlock("unlock tables;");
                 //System.exit(0);
-                //User_Detail_Imformation.User_Detail_Imformation("waitToNoti",null);
+                //SecondWindow.SecondWindow("waitToNoti",null);
 
             }
         };

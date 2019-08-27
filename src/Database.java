@@ -8,7 +8,7 @@ import java.sql.Statement;
  * Created by qcl on 2017/11/18.
  * 数据库连接
  */
-public class database {
+public class Database {
     static String[] IDs;//=new String[100];
     static String[][] Infos;
     public static void execute(String executeIt,String executeType) {
@@ -299,7 +299,22 @@ public class database {
         return Infos;
     }
     public static void lock_unlock(String excute_sentence){
+
         execute(excute_sentence,"no_write");
     }
+
+    public static void backup(String excute_sentence) {
+        String tem_excute_sentence="mysqldump -u root -B -p users_info > /usr/local/backups";
+        execute(tem_excute_sentence,"backup");
+    }
+
+    public static void recover(String excute_sentence) {
+        execute(excute_sentence,"recover");
+    }
+
+    public static void main(String[] args) {
+        backup("");
+    }
+
 
 }

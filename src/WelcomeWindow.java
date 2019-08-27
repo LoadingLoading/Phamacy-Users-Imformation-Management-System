@@ -1,21 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Add extends JFrame{
+public class WelcomeWindow extends JFrame{
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        new Add();
+        new WelcomeWindow();
 
 
     }
 
-    public Add() {
+    public WelcomeWindow() {
 
         JFrame frame=new JFrame("欢迎界面");//设置标题栏文字
-        TextField driver=new TextField(25);//设置用户名输入的文本域
-        TextField url=new TextField(25);//设置用密码输入的文本域
-        TextField id=new TextField(25);//设置用户名输入的文本域
-        TextField pw=new TextField(25);//设置用密码输入的文本域
+        TextField driver=new TextField(1000);//设置用户名输入的文本域
+        TextField url=new TextField(1000);//设置用密码输入的文本域
+        TextField id=new TextField(1000);//设置用户名输入的文本域
+        TextField pw=new TextField(1000);//设置用密码输入的文本域
         driver.setText("com.mysql.jdbc.Driver");
         url.setText("jdbc:mysql://localhost:3306/?useUnicode=true&characterEncoding=utf8");
         id.setText("root");
@@ -38,6 +38,8 @@ public class Add extends JFrame{
         frame.add(loginButton);
         frame.add(cancelButton);
         frame.setLocationRelativeTo(null);
+        frame.setSize(1200, 350);
+
 
         frame.pack();//frame.pack()这个方法的作用就是根据窗口里面的布局及组件的preferedSize(优先尺寸)来确定frame的最佳大小
         frame.setVisible(true);//JFrame实例化以后是没有大小、不可见的。所以，要设置为true可见

@@ -52,7 +52,7 @@ public class MainWindow_Labels {
                 tableVales[i][6] = getTableVales[i][3];
             }
         }else if(noti_buy.equals("buy")){
-            getTableVales = database.searchByState("waitToBuy");
+            getTableVales = Database.searchByState("waitToBuy");
             tableVales = new String[getTableVales.length][8];
             for (int i = 0; i < getTableVales.length; i++) {
 
@@ -126,16 +126,16 @@ public class MainWindow_Labels {
         table.addMouseListener(new MouseAdapter(){    //鼠标事件
             public void mouseClicked(MouseEvent e){
 
-                //new User_Detail_Imformation();
+                //new SecondWindow();
                 int clickTimes = e.getClickCount();
                 if (clickTimes == 2) {
                     int selectedRow = table.getSelectedRow(); //获得选中行索引
                     System.out.println("表格所选身份证号为"+getTableVales[selectedRow][3]);
                     if(noti_buy.equals("buy")){//如果是第二个界面就是相反的
-                        User_Detail_Imformation.User_Detail_Imformation("waitToBuy",getTableVales[selectedRow][3]);
+                        SecondWindow.User_Detail_Imformation("waitToBuy",getTableVales[selectedRow][3]);
                     }
                     if(noti_buy.equals("noti")){//如果是第二个界面就是相反的
-                        User_Detail_Imformation.User_Detail_Imformation("waitToNoti",getTableVales[selectedRow][3]);
+                        SecondWindow.User_Detail_Imformation("waitToNoti",getTableVales[selectedRow][3]);
                     }
 
                 }
@@ -177,7 +177,7 @@ public class MainWindow_Labels {
         //JScrollPane scrollPane1 = new JScrollPane(jp2);
         //scrollPane1.setViewportView(jp2);
         //getTodayInfo();
-//        String aaaa[][]=database.searchByID("23323");
+//        String aaaa[][]=Database.searchByID("23323");
 //        System.out.println("aaaa"+aaaa[0][0]);//结果为null
         //whole_frame.repaint();
         return jp2;
@@ -185,7 +185,7 @@ public class MainWindow_Labels {
 
     private static Checkbox createCheckbox(String label,String noti_buy) {
         Checkbox cb = new Checkbox(label);
-        //cb.addItemListener(User_Detail_Imformation.jb2);
+        //cb.addItemListener(SecondWindow.jb2);
         //给Checkbox对象注册事件监听，也可以去监听其它事件，比如鼠标事件什么的
         cb.addItemListener(new ItemListener() {
             @Override
@@ -209,7 +209,7 @@ public class MainWindow_Labels {
                 }
                 String waitToBuy_userId=tableModel.getValueAt(checkBoxSelected, column_table_ticked).toString();
                 //int canceled=
-                User_Detail_Imformation.User_Detail_Imformation(changeState,waitToBuy_userId);
+                SecondWindow.User_Detail_Imformation(changeState,waitToBuy_userId);
 //                if(canceled==1){
 //                    cb.setState(false);
 //                }
@@ -260,13 +260,13 @@ public class MainWindow_Labels {
         //System.out.println(IDs[0]);
 //        System.out.println(Infos.length);
         System.out.println(IDs.length);
-//        System.out.println(database.searchByID(IDs[0]).length);
+//        System.out.println(Database.searchByID(IDs[0]).length);
         Infos=new String[IDs.length][18];
         for(int i = 0;i<IDs.length;i++){
             //System.out.println("循环了几次");
-            //System.out.println("search"+database.searchByID(IDs[i])[0][1]);
-            Infos[i]=database.searchByID(IDs[i])[0];
-            //String p[]=database.searchByID(IDs[i])[0];
+            //System.out.println("search"+Database.searchByID(IDs[i])[0][1]);
+            Infos[i]= Database.searchByID(IDs[i])[0];
+            //String p[]=Database.searchByID(IDs[i])[0];
 
         }
         for (int i = 0; i < Infos.length; i++) {
@@ -282,7 +282,7 @@ public class MainWindow_Labels {
         }
         System.out.println("面板"+"运行到这里");
 
-        //Infos[]=database.searchByID(IDs);
+        //Infos[]=Database.searchByID(IDs);
 
         return Infos;
     }
@@ -298,7 +298,7 @@ public class MainWindow_Labels {
         d=cal.get(Calendar.DATE);
         System.out.println("面板"+y+" "+m+" "+d);
 
-        IDs=database.searchByDate(y+"",m+"",d+"");
+        IDs= Database.searchByDate(y+"",m+"",d+"");
         for(int i=0;i<IDs.length;i++){
             System.out.println("面板"+"returned "+IDs[i]);
 

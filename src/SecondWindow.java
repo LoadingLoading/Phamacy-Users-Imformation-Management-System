@@ -11,7 +11,7 @@ import javax.swing.*;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Integer.parseInt;
 
-public class User_Detail_Imformation extends JFrame {
+public class SecondWindow extends JFrame {
     static JTextField  textfield_name;
     static JComboBox combobox_gender;
     static JTextField textfield_ID;
@@ -87,7 +87,7 @@ public class User_Detail_Imformation extends JFrame {
 
 //    public static void main(String[] args) {
 //        // TODO Auto-generated method stub
-//        new User_Detail_Imformation();
+//        new SecondWindow();
 //
 //    }
     //刚刚完成：id的约束，修改以及添加的区别化
@@ -107,7 +107,7 @@ public class User_Detail_Imformation extends JFrame {
         //string_state是现在搜索到的state，state是传递的state，将要改变的state
         //this method be used three times,"waitToNoti" or "waitToBuy" will be used as state
         //waitToNoti will be used by the first page, changestate(this may be waitToNoti or waitToBuy) will be used when change the page, waitToNoti will be used for the new page
-        //state will be used in this method while the checkbox is ticked, and the state will be transfer to update database
+        //state will be used in this method while the checkbox is ticked, and the state will be transfer to update Database
         //differeniate this method called by "create new one" or "browse the exsited one" by the user_id is null or not
         //新增 和 查看界面点出来的区别靠 user_id来区别
 
@@ -115,7 +115,7 @@ public class User_Detail_Imformation extends JFrame {
         String[] user_detail_info=new String[18];
 
         //通过表格点击传递的id得到该用户的详细信息，储存在static的变量里，供给面板信息用
-        user_detail_info=database.searchByID(user_id)[0];
+        user_detail_info= Database.searchByID(user_id)[0];
         for(int i=0;i<18;i++){
             System.out.println(i+" "+user_detail_info[i]);
         }
@@ -322,7 +322,7 @@ public class User_Detail_Imformation extends JFrame {
                 if(!nullItems.equals("")){//未正确填写信息
                     JOptionPane.showMessageDialog(null, "请正确填写 "+nullItems, "未补全信息", JOptionPane.ERROR_MESSAGE);
                 }else if(user_id==null){//新增
-                    String[] checkIdExist=database.searchByID(ID)[0];//搜索id，如无返回null
+                    String[] checkIdExist= Database.searchByID(ID)[0];//搜索id，如无返回null
                     System.out.println("检测id是否存在"+checkIdExist[3]);
 
                     if(checkIdExist[3]==null){//id不存在，可以新增
@@ -331,10 +331,10 @@ public class User_Detail_Imformation extends JFrame {
                             System.out.println("已检测无该id存在");
 
                             //excute to table_name
-                            database.insert(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
+                            Database.insert(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
 
                             //excute to table_record
-                            database.insertRecord(string_first_record);
+                            Database.insertRecord(string_first_record);
 
                             user_detail_imformation.dispose();
                             //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
@@ -352,7 +352,7 @@ public class User_Detail_Imformation extends JFrame {
                     int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存修改并退出", "确认保存", JOptionPane.YES_NO_OPTION);
                     if(res==JOptionPane.YES_OPTION){//确认
                         //edit on table_name
-                        database.update(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day,state);
+                        Database.update(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day,state);
 
                         //edit the table_record(actully its insert a new record or update if it has been inserted once)
                         string_new_record[7]=textarea_final_record.getText();
@@ -361,10 +361,10 @@ public class User_Detail_Imformation extends JFrame {
                         //ture 为已经添加
                         //不是第一次插入，只要更新就行，根据最后一个就可以了
                         if((string_state.equals("waitToNoti")&&string_history_record[string_history_record.length - 1][6].equals("noti"))||(string_state.equals("waitToBuy")&&string_history_record[string_history_record.length - 1][6].equals("buy"))){
-                            database.updateRecord(string_new_record, Integer.parseInt(string_history_record[string_history_record.length - 1][0]));
+                            Database.updateRecord(string_new_record, Integer.parseInt(string_history_record[string_history_record.length - 1][0]));
 
                         }else {
-                            database.insertRecord(string_new_record);
+                            Database.insertRecord(string_new_record);
 
                         }
 
@@ -680,7 +680,7 @@ public class User_Detail_Imformation extends JFrame {
     public static JPanel Right(){
         string_history_record=null;
         if(!(string_ID==null)) {
-            string_history_record = database.searchRecord(string_ID);
+            string_history_record = Database.searchRecord(string_ID);
         }
 
         JPanel b=new JPanel();
@@ -794,7 +794,7 @@ public class User_Detail_Imformation extends JFrame {
         panel_record_repeat.setLayout(layout);
 
         //JPanel panel_record_substitute=new JPanel();
-        //string_history_record=new String[database.searchRecord(string_ID).length][8];
+        //string_history_record=new String[Database.searchRecord(string_ID).length][8];
 
         int loop_times=0;
         if(user_id_static!=null) {
