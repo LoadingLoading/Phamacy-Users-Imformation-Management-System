@@ -19,7 +19,7 @@ public class Database {
         //这里我的数据库是qcl
         String url="jdbc:mysql://localhost:3306/?useUnicode=true&characterEncoding=utf8";
         String user="root";
-        String password="123";
+        String password="";
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(url, user, password);
@@ -312,9 +312,9 @@ public class Database {
         execute(excute_sentence,"recover");
     }
 
-    public static void main(String[] args) {
-        backup("");
-    }
+//    public static void main(String[] args) {
+//        backup("");
+//    }
 
 
 }

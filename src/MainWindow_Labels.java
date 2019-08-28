@@ -259,7 +259,13 @@ public class MainWindow_Labels {
         IDs=getTodayID();
         //System.out.println(IDs[0]);
 //        System.out.println(Infos.length);
+
+        /**
+        * *
+        * */
         System.out.println(IDs.length);
+
+
 //        System.out.println(Database.searchByID(IDs[0]).length);
         Infos=new String[IDs.length][18];
         for(int i = 0;i<IDs.length;i++){
@@ -299,11 +305,25 @@ public class MainWindow_Labels {
         System.out.println("面板"+y+" "+m+" "+d);
 
         IDs= Database.searchByDate(y+"",m+"",d+"");
-        for(int i=0;i<IDs.length;i++){
+
+        /**
+         *
+         */
+        for(int i=0;i<isNull(IDs);i++){
             System.out.println("面板"+"returned "+IDs[i]);
 
         }
+        System.out.println("it works");
         return IDs;
+    }
+
+    public static int isNull(String[] strings) {
+        if(strings==null){
+            return 0;
+        }else{
+            return strings.length;
+        }
+
     }
 
 }
