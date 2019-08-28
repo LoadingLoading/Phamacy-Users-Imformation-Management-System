@@ -115,7 +115,14 @@ public class SecondWindow extends JFrame {
         String[] user_detail_info=new String[18];
 
         //通过表格点击传递的id得到该用户的详细信息，储存在static的变量里，供给面板信息用
-        user_detail_info= Database.searchByID(user_id)[0];
+        //String user_id=user_id_orignal==null?" ":user_id_orignal;
+        if(user_id==null){
+            for(int i=0;i<18;i++){
+                user_detail_info[i]=null;
+            }
+        }else {
+            user_detail_info = Database.searchByID(user_id)[0];
+        }
         for(int i=0;i<18;i++){
             System.out.println(i+" "+user_detail_info[i]);
         }
@@ -322,10 +329,11 @@ public class SecondWindow extends JFrame {
                 if(!nullItems.equals("")){//未正确填写信息
                     JOptionPane.showMessageDialog(null, "请正确填写 "+nullItems, "未补全信息", JOptionPane.ERROR_MESSAGE);
                 }else if(user_id==null){//新增
-                    String[] checkIdExist= Database.searchByID(ID)[0];//搜索id，如无返回null
-                    System.out.println("检测id是否存在"+checkIdExist[3]);
+//                    String[] checkIdExist= Database.searchByID(ID)[0];//搜索id，如无返回null
+//                    System.out.println("检测id是否存在"+checkIdExist[3]);
 
-                    if(checkIdExist[3]==null){//id不存在，可以新增
+                    if( Database.searchByID(ID)[0][0]==null){//id不存在，可以新增
+                        System.out.println("id不存在，可以新增");
                         int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存新增用户并退出", "确认保存", JOptionPane.YES_NO_OPTION);
                         if(res==JOptionPane.YES_OPTION){//确认
                             System.out.println("已检测无该id存在");
@@ -339,12 +347,14 @@ public class SecondWindow extends JFrame {
                             user_detail_imformation.dispose();
                             //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
                         }else{//取消
+
                             //System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
                             return;
                         }
 
 
                     }else{//id已经存在，无法新增
+                        System.out.println("id存在，不可以新增");
                         JOptionPane.showMessageDialog(null, "该身份证已经存在"+nullItems, "无法储存", JOptionPane.ERROR_MESSAGE);
                     }
 

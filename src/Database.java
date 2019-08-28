@@ -71,6 +71,8 @@ public class Database {
             }
 
             if(executeType.equals("searchByID")){
+                //这里用了一个很笨拙的方法去输出，似乎是当时的原因是没有增加id的唯一性，所以可能有很多id存在的可能
+                //但是当时没有记录，所以为了不引入新的未知bug，这里不作refacter，以后写临时方法的时候，应记录原因，以便以后refactor
                 ResultSet resultSet = statement.executeQuery(executeIt);
                 //System.out.println("a0");
                 //String ids;
@@ -89,6 +91,8 @@ public class Database {
                         InfosNoneExtended[i][columnIndex-1]=
                                 resultSet.getString(columnIndex);
                     }
+                    i++;
+
                     //System.out.println("a1.7");
                     break;
 
@@ -100,7 +104,11 @@ public class Database {
 
                 //System.out.println("a2");
                 Infos=new String[1][18];
-                Infos[0]=InfosNoneExtended[0];
+                if (i == 1) {
+
+                    Infos[0]=InfosNoneExtended[0];
+                }
+
 //                for(int j=1;j<18;j++){
 //                    Infos[j]=InfosNoneExtended[j];
 //                    System.out.println(Infos[j]);
@@ -174,6 +182,8 @@ public class Database {
             System.out.println("数据库驱动没有安装");
 
         } catch (SQLException e) {
+            e.printStackTrace();
+
             System.out.println("数据库连接失败");
         }
     }
@@ -245,7 +255,8 @@ public class Database {
         //execute(string_searchByDate);
         System.out.println(string_searchByID);
         execute(string_searchByID,"searchByID");
-        System.out.println(id+"所查询的结果之一："+Infos[0][3]);
+//        System.out.println(id+"所查询的结果之一："+Infos[0][3]);
+        //Infos=[1][18] 有可能是null
         return Infos;
     }
 
@@ -312,9 +323,9 @@ public class Database {
         execute(excute_sentence,"recover");
     }
 
-    public static void main(String[] args) {
-        backup("");
-    }
+//    public static void main(String[] args) {
+//        backup("");
+//    }
 
 
 }

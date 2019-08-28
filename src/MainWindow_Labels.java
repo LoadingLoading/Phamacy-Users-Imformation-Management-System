@@ -41,8 +41,8 @@ public class MainWindow_Labels {
 
         if(noti_buy.equals("noti")) {
             getTableVales = getTodayInfo();
-            tableVales = new String[getTableVales.length][7];
-            for (int i = 0; i < getTableVales.length; i++) {
+            tableVales = new String[isNull(getTableVales)][7];
+            for (int i = 0; i < isNull(getTableVales); i++) {
                 tableVales[i][0] = getTableVales[i][1];
                 tableVales[i][1] = getTableVales[i][2];
                 tableVales[i][2] = getTableVales[i][0] + "不知道";
@@ -53,8 +53,8 @@ public class MainWindow_Labels {
             }
         }else if(noti_buy.equals("buy")){
             getTableVales = Database.searchByState("waitToBuy");
-            tableVales = new String[getTableVales.length][8];
-            for (int i = 0; i < getTableVales.length; i++) {
+            tableVales = new String[isNull(getTableVales)][8];
+            for (int i = 0; i <isNull( getTableVales); i++) {
 
                 tableVales[i][0] = "未实现";
                 tableVales[i][1] = getTableVales[i][1];
@@ -71,15 +71,15 @@ public class MainWindow_Labels {
         tick_boxs = new JPanel();
         tick_boxs.setLayout(null);
 
-        for (int i = 0; i < getTableVales.length; i++) {
+        for (int i = 0; i < isNull(getTableVales); i++) {
             Checkbox cb = createCheckbox(i+"",noti_buy);
             cb.setBounds(0,18*i+18,25,18);
             tick_boxs.add(cb);
             System.out.println("_________________刷新_____________");
-            if(getTableVales[i][getTableVales[i].length-1].equals("waitToBuy")){
+            if(getTableVales[i][isNull(getTableVales[i])-1].equals("waitToBuy")){
                 cb.setState(true);
             }
-            if(getTableVales[i][getTableVales[i].length-1].equals("waitToNoti")){
+            if(getTableVales[i][isNull(getTableVales[i])-1].equals("waitToNoti")){
                 cb.setState(false);
             }
             if(noti_buy.equals("buy")){//如果在今日买药界面，则相反
@@ -258,18 +258,24 @@ public class MainWindow_Labels {
         String[] IDs=null;
         IDs=getTodayID();
         //System.out.println(IDs[0]);
-//        System.out.println(Infos.length);
-        System.out.println(IDs.length);
-//        System.out.println(Database.searchByID(IDs[0]).length);
-        Infos=new String[IDs.length][18];
-        for(int i = 0;i<IDs.length;i++){
+//        System.out.println(isNull(Infos));
+
+        /**
+        * *
+        * */
+        System.out.println(isNull(IDs));
+
+
+//        System.out.println(Database.searchByID(isNull(IDs[0])));
+        Infos=new String[isNull(IDs)][18];
+        for(int i = 0;i<isNull(IDs);i++){
             //System.out.println("循环了几次");
             //System.out.println("search"+Database.searchByID(IDs[i])[0][1]);
             Infos[i]= Database.searchByID(IDs[i])[0];
             //String p[]=Database.searchByID(IDs[i])[0];
 
         }
-        for (int i = 0; i < Infos.length; i++) {
+        for (int i = 0; i < isNull(Infos); i++) {
             System.out.println("身份证为 "+IDs[i]+" 的信息为：");
             for (int j = 0; j < 18; j++) {
                 //String id = IDs[j];
@@ -299,11 +305,35 @@ public class MainWindow_Labels {
         System.out.println("面板"+y+" "+m+" "+d);
 
         IDs= Database.searchByDate(y+"",m+"",d+"");
-        for(int i=0;i<IDs.length;i++){
+
+        /**
+         *
+         */
+
+        for(int i=0;i<isNull(IDs);i++){
             System.out.println("面板"+"returned "+IDs[i]);
 
         }
+        System.out.println("it works");
         return IDs;
+    }
+
+    public static int isNull(String[] strings) {
+        if(strings==null){
+            return 0;
+        }else{
+            return strings.length;
+        }
+
+    }
+
+    public static int isNull(String[][] strings) {
+        if(strings==null){
+            return 0;
+        }else{
+            return strings.length;
+        }
+
     }
 
 }
