@@ -45,10 +45,24 @@ public class MainWindow_Labels {
             for (int i = 0; i < isNull(getTableVales); i++) {
                 tableVales[i][0] = getTableVales[i][1];
                 tableVales[i][1] = getTableVales[i][2];
-                tableVales[i][2] = getTableVales[i][0] + "不知道";
+
+                //getTableVales[i][3]是身份证id，用这个搜索record，得到的就是record，最后一个的次数就是：购药次数
+                String[][] string_history_record=Database.searchRecord(getTableVales[i][3]);
+                tableVales[i][2] =  "致电后为第"+string_history_record[string_history_record.length-1][5]+"次买药";
+
                 tableVales[i][3] = getTableVales[i][10];
                 tableVales[i][4] = getTableVales[i][4] + " " + getTableVales[i][5];
-                tableVales[i][5] = getTableVales[i][0] + "不知道";
+
+                String date_last_bought="";
+                if(string_history_record.length<=2){
+                    date_last_bought="上次购药时间未记录";
+                }else{
+                    date_last_bought=string_history_record[string_history_record.length-2][2]+"年"+
+                            string_history_record[string_history_record.length-2][3]+"月"+
+                            string_history_record[string_history_record.length-2][4]+"日";
+                }
+                tableVales[i][5] =date_last_bought;
+
                 tableVales[i][6] = getTableVales[i][3];
             }
         }else if(noti_buy.equals("buy")){
@@ -56,14 +70,38 @@ public class MainWindow_Labels {
             tableVales = new String[isNull(getTableVales)][8];
             for (int i = 0; i <isNull( getTableVales); i++) {
 
-                tableVales[i][0] = "未实现";
+                int days_to_noti=0;
+                String[][] string_history_record=Database.searchRecord(getTableVales[i][3]);
+                if(string_history_record[string_history_record.length-1][6].equals("noti")){
+                    System.out.println("使用上一次的");
+                    days_to_noti=getDays(string_history_record[string_history_record.length-1][2],string_history_record[string_history_record.length-1][3],string_history_record[string_history_record.length-1][4]);
+                }else{
+                    days_to_noti=getDays(string_history_record[string_history_record.length-2][2],string_history_record[string_history_record.length-2][3],string_history_record[string_history_record.length-2][4]);
+                }
+                tableVales[i][0] =days_to_noti+ "天";
+
                 tableVales[i][1] = getTableVales[i][1];
                 tableVales[i][2] = getTableVales[i][2];
-                tableVales[i][3] = getTableVales[i][0] + "不知道";
+
+                //getTableVales[i][3]是身份证id，用这个搜索record，得到的就是record，最后一个的次数就是：购药次数
+                //String[][] string_history_record=Database.searchRecord(getTableVales[i][3]);
+                tableVales[i][3] =  "第"+string_history_record[string_history_record.length-1][5]+"次买药";
 
                 tableVales[i][4] = getTableVales[i][10];
                 tableVales[i][5] = getTableVales[i][4] + " " + getTableVales[i][5];
-                tableVales[i][6] = getTableVales[i][0] + "不知道";
+
+                //如果少于三个数组，则说明上次未记录，第一个是添加时的数组，第二个是上次打电话的数组，第三个是现在正在记录的数组
+                //如果未打开详细信息，则不会创建第三个数组，则需要小雨等于三
+                String date_last_bought="";
+                if(string_history_record.length<=3){
+                    date_last_bought="上次购药时间未记录";
+                }else{
+                    date_last_bought=string_history_record[string_history_record.length-3][2]+"年"+
+                            string_history_record[string_history_record.length-3][3]+"月"+
+                            string_history_record[string_history_record.length-3][4]+"日";
+                }
+                tableVales[i][6] = date_last_bought;
+
                 tableVales[i][7] = getTableVales[i][3];
             }
         }
@@ -297,14 +335,14 @@ public class MainWindow_Labels {
 
     public static String[] getTodayID(){
         String[] IDs=null;
-        int y,m,d;
-        Calendar cal=Calendar.getInstance();
-        y=cal.get(Calendar.YEAR);
-        m=cal.get(Calendar.MONTH)+1;
-        d=cal.get(Calendar.DATE);
-        System.out.println("面板"+y+" "+m+" "+d);
+//        int y,m,d;
+//        Calendar cal=Calendar.getInstance();
+//        y=cal.get(Calendar.YEAR);
+//        m=cal.get(Calendar.MONTH)+1;
+//        d=cal.get(Calendar.DATE);
+//        System.out.println("面板"+y+" "+m+" "+d);
 
-        IDs= Database.searchByDate(y+"",m+"",d+"");
+        IDs= Database.searchByDate(getTodayDate()[0]+"",getTodayDate()[1]+"",getTodayDate()[2]+"");
 
         /**
          *
@@ -316,6 +354,21 @@ public class MainWindow_Labels {
         }
         System.out.println("it works");
         return IDs;
+    }
+
+    public static int[] getTodayDate() {
+        int[] todayDate=new int[3];
+        //todayDate=null;
+        int y,m,d;
+        Calendar cal=Calendar.getInstance();
+        y=cal.get(Calendar.YEAR);
+        m=cal.get(Calendar.MONTH)+1;
+        d=cal.get(Calendar.DATE);
+        todayDate[0]=y;
+        todayDate[1]=m;
+        todayDate[2]=d;
+        System.out.println("面板"+y+" "+m+" "+d);
+        return todayDate;
     }
 
     public static int isNull(String[] strings) {
@@ -333,6 +386,49 @@ public class MainWindow_Labels {
         }else{
             return strings.length;
         }
+    }
+
+    public static int getDays(String y,String m, String d) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.set(Calendar.YEAR,  Integer.parseInt(y));
+        cal1.set(Calendar.MONTH,  Integer.parseInt(m)-1);
+        cal1.set(Calendar.DAY_OF_MONTH,  Integer.parseInt(d));
+
+        Calendar cal2 = Calendar.getInstance();
+        cal2.set(Calendar.YEAR,  getTodayDate()[0]);
+        cal2.set(Calendar.MONTH,  getTodayDate()[1]-1);
+        cal2.set(Calendar.DAY_OF_MONTH, getTodayDate()[2]);
+
+        System.out.println("相差天数的计算，输入cal的今天是"+  getTodayDate()[0]+"年"+( getTodayDate()[1]-1)+"月"+getTodayDate()[2]+"日"+"，计算的是："+Integer.parseInt(y)+" "+ (Integer.parseInt(m)-1)+" "+Integer.parseInt(d) );
+
+        int day1= cal1.get(Calendar.DAY_OF_YEAR);
+        int day2 = cal2.get(Calendar.DAY_OF_YEAR);
+
+        int year1 = cal1.get(Calendar.YEAR);
+        int year2 = cal2.get(Calendar.YEAR);
+        if(year1 != year2)   //同一年
+        {
+            int timeDistance = 0 ;
+            for(int i = year1 ; i < year2 ; i ++)
+            {
+                if(i%4==0 && i%100!=0 || i%400==0)    //闰年
+                {
+                    timeDistance += 366;
+                }
+                else    //不是闰年
+                {
+                    timeDistance += 365;
+                }
+            }
+
+            return timeDistance + (day2-day1) ;
+        }
+        else    //不同年
+        {
+            System.out.println("判断day2 - day1 : " + (day2-day1));
+            return day2-day1;
+        }
+
 
     }
 
