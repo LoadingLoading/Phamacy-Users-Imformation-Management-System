@@ -349,10 +349,9 @@ public class MainWindow_Labels {
          */
 
         for(int i=0;i<isNull(IDs);i++){
-            System.out.println("面板"+"returned "+IDs[i]);
+            System.out.println("今天的id有： "+IDs[i]);
 
         }
-        System.out.println("it works");
         return IDs;
     }
 
@@ -367,7 +366,7 @@ public class MainWindow_Labels {
         todayDate[0]=y;
         todayDate[1]=m;
         todayDate[2]=d;
-        System.out.println("面板"+y+" "+m+" "+d);
+        System.out.println("获得今日日期"+y+" "+m+" "+d);
         return todayDate;
     }
 
