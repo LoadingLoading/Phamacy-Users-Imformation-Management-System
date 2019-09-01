@@ -50,24 +50,22 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
 
-        // 创建组件
-        jl2 = new JLabel("QQ号码", JLabel.CENTER);
-        jl3 = new JLabel("QQ密码", JLabel.CENTER);
-        jl4 = new JLabel("忘记密码", JLabel.CENTER);
-        jl4.setFont(new Font("宋体", Font.PLAIN, 16));// 设置字体样式
-        jl4.setForeground(Color.BLUE);// 设置字体颜色
-        jl5 = new JLabel("<html><a href='www.qq.com'>申请密码保护</a></html>");
-        // 鼠标触发变化
-        jl5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        jtf = new JTextField();
-        jpf = new JPasswordField();
-        jb4 = new JButton(new ImageIcon("images\\login.png"));
-
-        jcb1 = new JCheckBox("隐身登录");
-        jcb2 = new JCheckBox("记住密码");
-
-
+//        // 创建组件
+//        jl2 = new JLabel("QQ号码", JLabel.CENTER);
+//        jl3 = new JLabel("QQ密码", JLabel.CENTER);
+//        jl4 = new JLabel("忘记密码", JLabel.CENTER);
+//        jl4.setFont(new Font("宋体", Font.PLAIN, 16));// 设置字体样式
+//        jl4.setForeground(Color.BLUE);// 设置字体颜色
+//        jl5 = new JLabel("<html><a href='www.qq.com'>申请密码保护</a></html>");
+//        // 鼠标触发变化
+//        jl5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//
+//        jtf = new JTextField();
+//        jpf = new JPasswordField();
+//        jb4 = new JButton(new ImageIcon("images\\login.png"));
+//
+//        jcb1 = new JCheckBox("隐身登录");
+//        jcb2 = new JCheckBox("记住密码");
 
 
 
@@ -78,14 +76,16 @@ public class MainWindow extends JFrame {
 
 
 
-        // 北部区域
-        jl1 = new JLabel(new ImageIcon("images\\headpicture.jpg"));
 
-        // 南部区域
-        jp1 = new JPanel();
-        jb1 = new JButton(new ImageIcon("images\\login.png"));
-        jb2 = new JButton(new ImageIcon("images\\delete.png"));
-        jb3 = new JButton(new ImageIcon("images\\register.png"));
+
+//        // 北部区域
+//        jl1 = new JLabel(new ImageIcon("images\\headpicture.jpg"));
+//
+//        // 南部区域
+//        jp1 = new JPanel();
+//        jb1 = new JButton(new ImageIcon("images\\login.png"));
+//        jb2 = new JButton(new ImageIcon("images\\delete.png"));
+//        jb3 = new JButton(new ImageIcon("images\\register.png"));
 
         // 中部区域
         jtp = new JTabbedPane();
@@ -104,9 +104,9 @@ public class MainWindow extends JFrame {
         //jp2.setLayout(new GridLayout(3, 3));
 
         // 添加组件
-        jp1.add(jb1);
-        jp1.add(jb2);
-        jp1.add(jb3);
+//        jp1.add(jb1);
+//        jp1.add(jb2);
+//        jp1.add(jb3);
 //
 //        jp2.add(jl2);
 //        jp2.add(jtf);
@@ -251,14 +251,15 @@ public class MainWindow extends JFrame {
 
 
 
-        this.add(jp1, BorderLayout.SOUTH);
-        this.add(jl1, BorderLayout.NORTH);
+//        this.add(jp1, BorderLayout.SOUTH);
+//        this.add(jl1, BorderLayout.NORTH);
         this.add(jtp, BorderLayout.CENTER);
 
         // 展示组件
-        ImageIcon icon = new ImageIcon("images\\qq.png");
-        this.setIconImage(icon.getImage());// 给窗体设置图标方法
+//        ImageIcon icon = new ImageIcon("images\\qq.png");
+//        this.setIconImage(icon.getImage());// 给窗体设置图标方法
         this.setSize(1200, 700);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);

@@ -151,6 +151,8 @@ public class SecondWindow extends JFrame {
 
         //以下为布局
         JFrame user_detail_imformation = new JFrame();
+        user_detail_imformation.setResizable(false);
+
 
         // 南部区域
         jp1 = new JPanel();
@@ -554,6 +556,7 @@ public class SecondWindow extends JFrame {
         //这里是电话号码，因为比较长，所以用大括号扩起来了
         {
             JLabel label_number = new JLabel("手机号:    ");
+            //ImageIcon image = new ImageIcon(MainWindow.class.getResource("Pic/pic_add.png"));
             Icon icon_add = new ImageIcon("Pic/pic_add.png");
             JButton button_add_owner = new JButton(null,icon_add);
             button_add_owner.setBorderPainted(FALSE);
