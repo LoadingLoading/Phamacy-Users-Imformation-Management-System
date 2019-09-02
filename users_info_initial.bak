@@ -67,6 +67,10 @@ INSERT INTO `table_choice` VALUES (19,'disease','胃癌');
 INSERT INTO `table_choice` VALUES (20,'disease','肝癌');
 INSERT INTO `table_choice` VALUES (21,'disease','鼻咽癌');
 INSERT INTO `table_choice` VALUES (22,'disease','肠癌');
+INSERT INTO `table_choice` VALUES (23,'insurance','无');
+INSERT INTO `table_choice` VALUES (24,'insurance','职工医保');
+INSERT INTO `table_choice` VALUES (25,'insurance','居民/农合');
+INSERT INTO `table_choice` VALUES (26,'insurance','铁路医保');
 /*!40000 ALTER TABLE `table_choice` ENABLE KEYS */;
 UNLOCK TABLES;
 

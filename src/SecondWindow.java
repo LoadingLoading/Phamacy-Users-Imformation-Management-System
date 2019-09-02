@@ -562,9 +562,9 @@ public class SecondWindow extends JFrame {
             button_add_owner.setBorderPainted(FALSE);
                 JPanel one_owner_number = new JPanel();
                 combobox_owner = new JComboBox();
-                combobox_owner.addItem("本人");
-                combobox_owner.addItem("儿子");
-                combobox_owner.addItem("女儿");
+                for (int i = 0; i < Database.serachChoice("number_owner").length; i++) {
+                    combobox_owner.addItem(Database.serachChoice("number_owner")[i]);
+                }
                 combobox_owner.setSelectedItem(string_owner);
                 field_number = new JTextField(string_number,10);
                 one_owner_number.add(combobox_owner);
@@ -572,9 +572,9 @@ public class SecondWindow extends JFrame {
 
                 JPanel one_owner_number1 = new JPanel();
                 combobox_owner1 = new JComboBox();
-                combobox_owner1.addItem("本人");
-                combobox_owner1.addItem("儿子");
-                combobox_owner1.addItem("女儿");
+                for (int i = 0; i < Database.serachChoice("number_owner").length; i++) {
+                    combobox_owner1.addItem(Database.serachChoice("number_owner")[i]);
+                }
                 combobox_owner1.setSelectedItem(string_owner1);
                 field_number1 = new JTextField(string_number,10);
                 one_owner_number1.add(combobox_owner1);
@@ -582,9 +582,9 @@ public class SecondWindow extends JFrame {
 
                 JPanel one_owner_number2 = new JPanel();
                 combobox_owner2 = new JComboBox();
-                combobox_owner2.addItem("本人");
-                combobox_owner2.addItem("儿子");
-                combobox_owner2.addItem("女儿");
+                for (int i = 0; i < Database.serachChoice("number_owner").length; i++) {
+                    combobox_owner2.addItem(Database.serachChoice("number_owner")[i]);
+                }
                 combobox_owner2.setSelectedItem(string_owner2);
                 field_number2 = new JTextField(string_number2,10);
                 one_owner_number2.add(combobox_owner2);
@@ -614,20 +614,9 @@ public class SecondWindow extends JFrame {
             JButton button_add_owner_medical = new JButton(null,icon_add_medical);
             button_add_owner_medical.setBorderPainted(FALSE);
             combobox_medical = new JComboBox();
-            combobox_medical.addItem("昕维");
-            combobox_medical.addItem("福可维8mg");
-            combobox_medical.addItem("福可维10mg");
-            combobox_medical.addItem("福可维12mg");
-            combobox_medical.addItem("凯美纳");
-            combobox_medical.addItem("碳酸镧");
-            combobox_medical.addItem("阿瑞匹坦");
-            combobox_medical.addItem("硼替佐米");
-            combobox_medical.addItem("艾坦");
-            combobox_medical.addItem("生白合剂");
-            combobox_medical.addItem("紫杉醇");
-            combobox_medical.addItem("多柔比星");
-            combobox_medical.addItem("唑来膦酸");
-            combobox_medical.addItem("达沙替尼");
+            for (int i = 0; i < Database.serachChoice("medicine").length; i++) {
+                combobox_medical.addItem(Database.serachChoice("medicine")[i]);
+            }
             combobox_medical.setSelectedItem(string_medical);
         JPanel medical = new JPanel();
         medical.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
@@ -643,11 +632,9 @@ public class SecondWindow extends JFrame {
             JButton button_add_disease_type = new JButton(null,icon_add_disease_type);
             button_add_disease_type.setBorderPainted(FALSE);
             combobox_disease_type = new JComboBox();
-            combobox_disease_type.addItem("肺癌");
-            combobox_disease_type.addItem("胃癌");
-            combobox_disease_type.addItem("肝癌");
-            combobox_disease_type.addItem("鼻咽癌");
-            combobox_disease_type.addItem("肠癌");
+            for (int i = 0; i < Database.serachChoice("disease").length; i++) {
+                combobox_disease_type.addItem(Database.serachChoice("disease")[i]);
+            }
             combobox_disease_type.setSelectedItem(string_medical);
         JPanel disease_type = new JPanel();
         disease_type.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
@@ -663,10 +650,9 @@ public class SecondWindow extends JFrame {
             JButton button_add_insurance_type = new JButton(null,icon_add_insurance_type);
             button_add_insurance_type.setBorderPainted(FALSE);
             combobox_insurance_type = new JComboBox();
-            combobox_insurance_type.addItem("无");
-            combobox_insurance_type.addItem("职工医保");
-            combobox_insurance_type.addItem("居民/农合");
-            combobox_insurance_type.addItem("铁路医保");
+            for (int i = 0; i < Database.serachChoice("insurance").length; i++) {
+                combobox_insurance_type.addItem(Database.serachChoice("insurance")[i]);
+            }
             combobox_insurance_type.setSelectedItem(string_insurance_type);
         JPanel insurance_type = new JPanel();
         insurance_type.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));

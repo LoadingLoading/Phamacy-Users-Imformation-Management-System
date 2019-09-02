@@ -8,7 +8,7 @@ import java.sql.Statement;
  * Created by qcl on 2017/11/18.
  * 数据库连接
  */
-public class Database {
+public class asd {
     static String[] IDs;//=new String[100];
     static String[][] Infos;
     public static void execute(String executeIt,String executeType) {
@@ -30,154 +30,86 @@ public class Database {
 
             if(executeType.equals("insert")){
                 statement.execute(executeIt);
-            } else if(executeType.equals("update")){
+            }
+            if(executeType.equals("update")){
                 statement.execute(executeIt);
-            } else if(executeType.equals("no_write")){
+            }
+            if(executeType.equals("no_write")){
                 statement.execute(executeIt);
-            } else{
-                //(executeType.equals("searchByDate") ||executeType.equals("searchByID") ||executeType.equals("searchByState") ||executeType.equals("searchByID_record")){//返回的是IDs[] 一维数组
-                int dimension2=0;
-                if(executeType.equals("searchByDate")){
-                    dimension2=18;
-                } else if(executeType.equals("searchByID")){
-                    dimension2=18;
-                } else if(executeType.equals("searchByState")){
-                    dimension2=18;
-                } else if(executeType.equals("searchByType_choice")){
-                    dimension2=3;
-                } else{
-                    //executeType.equals("searchByID_record")
-                    dimension2=8;
+            }
+            if(executeType.equals("searchByDate")){//返回的是IDs[] 一维数组
+                ResultSet resultSet = statement.executeQuery(executeIt);
+                String ids;
+                int i=0;
+                String[] IDsNoneExtended=new String[100];
+                while (resultSet.next()) {
+                    IDsNoneExtended[i]=resultSet.getString("id");
+                    i++;
                 }
-
-                /**
-                 dimentsion2 是需要返回的结果的长度，如果是搜索table_name那么就是18
-                 如果是要搜索table_record 那么就是18
-                 start_index是开始的长度，因为搜索table_name一开始的code把数据库里的index取消了，所以不需要第0个
-
-                 返回的时候
-                 searchByDate就返回id就可以了
-                 searchByID就返回该id的18个信息就可以了
-                 searchByState返回全部信息
-                 searchByID_record返回全部信息
-
-                 table_name
-                 0 number | 1 name | 2 gender | 3 id  | 4 owner1 | 5 phone1 | 6 owner2 | 7 phone2
-                 | 8 owner3 | 9 phone3| 10 medicine   | 11 disease_type | 12 insurance_type | 13 address
-                 | 14 year | 15 month | 16 day| 17 state |
-
-                 table_record
-                 0 numbers | 1 id | 2 year | 3 month | 4 day  | 5 times | 6 noti_buy | 7 record
-
-                 table_choice
-                 0 number | 1 type | 2 choice
-
-                 choices:
-
-
-
-
-                 */
+                IDs=new String[i];
+                for(int j=0;j<i;j++){
+                    IDs[j]=IDsNoneExtended[j];
+                }
+                resultSet.close();
+            }
+            if(executeType.equals("searchByID")){//返回的是Infos[1][n] 二位数组，但实际上相当于一位数组
+                //之所以这样是因为统一使用Info[][]来返回数据，所以当数据是一维的时候，就用[1][]来返回
+                //这里用了一个很笨拙的方法去输出，似乎是当时的原因是没有增加id的唯一性，所以可能有很多id存在的可能
+                //但是当时没有记录，所以为了不引入新的未知bug，这里不作refacter，以后写临时方法的时候，应记录原因，以便以后refactor
                 ResultSet resultSet = statement.executeQuery(executeIt);
                 int i=0;
-                String[][] InfosNoneExtended=new String[1000][dimension2];
+                String[][] InfosNoneExtended=new String[100][18];
                 while (resultSet.next()) {
-                    for(int columnIndex=0;columnIndex<dimension2;columnIndex++){
+                    for(int columnIndex=1;columnIndex<19;columnIndex++){
+                        InfosNoneExtended[i][columnIndex-1]=
+                                resultSet.getString(columnIndex);
+                    }
+                    i++;
+                    break;
+                }
+                Infos=new String[1][18];
+                if (i == 1) {
+                    Infos[0]=InfosNoneExtended[0];
+                }
+                resultSet.close();
+            }
+            if(executeType.equals("searchByState")){//返回的是Infos[]二维数组
+                ResultSet resultSet = statement.executeQuery(executeIt);
+                int i=0;
+                String[][] InfosNoneExtended=new String[100][18];
+                while (resultSet.next()) {
+                    for(int columnIndex=1;columnIndex<19;columnIndex++){
                         //System.out.println("a1.6");
-                        InfosNoneExtended[i][columnIndex]= resultSet.getString(columnIndex+1);
+                        InfosNoneExtended[i][columnIndex-1]=
+                                resultSet.getString(columnIndex);
                     }
                     i++;
                 }
-                Infos=new String[i][dimension2];
+                Infos=new String[i][18];
                 for(int j=0;j<i;j++){
                     Infos[j]=InfosNoneExtended[j];
                 }
                 resultSet.close();
-
-
-
-
-
-
-
-
-
-
-
-
-
-//                ResultSet resultSet = statement.executeQuery(executeIt);
-//                String ids;
-//                int i=0;
-//                String[] IDsNoneExtended=new String[100];
-//                while (resultSet.next()) {
-//                    IDsNoneExtended[i]=resultSet.getString("id");
-//                    i++;
-//                }
-//                IDs=new String[i];
-//                for(int j=0;j<i;j++){
-//                    IDs[j]=IDsNoneExtended[j];
-//                }
-//                resultSet.close();
             }
-//            if(executeType.equals("searchByID")){//返回的是Infos[1][n] 二位数组，但实际上相当于一位数组
-//                //之所以这样是因为统一使用Info[][]来返回数据，所以当数据是一维的时候，就用[1][]来返回
-//                //这里用了一个很笨拙的方法去输出，似乎是当时的原因是没有增加id的唯一性，所以可能有很多id存在的可能
-//                //但是当时没有记录，所以为了不引入新的未知bug，这里不作refacter，以后写临时方法的时候，应记录原因，以便以后refactor
-//                ResultSet resultSet = statement.executeQuery(executeIt);
-//                int i=0;
-//                String[][] InfosNoneExtended=new String[100][18];
-//                while (resultSet.next()) {
-//                    for(int columnIndex=0;columnIndex<18;columnIndex++){
-//                        InfosNoneExtended[i][columnIndex]=
-//                                resultSet.getString(columnIndex+1);
-//                    }
-//                    i++;
-//                    break;
-//                }
-//                Infos=new String[1][18];
-//                if (i == 1) {
-//                    Infos[0]=InfosNoneExtended[0];
-//                }
-//                resultSet.close();
-//            }
-//            if(executeType.equals("searchByState")){//返回的是Infos[]二维数组
-//                ResultSet resultSet = statement.executeQuery(executeIt);
-//                int i=0;
-//                String[][] InfosNoneExtended=new String[100][18];
-//                while (resultSet.next()) {
-//                    for(int columnIndex=1;columnIndex<19;columnIndex++){
-//                        //System.out.println("a1.6");
-//                        InfosNoneExtended[i][columnIndex-1]=
-//                                resultSet.getString(columnIndex);
-//                    }
-//                    i++;
-//                }
-//                Infos=new String[i][18];
-//                for(int j=0;j<i;j++){
-//                    Infos[j]=InfosNoneExtended[j];
-//                }
-//                resultSet.close();
-//            }
-//
-//            if(executeType.equals("searchByID_record")){//返回的是Infos[]二维数组
-//                ResultSet resultSet = statement.executeQuery(executeIt);
-//                int i=0;
-//                String[][] InfosNoneExtended=new String[1000][18];
-//                while (resultSet.next()) {
-//                    for(int columnIndex=0;columnIndex<8;columnIndex++){
-//                        System.out.println("InfosNoneExtended["+i+"]"+"["+columnIndex+"]的数据为"+resultSet.getString(columnIndex+1));
-//                        InfosNoneExtended[i][columnIndex]=
-//                                resultSet.getString(columnIndex+1);
-//                    }
-//                    i++;
-//                }
-//                Infos=new String[i][8];
-//                for (int j = 0; j < i; j++) {
-//                    Infos[j]=InfosNoneExtended[j];
-//                }
-//                resultSet.close();
-//            }
+
+            if(executeType.equals("searchByID_record")){//返回的是Infos[]二维数组
+                ResultSet resultSet = statement.executeQuery(executeIt);
+                int i=0;
+                String[][] InfosNoneExtended=new String[1000][18];
+                while (resultSet.next()) {
+                    for(int columnIndex=0;columnIndex<8;columnIndex++){
+                        System.out.println("InfosNoneExtended["+i+"]"+"["+columnIndex+"]的数据为"+resultSet.getString(columnIndex+1));
+                        InfosNoneExtended[i][columnIndex]=
+                                resultSet.getString(columnIndex+1);
+                    }
+                    i++;
+                }
+                Infos=new String[i][8];
+                for (int j = 0; j < i; j++) {
+                    Infos[j]=InfosNoneExtended[j];
+                }
+                resultSet.close();
+            }
 
             //end
             con.close();
@@ -236,16 +168,12 @@ public class Database {
     }
 
     public static String[] searchByDate(String year, String month, String day){
-        String string_searchByDate="SELECT * from table_name WHERE year="+year+
+        String string_searchByDate="SELECT id from table_name WHERE year="+year+
                 " and month= " +month+
                 " and day =" +day+
                 ";";
         System.out.println(string_searchByDate);
         execute(string_searchByDate,"searchByDate");
-        String[] IDs=new String[Infos.length];
-        for (int i = 0; i <Infos.length ; i++) {
-            IDs[i]=Infos[i][3];
-        }
         return IDs;
     }
 
@@ -253,7 +181,6 @@ public class Database {
         String string_searchByID="SELECT * from table_name WHERE id='"+id+ "';";
         System.out.println(string_searchByID);
         execute(string_searchByID,"searchByID");
-
         return Infos;
     }
 
@@ -306,14 +233,10 @@ public class Database {
     }
 
     public static String[] serachChoice(String choice_type) {
-        String string_searchByType="SELECT * from table_choice WHERE type='"+choice_type+ "';";
+        String string_searchByType="SELECT * from table_choice WHERE id='"+choice_type+ "';";
         System.out.println("即将执行的mysql语句"+string_searchByType);
         execute(string_searchByType,"searchByType_choice");
-        String[] Choices=new String[Infos.length];
-        for (int i = 0; i <Infos.length ; i++) {
-            Choices[i]=Infos[i][2];
-        }
-        return Choices;
+        return Infos[0];
     }
 
     public static String[] changeChoice(String choice_type,String[] updated_choice) {
