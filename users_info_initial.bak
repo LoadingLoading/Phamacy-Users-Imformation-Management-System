@@ -24,6 +24,53 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `users_info` /*!40100 DEFAULT CHARACTER
 USE `users_info`;
 
 --
+-- Table structure for table `table_choice`
+--
+
+DROP TABLE IF EXISTS `table_choice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `table_choice` (
+  `number` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(20) DEFAULT NULL,
+  `choice` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`number`),
+  UNIQUE KEY `table_choice_number_uindex` (`number`)
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `table_choice`
+--
+
+LOCK TABLES `table_choice` WRITE;
+/*!40000 ALTER TABLE `table_choice` DISABLE KEYS */;
+INSERT INTO `table_choice` VALUES (1,'number_owner','本人');
+INSERT INTO `table_choice` VALUES (2,'number_owner','儿子');
+INSERT INTO `table_choice` VALUES (3,'number_owner','女儿');
+INSERT INTO `table_choice` VALUES (4,'medicine','昕维');
+INSERT INTO `table_choice` VALUES (5,'medicine','福可维8mg');
+INSERT INTO `table_choice` VALUES (6,'medicine','福可维10mg');
+INSERT INTO `table_choice` VALUES (7,'medicine','福可维12mg');
+INSERT INTO `table_choice` VALUES (8,'medicine','凯美纳');
+INSERT INTO `table_choice` VALUES (9,'medicine','碳酸镧');
+INSERT INTO `table_choice` VALUES (10,'medicine','阿瑞匹坦');
+INSERT INTO `table_choice` VALUES (11,'medicine','硼替佐米');
+INSERT INTO `table_choice` VALUES (12,'medicine','艾坦');
+INSERT INTO `table_choice` VALUES (13,'medicine','生白合剂');
+INSERT INTO `table_choice` VALUES (14,'medicine','紫杉醇');
+INSERT INTO `table_choice` VALUES (15,'medicine','多柔比星');
+INSERT INTO `table_choice` VALUES (16,'medicine','唑来膦酸');
+INSERT INTO `table_choice` VALUES (17,'medicine','达沙替尼');
+INSERT INTO `table_choice` VALUES (18,'disease','肺癌');
+INSERT INTO `table_choice` VALUES (19,'disease','胃癌');
+INSERT INTO `table_choice` VALUES (20,'disease','肝癌');
+INSERT INTO `table_choice` VALUES (21,'disease','鼻咽癌');
+INSERT INTO `table_choice` VALUES (22,'disease','肠癌');
+/*!40000 ALTER TABLE `table_choice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `table_name`
 --
 
@@ -60,7 +107,7 @@ CREATE TABLE `table_name` (
 
 LOCK TABLES `table_name` WRITE;
 /*!40000 ALTER TABLE `table_name` DISABLE KEYS */;
-INSERT INTO `table_name` VALUES (125,'田征雨的2','女','123123123123123123','儿子','12312','儿子','12312','本人','','福可维12mg','肺癌','职工医保','123','2019','6','27','waitToBuy');
+INSERT INTO `table_name` VALUES (125,'田征雨的2','女','123123123123123123','儿子','12312','儿子','12312','本人','','福可维12mg','肺癌','职工医保','123','2019','6','27','waitToNoti');
 /*!40000 ALTER TABLE `table_name` ENABLE KEYS */;
 UNLOCK TABLES;
 

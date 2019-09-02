@@ -30,7 +30,7 @@ public class Database {
             Statement statement = con.createStatement();
 
 
-            String enterDB = "use users_info;";//我的表格叫home
+            String enterDB = "use users_info;";
             statement.execute(enterDB);
 
 //            String insertTable="INSERT INTO `users_info`.`table_name` (`name`, `gender`, `id`, `medicine`) VALUES ('1', 2, '3', 4)";
@@ -69,8 +69,9 @@ public class Database {
                 resultSet.close();
                 //statement.execute(executeIt);
             }
-
             if(executeType.equals("searchByID")){
+                //之所以这样是因为统一使用Info[][]来返回数据，所以当数据是一维的时候，就用[1][]来返回
+
                 //这里用了一个很笨拙的方法去输出，似乎是当时的原因是没有增加id的唯一性，所以可能有很多id存在的可能
                 //但是当时没有记录，所以为了不引入新的未知bug，这里不作refacter，以后写临时方法的时候，应记录原因，以便以后refactor
                 ResultSet resultSet = statement.executeQuery(executeIt);
@@ -309,6 +310,29 @@ public class Database {
         //System.out.println("searchRecord:"+id+"作为id的数据库的查询结果为: 长度为 Infos["+Infos.length+"]["+Infos[0].length+"]");
         return Infos;
     }
+
+    public static String[] serachChoice(String choice_type) {
+        String string_searchByType="SELECT * from table_choice WHERE id='"+choice_type+ "';";
+        System.out.println("即将执行的mysql语句"+string_searchByType);
+        execute(string_searchByType,"searchByType_choice");
+        return Infos[0];
+    }
+
+    public static String[] changeChoice(String choice_type,String[] updated_choice) {
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     public static void lock_unlock(String excute_sentence){
 
         execute(excute_sentence,"no_write");
