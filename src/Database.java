@@ -316,8 +316,11 @@ public class Database {
         return Choices;
     }
 
-    public static String[] changeChoice(String choice_type,String[] updated_choice) {
-        return null;
+    public static void insertChoice(String type,String choice) {
+        String insertTable="INSERT INTO `users_info`.`table_choice` (`type`,`choice`) VALUES ('" +type+
+                "', '" +choice+
+                "');";
+        execute(insertTable,"insert");
     }
 
 

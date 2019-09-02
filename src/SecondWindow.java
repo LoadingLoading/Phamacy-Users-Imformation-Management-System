@@ -11,7 +11,15 @@ import javax.swing.*;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Integer.parseInt;
 
-public class SecondWindow extends JFrame {
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Calendar;
+import javax.swing.*;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Integer.parseInt;
+
+public class SecondWindow extends JFrame /*implements ActionListener*/{
     static JTextField  textfield_name;
     static JComboBox combobox_gender;
     static JTextField textfield_ID;
@@ -453,7 +461,7 @@ public class SecondWindow extends JFrame {
         row_number=row_number+2;
         b.add(title);
 
-            JLabel label_name = new JLabel("姓名:               ");
+            JLabel label_name = new JLabel("姓名:                  ");
             textfield_name=new JTextField(string_name,10);
 
         JPanel name = new JPanel();
@@ -464,7 +472,7 @@ public class SecondWindow extends JFrame {
         row_number++;
         b.add(name);
 
-            JLabel label_gender = new JLabel("性别:               ");
+            JLabel label_gender = new JLabel("性别:                  ");
             combobox_gender = new JComboBox();
             combobox_gender.addItem("男");
             combobox_gender.addItem("女");
@@ -514,8 +522,8 @@ public class SecondWindow extends JFrame {
         row_number++;
         b.add(ID);
 
-            JLabel label_age = new JLabel("年龄:                 ");
-            textfield_age=new JLabel("  岁");
+            JLabel label_age = new JLabel("年龄:                  ");
+            textfield_age=new JLabel("岁");
         JPanel age = new JPanel();
         age.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         age.add(label_age);
@@ -524,8 +532,8 @@ public class SecondWindow extends JFrame {
         row_number++;
         b.add(age);
 
-            JLabel label_birthdate = new JLabel("出生日期:          ");
-            textfield_birthdate=new JLabel("    年 月 日");
+            JLabel label_birthdate = new JLabel("出生日期:         ");
+            textfield_birthdate=new JLabel("年 月 日");
         JPanel birthdate = new JPanel();
         birthdate.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         birthdate.add(label_birthdate);
@@ -560,10 +568,20 @@ public class SecondWindow extends JFrame {
             Icon icon_add = new ImageIcon("Pic/pic_add.png");
             JButton button_add_owner = new JButton(null,icon_add);
             button_add_owner.setBorderPainted(FALSE);
+            button_add_owner.setBackground(new Color(238,238,238));
+            button_add_owner.addMouseListener(new MouseAdapter(){    //取消并推出
+                public void mouseClicked(MouseEvent e){
+                    String inputValue = JOptionPane.showInputDialog("请输入新的号码归属方");
+                    if (inputValue != null) {
+                        Database.insertChoice("number_owner", inputValue);
+                    }
+                }
+            });
                 JPanel one_owner_number = new JPanel();
                 combobox_owner = new JComboBox();
-                for (int i = 0; i < Database.serachChoice("number_owner").length; i++) {
-                    combobox_owner.addItem(Database.serachChoice("number_owner")[i]);
+                String[] search_number_owner =Database.serachChoice("number_owner");
+                for (int i = 0; i < search_number_owner.length; i++) {
+                    combobox_owner.addItem(search_number_owner[i]);
                 }
                 combobox_owner.setSelectedItem(string_owner);
                 field_number = new JTextField(string_number,10);
@@ -572,8 +590,8 @@ public class SecondWindow extends JFrame {
 
                 JPanel one_owner_number1 = new JPanel();
                 combobox_owner1 = new JComboBox();
-                for (int i = 0; i < Database.serachChoice("number_owner").length; i++) {
-                    combobox_owner1.addItem(Database.serachChoice("number_owner")[i]);
+                for (int i = 0; i <search_number_owner.length; i++) {
+                    combobox_owner1.addItem(search_number_owner[i]);
                 }
                 combobox_owner1.setSelectedItem(string_owner1);
                 field_number1 = new JTextField(string_number,10);
@@ -582,8 +600,8 @@ public class SecondWindow extends JFrame {
 
                 JPanel one_owner_number2 = new JPanel();
                 combobox_owner2 = new JComboBox();
-                for (int i = 0; i < Database.serachChoice("number_owner").length; i++) {
-                    combobox_owner2.addItem(Database.serachChoice("number_owner")[i]);
+                for (int i = 0; i < search_number_owner.length; i++) {
+                    combobox_owner2.addItem(search_number_owner[i]);
                 }
                 combobox_owner2.setSelectedItem(string_owner2);
                 field_number2 = new JTextField(string_number2,10);
@@ -591,12 +609,13 @@ public class SecondWindow extends JFrame {
                 one_owner_number2.add(field_number2);
         JPanel number = new JPanel();
         number.setLayout(null);
+        Dimension preferredSize = new Dimension(24,20);
 
         number.add(label_number);
         label_number.setBounds(0,0,60,35);
         number.add(button_add_owner);
-        button_add_owner.setBounds(70,0,18,35);
-        int begin_pix=0;
+        button_add_owner.setBounds(60,0,18,35);
+        int begin_pix=-30;
         number.add(one_owner_number);
         one_owner_number.setBounds(begin_pix,0,400,35);
         number.add(one_owner_number1);
@@ -609,16 +628,29 @@ public class SecondWindow extends JFrame {
         b.add(number);
         }
 
+        Dimension preferredSize = new Dimension(24,20);
+
             JLabel label_medical = new JLabel("药品类型: ");
             Icon icon_add_medical = new ImageIcon("Pic/pic_add.png");
             JButton button_add_owner_medical = new JButton(null,icon_add_medical);
             button_add_owner_medical.setBorderPainted(FALSE);
+            button_add_owner_medical.setBackground(new Color(238,238,238));
+            button_add_owner_medical.addMouseListener(new MouseAdapter(){    //取消并推出
+                public void mouseClicked(MouseEvent e){
+                    String inputValue = JOptionPane.showInputDialog("请输入新的药品类型");
+                    if (inputValue != null) {
+                        Database.insertChoice("medicine", inputValue);
+                    }
+                }
+            });
             combobox_medical = new JComboBox();
-            for (int i = 0; i < Database.serachChoice("medicine").length; i++) {
-                combobox_medical.addItem(Database.serachChoice("medicine")[i]);
+            String[] search_medicine =Database.serachChoice("medicine");
+            for (int i = 0; i <search_medicine.length; i++) {
+                combobox_medical.addItem(search_medicine[i]);
             }
             combobox_medical.setSelectedItem(string_medical);
         JPanel medical = new JPanel();
+        button_add_owner_medical.setPreferredSize(preferredSize);
         medical.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         medical.add(label_medical);
         medical.add(button_add_owner_medical);
@@ -631,12 +663,23 @@ public class SecondWindow extends JFrame {
             Icon icon_add_disease_type = new ImageIcon("Pic/pic_add.png");
             JButton button_add_disease_type = new JButton(null,icon_add_disease_type);
             button_add_disease_type.setBorderPainted(FALSE);
+            button_add_disease_type.setBackground(new Color(238,238,238));
+            button_add_disease_type.addMouseListener(new MouseAdapter(){    //取消并推出
+                public void mouseClicked(MouseEvent e){
+                    String inputValue = JOptionPane.showInputDialog("请输入新的疾病类型");
+                    if (inputValue != null) {
+                        Database.insertChoice("disease", inputValue);
+                    }
+                }
+            });
             combobox_disease_type = new JComboBox();
-            for (int i = 0; i < Database.serachChoice("disease").length; i++) {
-                combobox_disease_type.addItem(Database.serachChoice("disease")[i]);
+            String[] search_disease =Database.serachChoice("disease");
+            for (int i = 0; i < search_disease.length; i++) {
+                combobox_disease_type.addItem(search_disease[i]);
             }
             combobox_disease_type.setSelectedItem(string_medical);
         JPanel disease_type = new JPanel();
+        button_add_disease_type.setPreferredSize(preferredSize);
         disease_type.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         disease_type.add(label_disease_type);
         disease_type.add(button_add_disease_type);
@@ -649,12 +692,23 @@ public class SecondWindow extends JFrame {
             Icon icon_add_insurance_type = new ImageIcon("Pic/pic_add.png");
             JButton button_add_insurance_type = new JButton(null,icon_add_insurance_type);
             button_add_insurance_type.setBorderPainted(FALSE);
+            button_add_insurance_type.setBackground(new Color(238,238,238));
+            button_add_insurance_type.addMouseListener(new MouseAdapter(){    //取消并推出
+                public void mouseClicked(MouseEvent e){
+                    String inputValue = JOptionPane.showInputDialog("请输入新的保险类型");
+                    if (inputValue != null) {
+                        Database.insertChoice("insurance",inputValue);
+                    }
+                }
+            });
             combobox_insurance_type = new JComboBox();
-            for (int i = 0; i < Database.serachChoice("insurance").length; i++) {
-                combobox_insurance_type.addItem(Database.serachChoice("insurance")[i]);
+            String[] search_insurance =Database.serachChoice("insurance");
+            for (int i = 0; i < search_insurance.length; i++) {
+                combobox_insurance_type.addItem(search_insurance[i]);
             }
             combobox_insurance_type.setSelectedItem(string_insurance_type);
         JPanel insurance_type = new JPanel();
+        button_add_insurance_type.setPreferredSize(preferredSize);
         insurance_type.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
         insurance_type.add(label_insurance_type);
         insurance_type.add(button_add_insurance_type);
@@ -753,7 +807,7 @@ public class SecondWindow extends JFrame {
         hight+=40;
         b.add(times);
 
-        JLabel label_record1 = new JLabel("概况:           ");
+        JLabel label_record1 = new JLabel("概况:              ");
         String overview_year="";
         String overview_month="";
         String overview_day="";
@@ -761,6 +815,11 @@ public class SecondWindow extends JFrame {
             overview_year=string_history_record[0][2];
             overview_month=string_history_record[0][3];
             overview_day=string_history_record[0][4];
+        }else{
+            int[] todayDate=MainWindow_Labels.getTodayDate();
+            overview_year=todayDate[0]+"";
+            overview_month=todayDate[1]+"";
+            overview_day=todayDate[2]+"";
         }
         String overview_time = overview_year + "年" + overview_month + "月" + overview_day + "号";
         JLabel label_record1_time = new JLabel("");
@@ -774,7 +833,7 @@ public class SecondWindow extends JFrame {
         b.add(name);
 
         textare_record1 = new JTextArea(1,1);
-        textare_record1.setBounds(95,hight,250+60,100);
+        textare_record1.setBounds(90,hight,250+60,100);
         if(user_id_static!=null) {
             //if (!string_history_record[string_history_record.length - 1][6].equals("new")) {
             textare_record1.setText(string_history_record[0][7]);
@@ -984,6 +1043,20 @@ public class SecondWindow extends JFrame {
             }else if(parseInt(birth_month)<m){
                 age-=1;
             }
-            textfield_age.setText(age+"");
+            textfield_age.setText(age+"岁");
     }
+
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        Object source=e.getSource();
+//        if (source == null) {
+//
+//        }else if (source == null) {
+//
+//        }else if (source == null) {
+//
+//        }else if (source == null) {
+//
+//        }
+//    }
 }
