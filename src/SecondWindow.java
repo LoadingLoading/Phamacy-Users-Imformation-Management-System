@@ -159,6 +159,44 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
 
         //以下为布局
         JFrame user_detail_imformation = new JFrame();
+        System.out.println("默认关闭操作为"+user_detail_imformation.getDefaultCloseOperation());
+
+
+        user_detail_imformation.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e) {
+                user_detail_imformation.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                String show_alert="";
+                if(user_id==null){
+                    show_alert="点击确认后将放弃所有已输入新增信息，确定吗";
+                }else{
+                    show_alert="点击确认后将放弃更改所有已输入信息，确定吗";
+                }
+
+
+                int res=JOptionPane.showConfirmDialog(null, show_alert, "取消并推出", JOptionPane.YES_NO_OPTION);
+                if(res==JOptionPane.YES_OPTION){//确认推出
+                    //System.out.println("已检测无该id存在");
+                    //return 1;
+                    //MainWindow.main();
+                    MainWindow_Labels.repaintIt();
+                    //lablerepaintIt
+                    user_detail_imformation.dispose();
+
+
+
+
+                    //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
+                }else{//取消推出
+                    //System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
+                    return;
+                }
+            }
+        });
+
+        //user_detail_imformation.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        //user_detail_imformation.setUndecorated(true);
+        //user_detail_imformation.setAlwaysOnTop(true);
         user_detail_imformation.setResizable(false);
 
 
@@ -238,7 +276,7 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                 }
 
                 String ID = textfield_ID.getText();
-                if(ID.equals("")){
+                if(ID.equals("")||ID.length()!=18){
                     nullItems+="身份证 ";
                 }
 
@@ -335,14 +373,16 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                 string_first_record[6]="new";//noti_buy
                 string_first_record[7]=textare_record1.getText();//record
 
-
+//在这里加入state的判断，如果state是search，则搜索，如果不是，则进行下面的新增或修改
                 if(!nullItems.equals("")){//未正确填写信息
                     JOptionPane.showMessageDialog(null, "请正确填写 "+nullItems, "未补全信息", JOptionPane.ERROR_MESSAGE);
                 }else if(user_id==null){//新增
 //                    String[] checkIdExist= Database.searchByID(ID)[0];//搜索id，如无返回null
 //                    System.out.println("检测id是否存在"+checkIdExist[3]);
+                    System.out.println("我倒是要看看存在的id是个啥"+Database.searchByID(ID).length);
+                    //System.out.println(Database.searchByID(ID)[0][0]);
 
-                    if( Database.searchByID(ID)[0][0]==null){//id不存在，可以新增
+                    if( Database.searchByID(ID).length==0){//id不存在，可以新增
                         System.out.println("id不存在，可以新增");
                         int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存新增用户并退出", "确认保存", JOptionPane.YES_NO_OPTION);
                         if(res==JOptionPane.YES_OPTION){//确认
@@ -354,6 +394,11 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                             //excute to table_record
                             Database.insertRecord(string_first_record);
 
+
+                            MainWindow.jp2= MainWindow_Labels.noti_buy(MainWindow.jp2,"noti");
+                            MainWindow.jp3= MainWindow_Labels.noti_buy(MainWindow.jp3,"but");
+                            MainWindow.jp4= MainWindow_Labels.noti_buy(MainWindow.jp4,"noti");
+                            //然后关闭窗口
                             user_detail_imformation.dispose();
                             //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
                         }else{//取消
@@ -388,8 +433,12 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
 
                         }
 
-
+                        MainWindow.jp2= MainWindow_Labels.noti_buy(MainWindow.jp2,"noti");
+                        MainWindow.jp3= MainWindow_Labels.noti_buy(MainWindow.jp3,"but");
+                        MainWindow.jp4= MainWindow_Labels.noti_buy(MainWindow.jp4,"noti");
+                        //然后关闭窗口
                         user_detail_imformation.dispose();
+
 
 
 
@@ -614,7 +663,7 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
         number.add(label_number);
         label_number.setBounds(0,0,60,35);
         number.add(button_add_owner);
-        button_add_owner.setBounds(60,0,18,35);
+        button_add_owner.setBounds(60,6,18,20);
         int begin_pix=-30;
         number.add(one_owner_number);
         one_owner_number.setBounds(begin_pix,0,400,35);
@@ -1045,6 +1094,7 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
             }
             textfield_age.setText(age+"岁");
     }
+
 
 //    @Override
 //    public void actionPerformed(ActionEvent e) {

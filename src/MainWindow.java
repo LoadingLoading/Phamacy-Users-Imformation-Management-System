@@ -17,7 +17,7 @@ public class MainWindow extends JFrame {
 
     // 中部区域
     JTabbedPane jtp;// 选项卡窗格
-    JPanel jp2, jp3, jp4;
+    static JPanel jp2, jp3, jp4;
 
     JLabel jl2, jl3, jl4, jl5;
     // 号码输入文本框
@@ -132,9 +132,12 @@ public class MainWindow extends JFrame {
 
                 if(title.equals("今日提醒")){
                     jp2= MainWindow_Labels.noti_buy(jp2,"noti");
-                }
-                if(title.equals("今日买药")){
+                }else if(title.equals("今日买药")){
                     jp3= MainWindow_Labels.noti_buy(jp3,"buy");
+                }else if(title.equals("查询")){
+                    SecondWindow.User_Detail_Imformation("waitToNoti",null);
+
+
                 }
             }
         });
@@ -262,6 +265,7 @@ public class MainWindow extends JFrame {
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setTitle("诚管系统");
         this.setVisible(true);
 
         //this.Update(this.getGraphics());

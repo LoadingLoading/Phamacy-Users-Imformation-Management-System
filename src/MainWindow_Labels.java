@@ -20,6 +20,7 @@ public class MainWindow_Labels {
 
     public static JPanel noti_buy(JPanel jp2,String noti_buy){
 
+
         whole_frame = new JPanel();
 
         whole_frame.setLayout(null);
@@ -110,7 +111,7 @@ public class MainWindow_Labels {
         tick_boxs.setLayout(null);
 
         for (int i = 0; i < isNull(getTableVales); i++) {
-            Checkbox cb = createCheckbox(i+"",noti_buy);
+            Checkbox cb = createCheckbox(i+1+"",noti_buy);
             cb.setBounds(0,18*i+18,25,18);
             tick_boxs.add(cb);
             System.out.println("_________________刷新_____________");
@@ -231,7 +232,7 @@ public class MainWindow_Labels {
                 String changeState=null;
 
                 Checkbox cb = (Checkbox)e.getSource();
-                int checkBoxSelected=parseInt(cb.getLabel());
+                int checkBoxSelected=parseInt(cb.getLabel())-1;
                 boolean stateAfterClick=cb.getState();
                 int column_table_ticked=6;
                 if(noti_buy.equals("buy")){//如果是第二个界面就是相反的
