@@ -1,6 +1,8 @@
 
 //QQ登录界面制作
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -16,7 +18,7 @@ public class MainWindow extends JFrame {
     JPanel jp1;
 
     // 中部区域
-    JTabbedPane jtp;// 选项卡窗格
+    static JTabbedPane jtp;// 选项卡窗格
     static JPanel jp2, jp3, jp4;
 
     JLabel jl2, jl3, jl4, jl5;
@@ -49,6 +51,7 @@ public class MainWindow extends JFrame {
 
 
     public MainWindow() {
+        System.out.println("进入 MainWindow 方法 ，无输入， 无输出");
 
 //        // 创建组件
 //        jl2 = new JLabel("QQ号码", JLabel.CENTER);
@@ -93,12 +96,27 @@ public class MainWindow extends JFrame {
         jp3 = new JPanel();
         //jp3.setBackground(Color.RED);// 给面板设置背景
         jp4 = new JPanel();
-        jp4.setBackground(new Color(0, 0, 255));
+        //jp4.setBackground(new Color(0, 0, 0));
 
         // 将面板添加到选项卡窗格上
         jtp.add("今日提醒", jp2);// 参数：选项卡名称，面板
         jtp.add("今日买药", jp3);
         jtp.add("查询", jp4);
+
+
+        /**
+         *
+         *
+         *                     search_infos[0]=name;
+         *                     search_infos[1]=gender;
+         *                     search_infos[2]=ID;
+         *                     search_infos[3]=phone;
+         *                     search_infos[4]=medical;
+         *                     search_infos[5]=disease_type;
+         *                     search_infos[6]=insurance_type;
+         *                     search_infos[7]=address;
+         */
+
 
         // 设置布局
         //jp2.setLayout(new GridLayout(3, 3));
@@ -118,7 +136,8 @@ public class MainWindow extends JFrame {
 //        jp2.add(jcb2);
 //        jp2.add(jl5);
 
-        jp2= MainWindow_Labels.noti_buy(jp2,"noti");//第一个页面
+        jp2= MainWindow_Labels.noti_buy(jp2,"noti",null);//第一个页面
+
 
         jtp.addChangeListener(new ChangeListener() {//可以每点一下就刷新，
 
@@ -131,13 +150,18 @@ public class MainWindow extends JFrame {
                 System.out.println(title);
 
                 if(title.equals("今日提醒")){
-                    jp2= MainWindow_Labels.noti_buy(jp2,"noti");
+                    jp2= MainWindow_Labels.noti_buy(jp2,"noti",null);
+                    //jp3= MainWindow_Labels.noti_buy(jp3,"buy",null);
                 }else if(title.equals("今日买药")){
-                    jp3= MainWindow_Labels.noti_buy(jp3,"buy");
+                    //jp2= MainWindow_Labels.noti_buy(jp2,"noti",null);
+                    jp3= MainWindow_Labels.noti_buy(jp3,"buy",null);
                 }else if(title.equals("查询")){
-                    SecondWindow.User_Detail_Imformation("waitToNoti",null);
+//                    if(jp4==null){
+//                        jp4= MainWindow_Labels.noti_buy(jp4,"search",null);
+//                    }
+                    //jp4= MainWindow_Labels.noti_buy(jp4,"search",null);
 
-
+                    //SecondWindow.User_Detail_Imformation("search",null);
                 }
             }
         });

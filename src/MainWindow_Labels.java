@@ -18,7 +18,19 @@ public class MainWindow_Labels {
     public static JPanel tick_boxs;
     public static String[][] getTableVales;
 
-    public static JPanel noti_buy(JPanel jp2,String noti_buy){
+    public static JPanel noti_buy(JPanel jp2,String noti_buy,String[] search_infos){
+        /**
+         *
+         *
+         *                     search_infos[0]=name;
+         *                     search_infos[1]=gender;
+         *                     search_infos[2]=ID;
+         *                     search_infos[3]=phone;
+         *                     search_infos[4]=medical;
+         *                     search_infos[5]=disease_type;
+         *                     search_infos[6]=insurance_type;
+         *                     search_infos[7]=address;
+         */
 
 
         whole_frame = new JPanel();
@@ -35,10 +47,14 @@ public class MainWindow_Labels {
         }else if(noti_buy.equals("buy")){
             String[] columnNamesForBuy = {"离已致电天数","姓名","性别","购药次数","药名","号主+号码","上次买药时间","身份证号"};
             columnNames=columnNamesForBuy;
+        }else if(noti_buy.equals("search")){
+            String[] columnNamesForNoti = {"姓名","性别","购药次数","药名","号主+号码","上次买药时间","身份证号"};
+            columnNames=columnNamesForNoti;
         }
 
         getTableVales=null;
         String[][] tableVales=null;
+
 
         if(noti_buy.equals("noti")) {
             getTableVales = getTodayInfo();
@@ -105,37 +121,114 @@ public class MainWindow_Labels {
 
                 tableVales[i][7] = getTableVales[i][3];
             }
+        }else if(noti_buy.equals("search")&&search_infos!=null){
+            /**
+             *
+             *                     输入的
+             *                     search_infos[0]=name;
+             *                     search_infos[1]=gender;
+             *                     search_infos[2]=ID;
+             *                     search_infos[3]=phone;
+             *                     search_infos[4]=medical;
+             *                     search_infos[5]=disease_type;
+             *                     search_infos[6]=insurance_type;
+             *                     search_infos[7]=address;
+             */
+
+            /**
+             *
+             *                     从数据库输出回来的的
+             *                     getTableVales[0]=number;
+             *                     getTableVales[1]=name;
+             *                     getTableVales[2]=gender;
+             *                     getTableVales[3]=id;
+             *                     getTableVales[4]=owner0;
+             *                     getTableVales[5]=phone0;
+             *                     getTableVales[6]=owner1;
+             *                     getTableVales[7]=phone1;
+             *                     getTableVales[8]=owner2;
+             *                     getTableVales[9]=phone2;
+             *                     getTableVales[10]=medicine;
+             *                     getTableVales[11]=desease;
+             *                     getTableVales[12]= insurance_type
+             *                     getTableVales[13]=address;
+             *                     getTableVales[14]=year;
+             *                     getTableVales[15]=month;
+             *                     getTableVales[16]=day;
+             *                     getTableVales[17]=state;
+             */
+            //记得进行id的数字检测
+            getTableVales = Database.searchByAll(search_infos);
+            tableVales = new String[isNull(getTableVales)][7];
+            for (int i = 0; i < isNull(getTableVales); i++) {
+                tableVales[i][0] = getTableVales[i][1];
+                tableVales[i][1] = getTableVales[i][2];
+
+                //getTableVales[i][3]是身份证id，用这个搜索record，得到的就是record，最后一个的次数就是：购药次数
+                String[][] string_history_record=Database.searchRecord(getTableVales[i][3]);
+                tableVales[i][2] =  "致电后为第"+string_history_record[string_history_record.length-1][5]+"次买药";
+
+                tableVales[i][3] = getTableVales[i][10];
+                tableVales[i][4] = getTableVales[i][4] + " " + getTableVales[i][5];
+
+                String date_last_bought="";
+                if(string_history_record.length<=2){
+                    date_last_bought="上次购药时间未记录";
+                }else{
+                    date_last_bought=string_history_record[string_history_record.length-2][2]+"年"+
+                            string_history_record[string_history_record.length-2][3]+"月"+
+                            string_history_record[string_history_record.length-2][4]+"日";
+                }
+                tableVales[i][5] =date_last_bought;
+
+                tableVales[i][6] = getTableVales[i][3];
+            }
+
+            //getTableVales = Database.searchByAll(search_infos);
+
         }
 //在table初始化后添加动态tickbox
         tick_boxs = new JPanel();
         tick_boxs.setLayout(null);
-
+        int wide_of_tickbox=25;
+        if(isNull(getTableVales)>=9){
+            wide_of_tickbox=31;
+        }else if(isNull(getTableVales)>=99){
+            wide_of_tickbox=37;
+        }else if(isNull(getTableVales)>=999){
+            wide_of_tickbox=43;
+        }
+        //if(!noti_buy.equals("search")) {
         for (int i = 0; i < isNull(getTableVales); i++) {
-            Checkbox cb = createCheckbox(i+1+"",noti_buy);
-            cb.setBounds(0,18*i+18,25,18);
+            Checkbox cb = createCheckbox(i + 1 + "", noti_buy);
+            cb.setBounds(0, 18 * i + 22, wide_of_tickbox, 18);
             tick_boxs.add(cb);
             System.out.println("_________________刷新_____________");
-            if(getTableVales[i][isNull(getTableVales[i])-1].equals("waitToBuy")){
+            if (getTableVales[i][isNull(getTableVales[i]) - 1].equals("waitToBuy")) {
                 cb.setState(true);
             }
-            if(getTableVales[i][isNull(getTableVales[i])-1].equals("waitToNoti")){
+            if (getTableVales[i][isNull(getTableVales[i]) - 1].equals("waitToNoti")) {
                 cb.setState(false);
             }
-            if(noti_buy.equals("buy")){//如果在今日买药界面，则相反
+            if (noti_buy.equals("buy")) {//如果在今日买药界面，则相反
                 cb.setState(!cb.getState());
+            }
+            if(noti_buy.equals("search")){
+                cb.setEnabled(false);
             }
 //            if(i>=1) {
 //                tick_boxs.add(cb);
 //            }
             //cb.setState();
         }
+        //}
 
 
 
         //tick_boxs
 
         tick_boxs.setBackground(Color.white);
-        tick_boxs.setBounds(0,0,25,1000);
+        tick_boxs.setBounds(0,0,wide_of_tickbox,1000);
         whole_frame.add(tick_boxs);
         //添加tickbox完毕，继续table
 
@@ -176,8 +269,19 @@ public class MainWindow_Labels {
                     if(noti_buy.equals("noti")){//如果是第二个界面就是相反的
                         SecondWindow.User_Detail_Imformation("waitToNoti",getTableVales[selectedRow][3]);
                     }
+                    if(noti_buy.equals("search")){//如果是第二个界面就是相反的
+                        SecondWindow.User_Detail_Imformation("waitToNoti",getTableVales[selectedRow][3]);
+                    }
 
                 }
+//                if (clickTimes == 1) {
+//                    int selectedRow = table.getSelectedRow(); //获得选中行索引
+//                    int selectedcol=table.getSelectedColumn();
+//                    //table[selectedRow][selectedcol]
+//                    System.out.println("表格所选身份证号为"+getTableVales[selectedRow][3]);
+//
+//
+//                }
                 //int selectedRow = table.getSelectedRow(); //获得选中行索引
 //                Object oa = tableModel.getValueAt(selectedRow, 6);
 //                Object ob = tableModel.getValueAt(selectedRow, 1);
@@ -196,7 +300,7 @@ public class MainWindow_Labels {
 
 //
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(25,0,1150,700);
+        scrollPane.setBounds(wide_of_tickbox,0,1150,700);
 
         whole_frame.add(scrollPane);
 
@@ -234,20 +338,24 @@ public class MainWindow_Labels {
                 Checkbox cb = (Checkbox)e.getSource();
                 int checkBoxSelected=parseInt(cb.getLabel())-1;
                 boolean stateAfterClick=cb.getState();
+                System.out.println(stateAfterClick);
                 int column_table_ticked=6;
                 if(noti_buy.equals("buy")){//如果是第二个界面就是相反的
                     stateAfterClick=!stateAfterClick;
                     column_table_ticked=7;
                 }
-                if(!stateAfterClick){//如果本来没有打勾，打勾是为了变成
+                if(!stateAfterClick){
+                    //本来打了勾，取消打勾
                     //点了以后会先变成false，原来是true，原来是打勾，原来是buy
                     changeState="waitToNoti";
-                }else if(stateAfterClick){//本来打了勾，取消打勾
+                }else if(stateAfterClick){
+                    //如果本来没有打勾，打勾是为了变成
                     //相反点
                     changeState="waitToBuy";
                 }
                 String waitToBuy_userId=tableModel.getValueAt(checkBoxSelected, column_table_ticked).toString();
                 //int canceled=
+                System.out.println("changeState是"+changeState);
                 SecondWindow.User_Detail_Imformation(changeState,waitToBuy_userId);
 //                if(canceled==1){
 //                    cb.setState(false);
@@ -271,12 +379,14 @@ public class MainWindow_Labels {
 //        whole_frame.updateUI();
 
         //取消打勾
+        //因为改过勾勾右边的数字，导致这里出现bug
         int count = tick_boxs.getComponentCount();
         for (int i = 0; i < count; i++) {
             Component comp = tick_boxs.getComponent(i);
             if(comp instanceof Checkbox){
 
                 String[][] getTableVales=getTodayInfo();
+                System.out.println("getTableVales的长度是"+getTableVales.length);
 //                String waitToBuy_userId=tableModel.getValueAt(i, 6).toString();
                 if(getTableVales[i][17].equals("waitToNoti")){
                     Checkbox btn = (Checkbox)comp;

@@ -168,9 +168,9 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                 user_detail_imformation.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
                 String show_alert="";
                 if(user_id==null){
-                    show_alert="点击确认后将放弃所有已输入新增信息，确定吗";
+                    show_alert="点击 是(Y) 后将放弃所有已输入新增信息，确定吗";
                 }else{
-                    show_alert="点击确认后将放弃更改所有已输入信息，确定吗";
+                    show_alert="点击 是(Y) 后将放弃更改所有已输入信息，确定吗";
                 }
 
 
@@ -179,8 +179,18 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                     //System.out.println("已检测无该id存在");
                     //return 1;
                     //MainWindow.main();
-                    MainWindow_Labels.repaintIt();
+                    //MainWindow_Labels.repaintIt();
                     //lablerepaintIt
+                    System.out.println("主界面所选选项卡为： index"+MainWindow.jtp.getSelectedIndex()+" 将会刷新");
+                    int selectedIndex=MainWindow.jtp.getSelectedIndex();
+                    if(selectedIndex==0){
+                        MainWindow.jp2 = MainWindow_Labels.noti_buy(MainWindow.jp2, "noti", null);
+                    }else if(selectedIndex==1){
+                        MainWindow.jp3 = MainWindow_Labels.noti_buy(MainWindow.jp3, "buy", null);
+                    }else if(selectedIndex==2){
+                        //MainWindow.jp4 = MainWindow_Labels.noti_buy(MainWindow.jp4, "noti", null);
+                    }
+
                     user_detail_imformation.dispose();
 
 
@@ -236,6 +246,10 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
 //        scrollpane_left.add(b);
         jptry.add(jp2);
         jptry.add(jp3);
+//        if (!state.equals("search")) {
+//            jptry.add(jp3);
+//        }
+
 
 
 
@@ -373,81 +387,117 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                 string_first_record[6]="new";//noti_buy
                 string_first_record[7]=textare_record1.getText();//record
 
-//在这里加入state的判断，如果state是search，则搜索，如果不是，则进行下面的新增或修改
-                if(!nullItems.equals("")){//未正确填写信息
-                    JOptionPane.showMessageDialog(null, "请正确填写 "+nullItems, "未补全信息", JOptionPane.ERROR_MESSAGE);
-                }else if(user_id==null){//新增
+                if (state == "search") {//通过搜索点击进入该界面
+                    if(ID.length()==0||ID.length()==2||ID.length()==4||ID.length()==18) {
+                        String[] search_infos = new String[8];
+                        search_infos[0] = name;
+                        search_infos[1] = gender;
+                        search_infos[2] = ID;
+                        search_infos[3] = phone;
+                        search_infos[4] = medical;
+                        search_infos[5] = disease_type;
+                        search_infos[6] = insurance_type;
+                        search_infos[7] = address;
+                        MainWindow.jp4 = MainWindow_Labels.noti_buy(MainWindow.jp4, "search", search_infos);
+                        MainWindow.jtp.setSelectedIndex(2);
+                        user_detail_imformation.dispose();
+                    }else{
+                        System.out.println("id格式不符合存在，不可以新增");
+                        JOptionPane.showMessageDialog(null, "身份证号输入格式错误，请悬停在输入框阅读提示" , "无法储存", JOptionPane.ERROR_MESSAGE);
+                    }
+                }else {//通过新增或者双击表格查看详细信息
+                    //在这里加入state的判断，如果state是search，则搜索，如果不是，则进行下面的新增或修改
+                    if (!nullItems.equals("")) {//未正确填写信息
+                        JOptionPane.showMessageDialog(null, "请正确填写 " + nullItems, "未补全信息", JOptionPane.ERROR_MESSAGE);
+                    } else if (user_id == null) {//新增
 //                    String[] checkIdExist= Database.searchByID(ID)[0];//搜索id，如无返回null
 //                    System.out.println("检测id是否存在"+checkIdExist[3]);
-                    System.out.println("我倒是要看看存在的id是个啥"+Database.searchByID(ID).length);
-                    //System.out.println(Database.searchByID(ID)[0][0]);
+                        System.out.println("我倒是要看看存在的id是个啥" + Database.searchByID(ID).length);
+                        //System.out.println(Database.searchByID(ID)[0][0]);
 
-                    if( Database.searchByID(ID).length==0){//id不存在，可以新增
-                        System.out.println("id不存在，可以新增");
-                        int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存新增用户并退出", "确认保存", JOptionPane.YES_NO_OPTION);
-                        if(res==JOptionPane.YES_OPTION){//确认
-                            System.out.println("已检测无该id存在");
+                        if (Database.searchByID(ID).length == 0) {//id不存在，可以新增
+                            System.out.println("id不存在，可以新增");
+                            int res = JOptionPane.showConfirmDialog(null, "点击确认后将保存新增用户并退出", "确认保存", JOptionPane.YES_NO_OPTION);
+                            if (res == JOptionPane.YES_OPTION) {//确认
+                                System.out.println("已检测无该id存在");
 
-                            //excute to table_name
-                            Database.insert(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day);
+                                //excute to table_name
+                                Database.insert(name, gender, ID, owner, phone, owner1, phone1, owner2, phone2, medical, disease_type, insurance_type, address, year, month, day);
 
-                            //excute to table_record
-                            Database.insertRecord(string_first_record);
+                                //excute to table_record
+                                Database.insertRecord(string_first_record);
+//                                repaint 作用是把打上的勾取消掉，所以确认时不需要刷新
+//
+//                                MainWindow.jp2 = MainWindow_Labels.noti_buy(MainWindow.jp2, "noti", null);
+//                                MainWindow.jp3 = MainWindow_Labels.noti_buy(MainWindow.jp3, "buy", null);
+//                                //MainWindow.jp4 = MainWindow_Labels.noti_buy(MainWindow.jp4, "noti", null);
+                                //然后关闭窗口
+                                System.out.println("主界面所选选项卡为： index"+MainWindow.jtp.getSelectedIndex()+" 将会刷新");
+                                int selectedIndex=MainWindow.jtp.getSelectedIndex();
+                                if(selectedIndex==0){
+                                    MainWindow.jp2 = MainWindow_Labels.noti_buy(MainWindow.jp2, "noti", null);
+                                }else if(selectedIndex==1){
+                                    MainWindow.jp3 = MainWindow_Labels.noti_buy(MainWindow.jp3, "buy", null);
+                                }else if(selectedIndex==2){
+                                    //MainWindow.jp4 = MainWindow_Labels.noti_buy(MainWindow.jp4, "noti", null);
+                                }
+                                user_detail_imformation.dispose();
+                                //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
+                            } else {//取消
+
+                                //System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
+                                return;
+                            }
 
 
-                            MainWindow.jp2= MainWindow_Labels.noti_buy(MainWindow.jp2,"noti");
-                            MainWindow.jp3= MainWindow_Labels.noti_buy(MainWindow.jp3,"but");
-                            MainWindow.jp4= MainWindow_Labels.noti_buy(MainWindow.jp4,"noti");
+                        } else {//id已经存在，无法新增
+                            System.out.println("id存在，不可以新增");
+                            JOptionPane.showMessageDialog(null, "该身份证已经存在" + nullItems, "无法储存", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                    } else if (user_id != null) {//修改
+                        int res = JOptionPane.showConfirmDialog(null, "点击 是(Y) 后将保存修改并退出", "确认保存", JOptionPane.YES_NO_OPTION);
+                        if (res == JOptionPane.YES_OPTION) {//确认
+                            //edit on table_name
+                            Database.update(name, gender, ID, owner, phone, owner1, phone1, owner2, phone2, medical, disease_type, insurance_type, address, year, month, day, state);
+
+                            //edit the table_record(actully its insert a new record or update if it has been inserted once)
+                            string_new_record[7] = textarea_final_record.getText();
+                            //第一次插入，判定第几次买药或提醒 来看唯一性
+                            //相同应该是不是第一次插入？
+                            //ture 为已经添加
+                            //不是第一次插入，只要更新就行，根据最后一个就可以了
+                            if ((string_state.equals("waitToNoti") && string_history_record[string_history_record.length - 1][6].equals("noti")) || (string_state.equals("waitToBuy") && string_history_record[string_history_record.length - 1][6].equals("buy"))) {
+                                Database.updateRecord(string_new_record, Integer.parseInt(string_history_record[string_history_record.length - 1][0]));
+
+                            } else {
+                                Database.insertRecord(string_new_record);
+
+                            }
+
+                            //MainWindow.jp2 = MainWindow_Labels.noti_buy(MainWindow.jp2, "noti", null);
+                            //MainWindow.jp3 = MainWindow_Labels.noti_buy(MainWindow.jp3, "buy", null);
+                            //MainWindow.jp4 = MainWindow_Labels.noti_buy(MainWindow.jp4, "noti", null);
                             //然后关闭窗口
+                            System.out.println("主界面所选选项卡为： index"+MainWindow.jtp.getSelectedIndex()+" 将会刷新");
+                            int selectedIndex=MainWindow.jtp.getSelectedIndex();
+                            if(selectedIndex==0){
+                                MainWindow.jp2 = MainWindow_Labels.noti_buy(MainWindow.jp2, "noti", null);
+                            }else if(selectedIndex==1){
+                                MainWindow.jp3 = MainWindow_Labels.noti_buy(MainWindow.jp3, "buy", null);
+                            }else if(selectedIndex==2){
+                                //MainWindow.jp4 = MainWindow_Labels.noti_buy(MainWindow.jp4, "noti", null);
+                            }
                             user_detail_imformation.dispose();
-                            //System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
-                        }else{//取消
 
-                            //System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
-                            return;
+
+                            System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
+                        } else {//取消
+                            System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
+                            //return;
                         }
 
-
-                    }else{//id已经存在，无法新增
-                        System.out.println("id存在，不可以新增");
-                        JOptionPane.showMessageDialog(null, "该身份证已经存在"+nullItems, "无法储存", JOptionPane.ERROR_MESSAGE);
                     }
-
-                }else if(user_id!=null){//修改
-                    int res=JOptionPane.showConfirmDialog(null, "点击确认后将保存修改并退出", "确认保存", JOptionPane.YES_NO_OPTION);
-                    if(res==JOptionPane.YES_OPTION){//确认
-                        //edit on table_name
-                        Database.update(name,gender,ID,owner,phone,owner1,phone1,owner2,phone2,medical,disease_type,insurance_type,address,year,month,day,state);
-
-                        //edit the table_record(actully its insert a new record or update if it has been inserted once)
-                        string_new_record[7]=textarea_final_record.getText();
-                        //第一次插入，判定第几次买药或提醒 来看唯一性
-                        //相同应该是不是第一次插入？
-                        //ture 为已经添加
-                        //不是第一次插入，只要更新就行，根据最后一个就可以了
-                        if((string_state.equals("waitToNoti")&&string_history_record[string_history_record.length - 1][6].equals("noti"))||(string_state.equals("waitToBuy")&&string_history_record[string_history_record.length - 1][6].equals("buy"))){
-                            Database.updateRecord(string_new_record, Integer.parseInt(string_history_record[string_history_record.length - 1][0]));
-
-                        }else {
-                            Database.insertRecord(string_new_record);
-
-                        }
-
-                        MainWindow.jp2= MainWindow_Labels.noti_buy(MainWindow.jp2,"noti");
-                        MainWindow.jp3= MainWindow_Labels.noti_buy(MainWindow.jp3,"but");
-                        MainWindow.jp4= MainWindow_Labels.noti_buy(MainWindow.jp4,"noti");
-                        //然后关闭窗口
-                        user_detail_imformation.dispose();
-
-
-
-
-                        System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
-                    }else{//取消
-                        System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
-                        //return;
-                    }
-
                 }
 
 
@@ -462,9 +512,9 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
             public void mouseClicked(MouseEvent e){
                 String show_alert;
                 if(user_id==null){
-                    show_alert="点击确认后将放弃所有已输入新增信息，确定吗";
+                    show_alert="点击 是(Y) 后将放弃所有已输入新增信息，确定吗";
                 }else{
-                    show_alert="点击确认后将放弃更改所有已输入信息，确定吗";
+                    show_alert="点击 是(Y) 后将放弃更改所有已输入信息，确定吗";
                 }
 
 
@@ -473,8 +523,24 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                     //System.out.println("已检测无该id存在");
                     //return 1;
                     //MainWindow.main();
-                    MainWindow_Labels.repaintIt();
-                    //lablerepaintIt
+
+                    //MainWindow.jp2 = MainWindow_Labels.noti_buy(MainWindow.jp2, "noti", null);
+                    //MainWindow.jp3 = MainWindow_Labels.noti_buy(MainWindow.jp3, "buy", null);
+                    //MainWindow.jp4 = MainWindow_Labels.noti_buy(MainWindow.jp4, "noti", null);
+                    //用上面三行代替repaintit 下面方法有bug
+                    //MainWindow_Labels.repaintIt();
+                    //下面是刷新的方法
+                    System.out.println("主界面所选选项卡为： index"+MainWindow.jtp.getSelectedIndex()+" 将会刷新");
+                    int selectedIndex=MainWindow.jtp.getSelectedIndex();
+                    if(selectedIndex==0){
+                        MainWindow.jp2 = MainWindow_Labels.noti_buy(MainWindow.jp2, "noti", null);
+                    }else if(selectedIndex==1){
+                        MainWindow.jp3 = MainWindow_Labels.noti_buy(MainWindow.jp3, "buy", null);
+                    }else if(selectedIndex==2){
+                        //MainWindow.jp4 = MainWindow_Labels.noti_buy(MainWindow.jp4, "noti", null);
+                    }
+
+
                     user_detail_imformation.dispose();
 
 
@@ -538,6 +604,9 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
 
             JLabel label_ID = new JLabel("身份证号:         ");
             textfield_ID=new JTextField(string_ID,15);
+            if (state_static.equals("search")) {
+                textfield_ID.setToolTipText("输入两位为搜索特定年龄，四位为范围年龄，十八位为身份证号");
+            }
             if(string_ID!=null){
                 textfield_ID.setEditable(false);
             }
@@ -633,6 +702,13 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                     combobox_owner.addItem(search_number_owner[i]);
                 }
                 combobox_owner.setSelectedItem(string_owner);
+                //数据库返回的null是String的"null"， 所以需要做出这个判断，并且其他选项在设置时必须选上，所以不会出现这种状况
+
+                if ("null".equals(string_owner)) {
+                    System.out.println("是null字符");
+                    combobox_owner.setSelectedItem(null);
+                }
+
                 field_number = new JTextField(string_number,10);
                 one_owner_number.add(combobox_owner);
                 one_owner_number.add(field_number);
@@ -643,7 +719,13 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                     combobox_owner1.addItem(search_number_owner[i]);
                 }
                 combobox_owner1.setSelectedItem(string_owner1);
-                field_number1 = new JTextField(string_number,10);
+                if ("null".equals(string_owner1)) {
+                    System.out.println("是null字符");
+                    combobox_owner1.setSelectedItem(null);
+                }
+
+
+                field_number1 = new JTextField(string_number1,10);
                 one_owner_number1.add(combobox_owner1);
                 one_owner_number1.add(field_number1);
 
@@ -653,9 +735,22 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
                     combobox_owner2.addItem(search_number_owner[i]);
                 }
                 combobox_owner2.setSelectedItem(string_owner2);
+                if ("null".equals(string_owner2)) {
+                    System.out.println("是null字符");
+                    combobox_owner2.setSelectedItem(null);
+                }
                 field_number2 = new JTextField(string_number2,10);
                 one_owner_number2.add(combobox_owner2);
                 one_owner_number2.add(field_number2);
+
+
+            if (state_static == "search") {
+                combobox_owner.setEnabled(false);
+                combobox_owner1.setEnabled(false);
+                combobox_owner2.setEnabled(false);
+                field_number1.setEditable(false);
+                field_number2.setEditable(false);
+            }
         JPanel number = new JPanel();
         number.setLayout(null);
         Dimension preferredSize = new Dimension(24,20);
@@ -988,6 +1083,15 @@ public class SecondWindow extends JFrame /*implements ActionListener*/{
         //panel_record_substitute.add(panel_record_substitute)
 
         b.add(scrollPane);
+
+        if(state_static.equals("search")){
+            textfield_noti_time_year.setEditable(false);
+            textfield_noti_time_month.setEditable(false);
+            textfield_noti_time_day.setEditable(false);
+            textfield_times.setEditable(false);
+            textare_record1.setEditable(false);
+            textare_record1.setBackground(new Color(234,234,234));
+        }
 
         return b;
     }

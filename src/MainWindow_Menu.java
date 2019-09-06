@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 
 public class MainWindow_Menu {
@@ -8,9 +10,11 @@ public class MainWindow_Menu {
         //不能设定位置，会自动放在最上部
 
         //添加菜单
-        JMenu menu1 = new JMenu("编辑");
+        JMenu menu3 = new JMenu("编辑");
         JMenu menu2 = new JMenu("管理员功能");
-        JMenu menu3 = new JMenu("帮助");
+        JMenu menu1 = new JMenu("帮助");
+
+        //SecondWindow.User_Detail_Imformation("search",null);
 
         //JMenuItem item1 = new JMenuItem("新增");
         //System.out.println("准备新增了");
@@ -21,7 +25,15 @@ public class MainWindow_Menu {
             }
         };
 
-        menu1.add(menu1choice1Action);
+        menu3.add(menu1choice1Action);
+
+        JMenuItem item8 = new JMenuItem("搜索");
+        Action menu1choice3exitAction = new AbstractAction("搜索"){
+            public void actionPerformed(ActionEvent e){
+                SecondWindow.User_Detail_Imformation("search",null);
+            }
+        };
+        menu3.add(menu1choice3exitAction);
 //        item1.addMouseListener(new MouseAdapter(){    //鼠标事件
 //            public void mouseClicked(MouseEvent e) {
 //                System.out.println("可以新增了");
@@ -40,7 +52,7 @@ public class MainWindow_Menu {
 
             }
         };
-        menu1.add(menu1choice2exitAction);
+        menu3.add(menu1choice2exitAction);
 
         JMenuItem item21 = new JMenuItem("恢复");
 
@@ -49,19 +61,23 @@ public class MainWindow_Menu {
         JMenuItem item5 = new JMenuItem("管理员工");
 
         JMenuItem item7 = new JMenuItem("关于");
+
         //添加菜单项至菜单上
         //menu1.add(item1);
         //menu1.add(item2);
-        menu1.add(item21);
+        menu3.add(item21);
+
 
         menu2.add(item3);
         menu2.add(item4);
         menu2.add(item5);
-        menu3.add(item7);
+        menu1.add(item7);
         //将菜单加入至菜单条
         jmb.add(menu1);
         jmb.add(menu2);
         jmb.add(menu3);
+
+        //jmb.add(menu4);
         return jmb;
     }
 

@@ -45,9 +45,10 @@ public class Database {
                     dimension2=18;
                 } else if(executeType.equals("searchByType_choice")){
                     dimension2=3;
-                } else{
-                    //executeType.equals("searchByID_record")
+                } else if(executeType.equals("searchByID_record")){
                     dimension2=8;
+                }else if(executeType.equals("searchByAll")){
+                    dimension2=18;
                 }
 
                 /**
@@ -60,6 +61,8 @@ public class Database {
                  searchByID就返回该id的18个信息就可以了
                  searchByState返回全部信息
                  searchByID_record返回全部信息
+
+                 Database.insert(name, gender, ID, owner, phone, owner1, phone1, owner2, phone2, medical, disease_type, insurance_type, address, year, month, day);
 
                  table_name
                  0 number | 1 name | 2 gender | 3 id  | 4 owner1 | 5 phone1 | 6 owner2 | 7 phone2
@@ -323,6 +326,76 @@ public class Database {
         execute(insertTable,"insert");
     }
 
+    public static String[][] searchByAll(String all[]){
+        /**
+         *
+         *
+         *                     search_infos[0]=name;
+         *                     search_infos[1]=gender;
+         *                     search_infos[2]=ID;
+         *                     search_infos[3]=phone;
+         *                     search_infos[4]=medical;
+         *                     search_infos[5]=disease_type;
+         *                     search_infos[6]=insurance_type;
+         *                     search_infos[7]=address;
+         */
+        String[] table_title=new String[8];
+        table_title[0]="name";
+        table_title[1]="gender";
+        table_title[2]="ID";
+        table_title[3]="phone";
+        table_title[4]="medicine";
+        table_title[5]="disease_type";
+        table_title[6]="insurance_type";
+        table_title[7]="address";
+
+
+
+        String string_searchByAll="SELECT * from table_name WHERE ";
+
+        for (int i = 0; i <8 ; i++) {
+            if (all[i] != null) {
+                if (!all[i].equals("")) {//每个飞空的都要搜搜
+                    string_searchByAll += table_title[i];
+                    if (i == 0 || i == 7) {//姓名和电话为模糊搜索
+                        string_searchByAll += " LIKE '%" + all[i] + "%'";
+                    } else if (i == 2 && all[i].length() != 18) {//ID的两种搜索设置,18位的为普通搜索
+                        int thisYear = MainWindow_Labels.getTodayDate()[0];//得到现在的年份
+                        if (all[i].length() == 2) {//两位数搜索特定年份
+                            String birthYear = (thisYear - Integer.parseInt(all[i])) + "";
+                            string_searchByAll += " LIKE '______" + birthYear + "________' ";
+                        } else if (all[i].length() == 4) {//四位数搜索范围年份
+                            string_searchByAll = string_searchByAll.substring(0, string_searchByAll.length() - 2) + "(";
+                            String birthYear_begin = (thisYear - Integer.parseInt(all[i].substring(2, 4))) + "";
+                            String birthYear_end = (thisYear - Integer.parseInt(all[i].substring(0, 2))) + "";
+                            for (int each_year = Integer.parseInt(birthYear_begin); each_year < Integer.parseInt(birthYear_end) + 1; each_year++) {//把每一年的用or和()框起来
+                                string_searchByAll += " id LIKE '______" + each_year + "________' OR ";
+                            }
+                            string_searchByAll = string_searchByAll.substring(0, string_searchByAll.length() - 3) + ")";
+                        }
+                    } else if (i == 3) {//三个归属人的手机号都要搜索一下
+                        string_searchByAll = string_searchByAll.substring(0, string_searchByAll.length() - 5) + "(";
+                        for (int j = 0; j < 3; j++) {//用or和()框起来
+                            String String_phone = "phone" + (j + 1);
+                            string_searchByAll += " " + String_phone + " LIKE '%" + all[i] + "%' OR ";
+                        }
+                        string_searchByAll = string_searchByAll.substring(0, string_searchByAll.length() - 3) + ")";
+
+                    } else {//普通的搜索
+                        string_searchByAll += " = '" + all[i] + "'";
+                    }
+                    string_searchByAll = string_searchByAll + " AND   ";
+                }
+            }
+
+        }
+        string_searchByAll = string_searchByAll.substring(0,string_searchByAll.length() - 6);//把最后的and去掉
+        string_searchByAll += ";";
+        System.out.println(string_searchByAll);
+        execute(string_searchByAll,"searchByAll");
+        return Infos;
+    }
+
 
 
 
@@ -348,9 +421,24 @@ public class Database {
         execute(excute_sentence,"recover");
     }
 
-//    public static void main(String[] args) {
-//        backup("");
-//    }
+    public static void main(String[] args) {
+        String[] a=new String[8];
+        for (int i = 0; i <8 ; i++) {
+            a[i]="";
+        }
+        //a[2]="2222";
+        //a[3]="13787573871";
+        String[][] b=searchByAll(a);
+        if (b != null) {
+            for (int i = 0; i < b.length; i++) {
+                System.out.println(b[i][1]);
+            }
+        }else{
+            System.out.println("无结果");
+        }
+
+        //backup("");
+    }
 
 
 }
