@@ -137,6 +137,7 @@ public class MainWindow extends JFrame {
 //        jp2.add(jl5);
 
         jp2= MainWindow_Labels.noti_buy(jp2,"noti",null);//第一个页面
+//        int first_time=0;
 
 
         jtp.addChangeListener(new ChangeListener() {//可以每点一下就刷新，
@@ -156,9 +157,11 @@ public class MainWindow extends JFrame {
                     //jp2= MainWindow_Labels.noti_buy(jp2,"noti",null);
                     jp3= MainWindow_Labels.noti_buy(jp3,"buy",null);
                 }else if(title.equals("查询")){
-//                    if(jp4==null){
+//                    if(first_time==0){
 //                        jp4= MainWindow_Labels.noti_buy(jp4,"search",null);
+//
 //                    }
+//                    first_time=1;
                     //jp4= MainWindow_Labels.noti_buy(jp4,"search",null);
 
                     //SecondWindow.User_Detail_Imformation("search",null);

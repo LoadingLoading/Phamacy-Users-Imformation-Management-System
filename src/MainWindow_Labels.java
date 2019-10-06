@@ -5,7 +5,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import static java.lang.Integer.parseInt;
 
@@ -445,7 +449,50 @@ public class MainWindow_Labels {
 
 
     public static String[] getTodayID(){
-        String[] IDs=null;
+        String todayDate=getTodayDate()[0]+"-"+getTodayDate()[1]+"-"+getTodayDate()[2];
+        String[][] lastTenDaysDate=new String[10][3];
+        String[][] IDs=new String[10][];
+        String[] IDsForReturn=null;
+
+        for (int i = 0; i < 10; i++) {
+            DateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date temp = dft.parse(todayDate);
+                Calendar cld = Calendar.getInstance();
+                cld.setTime(temp);
+                cld.add(Calendar.DATE, -i);
+                temp = cld.getTime();
+                //获得下一天日期字符串
+                String previousDays = dft.format(temp);
+                lastTenDaysDate[i][0]=Integer.parseInt(previousDays.substring(0,4))+"";
+                lastTenDaysDate[i][1]=Integer.parseInt(previousDays.substring(5,7))+"";
+                lastTenDaysDate[i][2]=Integer.parseInt(previousDays.substring(8,10))+"";
+                IDs[i]= Database.searchByDate(lastTenDaysDate[i][0]+"",lastTenDaysDate[i][1]+"",lastTenDaysDate[i][2]+"");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        int len = 0;
+        for (String[] element : IDs){
+            if(element!=null) {
+                len += element.length;
+            }
+        }
+
+
+
+        IDsForReturn = new String[len];
+        int index = 0;
+        for(String[] element : IDs){
+            if(element!=null) {
+                for (String element2 : element) {
+                    IDsForReturn[index++] = element2;
+                }
+            }
+        }
 //        int y,m,d;
 //        Calendar cal=Calendar.getInstance();
 //        y=cal.get(Calendar.YEAR);
@@ -453,17 +500,16 @@ public class MainWindow_Labels {
 //        d=cal.get(Calendar.DATE);
 //        System.out.println("面板"+y+" "+m+" "+d);
 
-        IDs= Database.searchByDate(getTodayDate()[0]+"",getTodayDate()[1]+"",getTodayDate()[2]+"");
+
 
         /**
          *
          */
 
-        for(int i=0;i<isNull(IDs);i++){
+        for(int i=0;i<isNull(IDs[i]);i++){
             System.out.println("今天的id有： "+IDs[i]);
-
         }
-        return IDs;
+        return IDsForReturn;
     }
 
     public static int[] getTodayDate() {

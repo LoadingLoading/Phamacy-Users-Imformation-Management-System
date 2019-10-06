@@ -240,16 +240,23 @@ public class Database {
 
     public static String[] searchByDate(String year, String month, String day){
         String string_searchByDate="SELECT * from table_name WHERE year="+year+
-                " and month= " +month+
+                " and month=" +month+
                 " and day =" +day+
-                ";";
+                " and state='waitToNoti';";
         System.out.println(string_searchByDate);
         execute(string_searchByDate,"searchByDate");
-        String[] IDs=new String[Infos.length];
-        for (int i = 0; i <Infos.length ; i++) {
-            IDs[i]=Infos[i][3];
+        String[] IDsForReturn=null;
+        if(Infos==null){
+            IDsForReturn=null;
+        }else {
+            IDsForReturn = new String[Infos.length];
+            for (int i = 0; i < Infos.length; i++) {
+                IDsForReturn[i] = Infos[i][3];
+            }
         }
-        return IDs;
+
+
+        return IDsForReturn;
     }
 
     public static String[][] searchByID(String id){
